@@ -9,7 +9,7 @@ class ProductManager{
     this.productId = (!!this.products.length) ? this.products.reduce((a, b) => (a.id > b.id) ? a : b ).id+1 : 0;
 
     if(!fs.existsSync(this.path)){
-      this.fs.writeFile(this.file, '[]');
+      fs.writeFileSync(this.path, "[]");
     }
   }
 
