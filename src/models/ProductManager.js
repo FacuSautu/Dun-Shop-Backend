@@ -13,12 +13,12 @@ class ProductManager{
     }
   }
 
-  getProducts(){
-    return this.readProducts();
+  async getProducts(){
+    return await this.readProducts();
   }
 
   async getProductById(id){
-    this.products = await this.readProducts();
+    await this.loadProducts();
 
     let exist = this.products.find((product)=>product.id === id);
 
@@ -28,12 +28,14 @@ class ProductManager{
     return this.products[prodIndex];
   }
 
-  addProduct(productToAdd){
+  async addProduct(productToAdd){
+    await this.loadProducts();
     let exist = this.products.some(product => product.code === productToAdd.code);
 
-    if(exist) throw new Error("El producto que desea agregar ya existe.");
-
-    else if(!!!productToAdd.title || !!!productToAdd.description || !!!productToAdd.price || !!!productToAdd.thumbnail || !!!productToAdd.code || !!!productToAdd.stock) throw new Error("No se pudo agregar el producto, debe completar todos los campos.");
+    if(exist)
+      throw new Error("El producto que desea agregar ya existe.");
+    else if(!!!productToAdd.title || !!!productToAdd.description || !!!productToAdd.price || !!!productToAdd.code || !!!productToAdd.stock) 
+      throw new Error("No se pudo agregar el producto, debe completar todos los campos.");
 
     this.products.push({id:this.productId, ...productToAdd});
     this.productId++;
@@ -43,8 +45,8 @@ class ProductManager{
     return this.productId-1;
   }
 
-  updateProduct(idToUpdate, dataToUpdate){
-    this.loadProducts()
+  async updateProduct(idToUpdate, dataToUpdate){
+    await this.loadProducts()
 
     let productToUpdate = this.products.find(prod => prod.id === idToUpdate);
 
@@ -77,8 +79,8 @@ class ProductManager{
     this.fs.writeFile(this.path, JSON.stringify(this.products, null, "\t"));
   }
 
-  loadProducts(){
-    this.products = this.readProducts();
+  async loadProducts(){
+    this.products = await this.readProducts();
     this.productId = (!!this.products.length) ? this.products.reduce((a, b) => (a.id > b.id) ? a : b ).id+1 : 0;
   }
 }
