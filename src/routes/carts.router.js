@@ -14,7 +14,7 @@ cartsRouter.get('/:cid', async (req, res)=>{
         let cartToShow = await cartManager.getCartById(cartId);
         
         if(!!cartToShow){
-            res.json(cartToShow.products);
+            res.send({status:'success', payload:cartToShow.products});
         }else{
             res.status(404).send({status:'error', message:`No se encontro carrito con el ID ${cartId}`});
         }
