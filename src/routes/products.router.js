@@ -16,7 +16,7 @@ productsRouter.get('/', async (req, res)=>{
         const offset = req.query.offset || 0;
         const limit = req.query.limit || products.length;
     
-        res.json(products.splice(offset, limit));
+        res.send({status:'success', payload: products.splice(offset, limit)});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status: 'error', message: error.message});
@@ -29,10 +29,10 @@ productsRouter.get('/:pid', async (req, res)=>{
         const pid = Number(req.params.pid);
         let product = await productManager.getProductById(pid);
     
-        res.json(product);
+        res.send({status:'success', payload:product});
     } catch (error) {
         console.log(error.message);
-        res.status(404).send({status:'error', error: error.message});
+        res.status(404).send({status:'error', message: error.message});
     }
 })
 
@@ -48,7 +48,7 @@ productsRouter.post('/', async (req, res)=>{
         res.send({status:'success', message:'Producto cargado exitosamente.'});
     } catch (error) {
         console.log(error.message);
-        res.status(404).send({status:'error', error: error.message});
+        res.status(404).send({status:'error', message: error.message});
     }
 })
 
@@ -81,7 +81,7 @@ productsRouter.delete('/:pid', async (req, res)=>{
         res.send({status:'success', message:'Producto eliminado exitosamente.'});
     } catch (error) {
         console.log(error.message);
-        res.status(404).send({status:'Error', error: error.message});
+        res.status(404).send({status:'Error', message: error.message});
     }
 })
 
