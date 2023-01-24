@@ -59,7 +59,9 @@ class ProductManager{
     this.writeProducts();
   }
 
-  deleteProduct(idToDelete){
+  async deleteProduct(idToDelete){
+    await this.loadProducts()
+
     let productToDelete = this.products.find(prod => prod.id === idToDelete);
 
     if(!!!productToDelete) throw new Error(`Imposible eliminar. No existe producto con el ID ${idToDelete}`)

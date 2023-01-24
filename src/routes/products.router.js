@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import __dirname from '../utils.js';
-import ProductManager from '../models/ProductManager.js';
+import ProductManager from '../controllers/ProductManager.js';
 
 const productsRouter = Router();
 
@@ -43,6 +43,8 @@ productsRouter.post('/', async (req, res)=>{
 
         await productManager.addProduct(product);
 
+        await broadcastProducts(req.io.sockets);
+
         res.send({status:'success', message:'Producto cargado exitosamente.'});
     } catch (error) {
         console.log(error.message);
@@ -58,6 +60,8 @@ productsRouter.put('/:dip', async (req, res)=>{
 
         await productManager.updateProduct(productId, product);
 
+        await broadcastProducts(req.io.sockets);
+
         res.send({status:'success', message:'Producto modificado exitosamente.'});
     } catch (error) {
         console.log(error.message);
@@ -72,11 +76,21 @@ productsRouter.delete('/:pid', async (req, res)=>{
         
         await productManager.deleteProduct(productId);
 
+        await broadcastProducts(req.io.sockets);
+
         res.send({status:'success', message:'Producto eliminado exitosamente.'});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'Error', error: error.message});
     }
 })
+
+
+// Funciones
+async function broadcastProducts(sockets){
+    let products = await productManager.getProducts();
+    console.log(products)
+    sockets.emit('products_update', products);
+}
 
 export default productsRouter;
