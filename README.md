@@ -233,17 +233,14 @@ ___
 Dicha libreria ofrece todas las comodidades para el lanzamiento de un servidor en Node JS, el armado de rutas, manejo de sesiones, etc.
 ___
 ___
-___
 [![fs](https://miro.medium.com/max/707/1*PPvVl5iTR0Nhn1QFL7X_CA.png)](https://nodejs.org/api/fs.html#file-system)
 ___
 *fs* es la librería utilizada en el proyecto para realizar la persistencia de datos. Esta librería permite gestionar archivos del sistema, dando así la posibilidad de generar archivos JSON donde almacenar los datos utilizados en la aplicación.
 ___
 ___
-___
 [![express-handlebars](https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200)](https://www.npmjs.com/package/express-handlebars)
 ___
 *Handlebars* es el motor de plantilla utilizado en el proyecto, con la ayuda de esta dependencia se logra renderizar vistas con información dinámica para la presentación de información útil (como el listado de productos existentes en el e-commerce).
-___
 ___
 ___
 [![socket.io](https://miro.medium.com/max/1200/1*tOitxCwTNcS3ESstLylmtg.png)](https://www.npmjs.com/package/socket.io)
