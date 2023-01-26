@@ -34,7 +34,7 @@ El proyecto consta de la logica detras de cualquier e-commerce, la cual realiza 
 ```
 4. Correrlo en modo development.
 ```bash
-  npm start-dev
+  npm run start-dev
 ```
 En este modo el proyecto se lanzara utilizando *nodemon*, permitiendo una dinamica de relanzamiento al modificar los archivos.
 ## API Reference
@@ -217,9 +217,11 @@ ___
 - [@FacuSautu](https://github.com/FacuSautu)
 ## Tech Stack
 
-**Servidor:** Node.JS, Express JS, Handlebars
+**Servidor:** Node.JS, Express JS
 
 **Protocolos de comunicación:** HTTP, WebSocket
+
+**Vistas:** Handlebars, Bootstrap
 
 **Persistencia:** File System
 ## Dependencias
