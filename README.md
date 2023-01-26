@@ -224,12 +224,19 @@ ___
 **Vistas:** Handlebars, Bootstrap
 
 **Persistencia:** File System
+
 ## Dependencias
 
 [![express](https://camo.githubusercontent.com/0566752248b4b31b2c4bdc583404e41066bd0b6726f310b73e1140deefcc31ac/68747470733a2f2f692e636c6f756475702e636f6d2f7a6659366c4c376546612d3330303078333030302e706e67)](https://expressjs.com/)
 ___
 *Express JS* es la dependencia core para el proyecto, ya que es el motor utilizado para armar la estructura basica de backend. 
 Dicha libreria ofrece todas las comodidades para el lanzamiento de un servidor en Node JS, el armado de rutas, manejo de sesiones, etc.
+___
+___
+___
+[![fs](https://miro.medium.com/max/707/1*PPvVl5iTR0Nhn1QFL7X_CA.png)](https://nodejs.org/api/fs.html#file-system)
+___
+*fs* es la librería utilizada en el proyecto para realizar la persistencia de datos. Esta librería permite gestionar archivos del sistema, dando así la posibilidad de generar archivos JSON donde almacenar los datos utilizados en la aplicación.
 ___
 ___
 ___
