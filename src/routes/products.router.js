@@ -89,7 +89,6 @@ productsRouter.delete('/:pid', async (req, res)=>{
 // Funciones
 async function broadcastProducts(sockets){
     let products = await productManager.getProducts();
-    console.log(products)
     sockets.emit('products_update', products);
 }
 

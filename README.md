@@ -16,6 +16,27 @@ Dicho proyecto esta hecha en base a un almacén general común y corriente que u
 en el cual se pueden encontrar desde armas a armaduras, pociones, objetos mágicos y mucho mas!
 
 El proyecto consta de la logica detras de cualquier e-commerce, la cual realiza la gestion de productos, armado de carritos, checkout de compras, etc.
+## Instalación
+
+1. Clonar el repositorio.
+
+```bash
+  git clone https://github.com/FacuSautu/Dun-Shop-Backend.git
+  cd Dun-Shop-Backend
+```
+2. Instalar dependencias.
+```bash
+  npm install
+```
+3. Correr el servidor.
+```bash
+  npm start
+```
+4. Correrlo en modo development.
+```bash
+  npm start-dev
+```
+En este modo el proyecto se lanzara utilizando *nodemon*, permitiendo una dinamica de relanzamiento al modificar los archivos.
 ## API Reference
 
 ### Products
@@ -194,20 +215,34 @@ ___
 ## Authors
 
 - [@FacuSautu](https://github.com/FacuSautu)
+## Tech Stack
+
+**Servidor:** Node.JS, Express JS, Handlebars
+
+**Protocolos de comunicación:** HTTP, WebSocket
+
+**Persistencia:** File System
 ## Dependencias
+
 [![express](https://camo.githubusercontent.com/0566752248b4b31b2c4bdc583404e41066bd0b6726f310b73e1140deefcc31ac/68747470733a2f2f692e636c6f756475702e636f6d2f7a6659366c4c376546612d3330303078333030302e706e67)](https://expressjs.com/)
 ___
 *Express JS* es la dependencia core para el proyecto, ya que es el motor utilizado para armar la estructura basica de backend. 
 Dicha libreria ofrece todas las comodidades para el lanzamiento de un servidor en Node JS, el armado de rutas, manejo de sesiones, etc.
+___
+___
+___
+[![express-handlebars](https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200)](https://www.npmjs.com/package/express-handlebars)
+___
+*Handlebars* es el motor de plantilla utilizado en el proyecto, con la ayuda de esta dependencia se logra renderizar vistas con información dinámica para la presentación de información útil (como el listado de productos existentes en el e-commerce).
+___
+___
+___
+[![socket.io](https://miro.medium.com/max/1200/1*tOitxCwTNcS3ESstLylmtg.png)](https://www.npmjs.com/package/socket.io)
+___
+*Socket.io* es un paquete para gestión de protocolo WebSocket. La implementación dentro del proyecto sirve para ofrecerle a los clientes del servicio un canal de comunicación bidireccional en el que pueden recibir actualizaciones sobre carga de productos nuevos en tiempo real o novedades del e-commerce en general (Así como nuevas ofertas o promociones).
 
 ### Dependencias Dev
 [![nodemon](https://user-images.githubusercontent.com/13700/35731649-652807e8-080e-11e8-88fd-1b2f6d553b2d.png)](https://www.npmjs.com/package/nodemon)
 ___
 *Nodemon* es una herramienta de desarrollador utilizada en aplicaciones Node.JS capaz de re-ejecutar una aplicacion Node al detectar cambios en los archivos.
 Decidi utilizar esta herramienta para el proyecto por la utilidad y el dinamismo que ofrece al momento de desarrollar aplicaciones web.
-## Tech Stack
-
-**Servidor:** Node.JS, Express JS
-
-**Persistencia:** File System
-
