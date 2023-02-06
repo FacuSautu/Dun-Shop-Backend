@@ -11,4 +11,6 @@ const productScheme = mongoose.Schema({
     stock: Number
 })
 
-export const productModel = mongoose.model(productCollection, productScheme);
+const productModel = mongoose.model(productCollection, productScheme);
+
+export default productModel;

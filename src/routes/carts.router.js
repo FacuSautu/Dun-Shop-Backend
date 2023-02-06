@@ -1,17 +1,21 @@
 import { Router } from "express";
 
 import __dirname from '../utils.js';
-import CartManager from "../controllers/CartManager.js";
+import CartManager from "../daos/CartManager.js";
+import CartDB from "../daos/cart.db.js";
 
 const cartsRouter = Router();
-const cartManager = new CartManager(__dirname+'/db/carts.json');
+
+// Instancias de clases.
+const cartManager = new CartManager(__dirname+'/fs_persistance/carts.json');
+const cartDB = new CartDB();
 
 // Muestra los datos de un carrito.
 cartsRouter.get('/:cid', async (req, res)=>{
     try {
         
-        let cartId = Number(req.params.cid);
-        let cartToShow = await cartManager.getCartById(cartId);
+        let cartId = req.params.cid;
+        let cartToShow = await cartDB.getCartById(cartId);
         
         if(!!cartToShow){
             res.send({status:'success', payload:cartToShow.products});
@@ -28,7 +32,7 @@ cartsRouter.post('/', (req, res)=>{
     try {
         let newCart = req.body;
     
-        cartManager.addCart(newCart);
+        cartDB.addCart(newCart);
         console.log(newCart);
         res.send({status:'success', message: 'El carrito fue agregado con exito'});
     } catch (error) {
@@ -38,10 +42,10 @@ cartsRouter.post('/', (req, res)=>{
 
 // Agrega un producto al carrito indicado.
 cartsRouter.post('/:cid/product/:pid', (req, res)=>{
-    let productId = Number(req.params.pid);
-    let cartId = Number(req.params.cid);
+    let productId = req.params.pid;
+    let cartId = req.params.cid;
 
-    cartManager.addProductToCart(cartId, productId);
+    cartDB.addProductToCart(cartId, productId);
 
     res.send({status: 'success', message: `Producto ${productId} cargado con exito al carrito ${cartId}`});
 })

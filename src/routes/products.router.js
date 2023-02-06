@@ -1,17 +1,19 @@
 import { Router } from "express";
 
 import __dirname from '../utils.js';
-import ProductManager from '../controllers/ProductManager.js';
+import ProductManager from '../daos/ProductManager.js';
+import ProductDB from '../daos/product.db.js';
 
 const productsRouter = Router();
 
 // Instancias de clases.
-const productManager = new ProductManager(__dirname+'/db/products.json');
+const productManager = new ProductManager(__dirname+'/fs_persistance/products.json');
+const productDB = new ProductDB();
 
 // Lista todos los productos.
 productsRouter.get('/', async (req, res)=>{
     try {
-        const products = await productManager.getProducts();
+        const products = await productDB.getProducts();
 
         const offset = req.query.offset || 0;
         const limit = req.query.limit || products.length;
@@ -26,8 +28,8 @@ productsRouter.get('/', async (req, res)=>{
 // Muestra los datos de un solo producto.
 productsRouter.get('/:pid', async (req, res)=>{
     try {
-        const pid = Number(req.params.pid);
-        let product = await productManager.getProductById(pid);
+        const pid = req.params.pid;
+        let product = await productDB.getProductById(pid);
     
         res.send({status:'success', payload:product});
     } catch (error) {
@@ -41,7 +43,7 @@ productsRouter.post('/', async (req, res)=>{
     try {
         let product = req.body;
 
-        await productManager.addProduct(product);
+        await productDB.addProduct(product);
 
         await broadcastProducts(req.io.sockets);
 
@@ -55,10 +57,10 @@ productsRouter.post('/', async (req, res)=>{
 // Modifica un producto.
 productsRouter.put('/:dip', async (req, res)=>{
     try {
-        let productId = Number(req.params.dip);
+        let productId = req.params.dip;
         let product = req.body;
 
-        await productManager.updateProduct(productId, product);
+        await productDB.updateProduct(productId, product);
 
         await broadcastProducts(req.io.sockets);
 
@@ -72,9 +74,9 @@ productsRouter.put('/:dip', async (req, res)=>{
 // Elimina un producto.
 productsRouter.delete('/:pid', async (req, res)=>{
     try {
-        let productId = Number(req.params.pid);
+        let productId = req.params.pid;
         
-        await productManager.deleteProduct(productId);
+        await productDB.deleteProduct(productId);
 
         await broadcastProducts(req.io.sockets);
 
@@ -88,7 +90,7 @@ productsRouter.delete('/:pid', async (req, res)=>{
 
 // Funciones
 async function broadcastProducts(sockets){
-    let products = await productManager.getProducts();
+    let products = await productDB.getProducts();
     sockets.emit('products_update', products);
 }
 
