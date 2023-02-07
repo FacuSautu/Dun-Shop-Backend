@@ -225,6 +225,8 @@ ___
 
 **Persistencia:** File System, MongoDB
 
+**Utilitarios:** Multer
+
 ## Dependencias
 
 [![express](https://camo.githubusercontent.com/0566752248b4b31b2c4bdc583404e41066bd0b6726f310b73e1140deefcc31ac/68747470733a2f2f692e636c6f756475702e636f6d2f7a6659366c4c376546612d3330303078333030302e706e67)](https://expressjs.com/)
@@ -251,6 +253,11 @@ ___
 [![socket.io](https://miro.medium.com/max/1200/1*tOitxCwTNcS3ESstLylmtg.png)](https://www.npmjs.com/package/socket.io)
 ___
 *Socket.io* es un paquete para gestión de protocolo WebSocket. La implementación dentro del proyecto sirve para ofrecerle a los clientes del servicio un canal de comunicación bidireccional en el que pueden recibir actualizaciones sobre carga de productos nuevos en tiempo real o novedades del e-commerce en general (Así como nuevas ofertas o promociones).
+___
+___
+[![multer](https://user-images.githubusercontent.com/6388707/66124653-463a2d00-e5e5-11e9-8fed-b5bca26b66ea.png)](https://www.npmjs.com/package/multer)
+___
+*Multer* es un paquete de middleware para manejo de datos `multipart/form-data`, normalmente utilizado para manejo de archivos enviados por HTTP. Este utilitario permite en el proyecto almacenar las imagenes de los productos que se quieren cargar, para asi poder mostrarlos desde las vistas donde se listan los productos.
 
 ### Dependencias Dev
 [![nodemon](https://user-images.githubusercontent.com/13700/35731649-652807e8-080e-11e8-88fd-1b2f6d553b2d.png)](https://www.npmjs.com/package/nodemon)
