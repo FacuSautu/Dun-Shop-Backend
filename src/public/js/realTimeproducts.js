@@ -10,7 +10,7 @@ socket.on('products_update', products=>{
         product_container.innerHTML = `
             <div class="col-3 my-4 d-flex justify-content-center align-items-center">
                 <div class="card bg-danger text-white" style="width: 18rem;">
-                    <img src="https://commercial.bunn.com/img/image-not-available.png" class="card-img-top" alt="${product.title}">
+                    <img src="${product.thumbnails[0] || 'https://commercial.bunn.com/img/image-not-available.png'}" class="card-img-top" alt="${product.title}">
                     <div class="card-body">
                         <h5 class="card-title">${product.title}</h5>
                         <p class="card-text">Precio: $${product.price}</p>

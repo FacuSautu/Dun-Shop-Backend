@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import __dirname from '../utils.js';
+import { __dirname } from '../utils.js';
 import CartManager from "../daos/CartManager.js";
 import CartDB from "../daos/cart.db.js";
 

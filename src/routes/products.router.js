@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import __dirname from '../utils.js';
+import { __dirname, uploader } from '../utils.js';
 import ProductManager from '../daos/ProductManager.js';
 import ProductDB from '../daos/product.db.js';
 
@@ -39,9 +39,15 @@ productsRouter.get('/:pid', async (req, res)=>{
 })
 
 // Agrega un nuevo producto.
-productsRouter.post('/', async (req, res)=>{
+productsRouter.post('/', uploader.array('thumbnails'), async (req, res)=>{
     try {
         let product = req.body;
+        
+        if(!!!product.thumbnails) product.thumbnails = [];
+
+        if(!!req.files){
+            req.files.forEach(file => product.thumbnails.push('img/'+file.filename));
+        }
 
         await productDB.addProduct(product);
 
@@ -55,10 +61,16 @@ productsRouter.post('/', async (req, res)=>{
 })
 
 // Modifica un producto.
-productsRouter.put('/:dip', async (req, res)=>{
+productsRouter.put('/:dip', uploader.array('thumbnails'), async (req, res)=>{
     try {
         let productId = req.params.dip;
         let product = req.body;
+
+        if(!!!product.thumbnails) product.thumbnails = [];
+
+        if(!!req.files){
+            req.files.forEach(file => product.thumbnails.push('img/'+file.filename));
+        }
 
         await productDB.updateProduct(productId, product);
 
