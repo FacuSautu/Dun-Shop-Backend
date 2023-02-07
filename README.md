@@ -223,7 +223,7 @@ ___
 
 **Vistas:** Handlebars, Bootstrap
 
-**Persistencia:** File System
+**Persistencia:** File System, MongoDB
 
 ## Dependencias
 
@@ -236,6 +236,11 @@ ___
 [![fs](https://miro.medium.com/max/707/1*PPvVl5iTR0Nhn1QFL7X_CA.png)](https://nodejs.org/api/fs.html#file-system)
 ___
 *fs* es la librería utilizada en el proyecto para realizar la persistencia de datos. Esta librería permite gestionar archivos del sistema, dando así la posibilidad de generar archivos JSON donde almacenar los datos utilizados en la aplicación.
+___
+___
+[![mongoose](https://miro.medium.com/max/1050/1*acfAKaDI7uv5GyFnJmiPhA.png)](https://www.npmjs.com/package/mongoose)
+___
+*Mongoose* es la libreria que funciona como interfaz para poder administrar bases de datos MongoDB desde Java Script. Esta libreria permite mantener una persistencia de los datos en dicha base de datos.
 ___
 ___
 [![express-handlebars](https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200)](https://www.npmjs.com/package/express-handlebars)
