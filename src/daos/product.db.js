@@ -5,8 +5,8 @@ class ProductDB{
 
     constructor(){}
 
-    getProducts(){
-        return productModel.find();
+    getProducts(limit, page, query, sort){
+        return productModel.paginate(query, {limit, page, sort:{price:sort}, lean: true});
     }
 
     async getProductById(id){

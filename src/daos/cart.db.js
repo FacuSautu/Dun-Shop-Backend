@@ -25,10 +25,10 @@ class CartDB{
     return await cartModel.find();
   }
 
-  async getCartById(id){
+  async getCartById(id, populated=false){
     await this.exists(id);
 
-    return cartModel.findById(id);
+    return (populated) ? cartModel.findById(id).populate('products.product') : cartModel.findById(id);
   }
 
   async addCart(cartToAdd){
@@ -47,7 +47,6 @@ class CartDB{
     let cart = await this.getCartById(cartId);
 
     let productExist = cart.products.find(prod => {
-      console.log(prod.product._id);
       return prod.product._id == productToAdd
     });
 
@@ -62,6 +61,42 @@ class CartDB{
     return cartModel.updateOne({_id:cartId}, {products:cart.products});
   }
   
+  async updateProductInCart(cartId, productToUpdate, qty){
+    await this.exists(cartId);
+
+    if(!await this.hasProduct(cartId, productToUpdate)) throw new Error(`No existe el producto ${productToUpdate} dentro del carrito ${cartId}`);
+
+    let cart = await this.getCartById(cartId);
+    let product = cart.products.find(prod=>prod.product == productToUpdate);
+    let productIndex = cart.products.indexOf(product);
+
+    cart.products[productIndex].quantity = qty;
+
+    return cartModel.updateOne({_id: cartId}, {products: cart.products})
+
+  }
+
+  async deleteProductFromCart(cartId, productToDelete){
+    await this.exists(cartId);
+
+    let cart = await this.getCartById(cartId);
+
+    let productExist = cart.products.find(prod => prod.product._id == productToDelete);
+
+    if(!!!productExist) throw new Error(`No existe el producto ${productToDelete} en el carrito ${cartId}`);
+    
+    let productIndex = cart.products.indexOf(productExist);
+
+    cart.products.splice(productIndex, 1);
+
+    return cartModel.updateOne({_id:cartId}, {products:cart.products});
+  }
+
+  async deleteAllProductFromCart(cartId){
+    await this.exists(cartId);
+
+    return cartModel.updateOne({_id:cartId}, {products:[]});
+  }
 }
 
 export default CartDB;

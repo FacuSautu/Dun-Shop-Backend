@@ -13,12 +13,25 @@ const productDB = new ProductDB();
 // Lista todos los productos.
 productsRouter.get('/', async (req, res)=>{
     try {
-        const products = await productDB.getProducts();
+        const limit = req.query.limit || 10;
+        const page = req.query.page || 1;
+        const query = req.query.query;
+        const sort = req.query.sort;
 
-        const offset = req.query.offset || 0;
-        const limit = req.query.limit || products.length;
+        const products = await productDB.getProducts(limit, page, query, sort);
     
-        res.send({status:'success', payload: products.splice(offset, limit)});
+        res.send({
+            status: 'success',
+            payload: products.docs,
+            totalPages: products.totalPages,
+            prevPage: products.prevPage,
+            nextPage: products.nextPage,
+            page: products.page,
+            hasPrevPage: products.hasPrevPage,
+            hasNextPage: products.hasNextPage,
+            prevLink: products.hasPrevPage && `localhost:8080/api/products?limit=${limit}&page=${products.prevPage}`,
+            nextLink: products.hasNextPage && `localhost:8080/api/products?limit=${limit}&page=${products.nextPage}`
+        });
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status: 'error', message: error.message});

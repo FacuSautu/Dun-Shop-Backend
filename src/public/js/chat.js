@@ -61,11 +61,9 @@ function validationSwal(error){
         allowOutsideClick: false,
         didOpen:()=>{
             valSwalOpen = true;
-            console.log(valSwalOpen);
         },
         didClose:()=>{
             valSwalOpen = false;
-            console.log(valSwalOpen);
         }
     }).then(result=>{
         socket.emit('new_user', result.value);

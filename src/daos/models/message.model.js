@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const messagesCollection = 'messages';
 
-const messagesScheme = mongoose.Schema({
+const messagesScheme = new mongoose.Schema({
     user: String,
     message: String,
 })

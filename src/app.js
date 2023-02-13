@@ -42,8 +42,6 @@ io.on('connection', socket=>{
             messages
         }
 
-        console.log(conectedUsers, user, conectedUsers.includes(user));
-
         if(conectedUsers.includes(user)){
             validationObj.validation = false;
         }else{
