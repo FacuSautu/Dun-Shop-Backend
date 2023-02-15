@@ -443,50 +443,50 @@ Devuelve un chat interno para poder mantener comunicacion con otros usuarios del
 ## Dependencias
 
 <!-- [![express](https://camo.githubusercontent.com/0566752248b4b31b2c4bdc583404e41066bd0b6726f310b73e1140deefcc31ac/68747470733a2f2f692e636c6f756475702e636f6d2f7a6659366c4c376546612d3330303078333030302e706e67)](https://expressjs.com/) -->
-<a href="https://expressjs.com/" target="_blank"><img src="https://camo.githubusercontent.com/0566752248b4b31b2c4bdc583404e41066bd0b6726f310b73e1140deefcc31ac/68747470733a2f2f692e636c6f756475702e636f6d2f7a6659366c4c376546612d3330303078333030302e706e67" heigth="200px" /></a>
+<a href="https://expressjs.com/" target="_blank"><img src="https://camo.githubusercontent.com/0566752248b4b31b2c4bdc583404e41066bd0b6726f310b73e1140deefcc31ac/68747470733a2f2f692e636c6f756475702e636f6d2f7a6659366c4c376546612d3330303078333030302e706e67" height="200px" /></a>
 ___
 *Express JS* es la dependencia core para el proyecto, ya que es el motor utilizado para armar la estructura basica de backend. 
 Dicha libreria ofrece todas las comodidades para el lanzamiento de un servidor en Node JS, el armado de rutas, manejo de sesiones, etc.
 ___
 ___
 <!-- [![fs](https://miro.medium.com/max/707/1*PPvVl5iTR0Nhn1QFL7X_CA.png)](https://nodejs.org/api/fs.html#file-system) -->
-<a href="https://nodejs.org/api/fs.html#file-system" target="_blank"><img src="https://miro.medium.com/max/707/1*PPvVl5iTR0Nhn1QFL7X_CA.png" heigth="200px" /></a>
+<a href="https://nodejs.org/api/fs.html#file-system" target="_blank"><img src="https://miro.medium.com/max/707/1*PPvVl5iTR0Nhn1QFL7X_CA.png" height="200px" /></a>
 ___
 *fs* es la librería utilizada en el proyecto para realizar la persistencia de datos. Esta librería permite gestionar archivos del sistema, dando así la posibilidad de generar archivos JSON donde almacenar los datos utilizados en la aplicación.
 ___
 ___
 <!-- [![mongoose](https://miro.medium.com/max/1050/1*acfAKaDI7uv5GyFnJmiPhA.png)](https://www.npmjs.com/package/mongoose) -->
-<a href="https://www.npmjs.com/package/mongoose" target="_blank"><img src="https://miro.medium.com/max/1050/1*acfAKaDI7uv5GyFnJmiPhA.png" heigth="200px" /></a>
+<a href="https://www.npmjs.com/package/mongoose" target="_blank"><img src="https://miro.medium.com/max/1050/1*acfAKaDI7uv5GyFnJmiPhA.png" height="200px" /></a>
 ___
 *Mongoose* es la libreria que funciona como interfaz para poder administrar bases de datos MongoDB desde Java Script. Esta libreria permite mantener una persistencia de los datos en dicha base de datos.
 ___
 ___
 <!-- [![mongoose-paginate-v2](https://raw.githubusercontent.com/aravindnc/mongoose-paginate-v2/HEAD/static/banner.jpg)](https://www.npmjs.com/package/mongoose-paginate-v2) -->
-<a href="https://www.npmjs.com/package/mongoose-paginate-v2" target="_blank"><img src="https://raw.githubusercontent.com/aravindnc/mongoose-paginate-v2/HEAD/static/banner.jpg" heigth="200px" /></a>
+<a href="https://www.npmjs.com/package/mongoose-paginate-v2" target="_blank"><img src="https://raw.githubusercontent.com/aravindnc/mongoose-paginate-v2/HEAD/static/banner.jpg" height="200px" /></a>
 ___
 *Mongoose-paginate-v2* es un plugin de Mongoose que permite realizar paginacion de registros al momento de hacer consultas. Dando la posibilidad de seleccionar el limite maximo de registros por pagina, la pagina que se desea ver, ordenamiento de los datos, filtrado, etc.
 ___
 ___
 <!-- [![express-handlebars](https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200)](https://www.npmjs.com/package/express-handlebars) -->
-<a href="https://www.npmjs.com/package/express-handlebars" target="_blank"><img src="https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200" heigth="200px" /></a>
+<a href="https://www.npmjs.com/package/express-handlebars" target="_blank"><img src="https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200" height="200px" /></a>
 ___
 *Handlebars* es el motor de plantilla utilizado en el proyecto, con la ayuda de esta dependencia se logra renderizar vistas con información dinámica para la presentación de información útil (como el listado de productos existentes en el e-commerce).
 ___
 ___
 <!-- [![socket.io](https://miro.medium.com/max/1200/1*tOitxCwTNcS3ESstLylmtg.png)](https://www.npmjs.com/package/socket.io) -->
-<a href="https://www.npmjs.com/package/socket.io" target="_blank"><img src="https://miro.medium.com/max/1200/1*tOitxCwTNcS3ESstLylmtg.png" heigth="200px" /></a>
+<a href="https://www.npmjs.com/package/socket.io" target="_blank"><img src="https://miro.medium.com/max/1200/1*tOitxCwTNcS3ESstLylmtg.png" height="200px" /></a>
 ___
 *Socket.io* es un paquete para gestión de protocolo WebSocket. La implementación dentro del proyecto sirve para ofrecerle a los clientes del servicio un canal de comunicación bidireccional en el que pueden recibir actualizaciones sobre carga de productos nuevos en tiempo real o novedades del e-commerce en general (Así como nuevas ofertas o promociones).
 ___
 ___
 <!-- [![multer](https://user-images.githubusercontent.com/6388707/66124653-463a2d00-e5e5-11e9-8fed-b5bca26b66ea.png)](https://www.npmjs.com/package/multer) -->
-<a href="https://www.npmjs.com/package/multer" target="_blank"><img src="https://user-images.githubusercontent.com/6388707/66124653-463a2d00-e5e5-11e9-8fed-b5bca26b66ea.png" heigth="200px" /></a>
+<a href="https://www.npmjs.com/package/multer" target="_blank"><img src="https://user-images.githubusercontent.com/6388707/66124653-463a2d00-e5e5-11e9-8fed-b5bca26b66ea.png" height="200px" /></a>
 ___
 *Multer* es un paquete de middleware para manejo de datos `multipart/form-data`, normalmente utilizado para manejo de archivos enviados por HTTP. Este utilitario permite en el proyecto almacenar las imagenes de los productos que se quieren cargar, para asi poder mostrarlos desde las vistas donde se listan los productos.
 
 ### Dependencias Dev
 <!-- [![nodemon](https://user-images.githubusercontent.com/13700/35731649-652807e8-080e-11e8-88fd-1b2f6d553b2d.png)](https://www.npmjs.com/package/nodemon) -->
-<a href="https://www.npmjs.com/package/nodemon" target="_blank"><img src="https://user-images.githubusercontent.com/13700/35731649-652807e8-080e-11e8-88fd-1b2f6d553b2d.png" heigth="200px" /></a>
+<a href="https://www.npmjs.com/package/nodemon" target="_blank"><img src="https://user-images.githubusercontent.com/13700/35731649-652807e8-080e-11e8-88fd-1b2f6d553b2d.png" height="200px" /></a>
 ___
 *Nodemon* es una herramienta de desarrollador utilizada en aplicaciones Node.JS capaz de re-ejecutar una aplicacion Node al detectar cambios en los archivos.
 Decidi utilizar esta herramienta para el proyecto por la utilidad y el dinamismo que ofrece al momento de desarrollar aplicaciones web.
