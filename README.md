@@ -47,7 +47,8 @@ En este modo el proyecto se lanzara utilizando *nodemon*, permitiendo una dinami
   GET /api/products
 ```
 - **Query params**
-| Parameter | Type     | Description                                | Posibles valores                                             |
+
+| Parameter | Type     | Description                                | Valores posibles                                             |
 | :-------- | :------- | :----------------------------------------- | :----------------------------------------------------------- |
 | `limit`   | `number` | Numero de los registros por pagina.        |                                                              |
 | `page`    | `number` | Numero de pagina que se quiere visualizar. |                                                              |
