@@ -15,8 +15,23 @@ productsRouter.get('/', async (req, res)=>{
     try {
         const limit = req.query.limit || 10;
         const page = req.query.page || 1;
-        const query = req.query.query;
+        const query = (req.query.query) ? JSON.parse(req.query.query) : {};
         const sort = req.query.sort;
+
+        if(!!query.stock && (!!!query.maxStock || !!!query.minStock))
+            query.stock = (query.stock === 1) ? {$gt: 0} : {$gte: 0};
+        if(!!query.maxStock){
+            query.stock = query.stock || {};
+            query.stock.$lt = query.maxStock;
+            delete query.maxStock;
+        }
+        if(!!query.minStock){
+            query.stock = query.stock || {};
+            query.stock.$gt = query.minStock;
+            delete query.minStock;
+        }
+        if(!!query.category) 
+            query.category = {$eq: query.category};
 
         const products = await productDB.getProducts(limit, page, query, sort);
     
@@ -29,8 +44,8 @@ productsRouter.get('/', async (req, res)=>{
             page: products.page,
             hasPrevPage: products.hasPrevPage,
             hasNextPage: products.hasNextPage,
-            prevLink: products.hasPrevPage && `localhost:8080/api/products?limit=${limit}&page=${products.prevPage}`,
-            nextLink: products.hasNextPage && `localhost:8080/api/products?limit=${limit}&page=${products.nextPage}`
+            prevLink: products.hasPrevPage && `localhost:8080/api/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&query=${query}`,
+            nextLink: products.hasNextPage && `localhost:8080/api/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&query=${query}`
         });
     } catch (error) {
         console.log(error.message);
@@ -74,9 +89,9 @@ productsRouter.post('/', uploader.array('thumbnails'), async (req, res)=>{
 })
 
 // Modifica un producto.
-productsRouter.put('/:dip', uploader.array('thumbnails'), async (req, res)=>{
+productsRouter.put('/:pid', uploader.array('thumbnails'), async (req, res)=>{
     try {
-        let productId = req.params.dip;
+        let productId = req.params.pid;
         let product = req.body;
 
         if(!!!product.thumbnails) product.thumbnails = [];

@@ -36,9 +36,9 @@ viewsRouter.get('/products', async (req, res)=>{
         // Agregado de objeto de paginacion
         products.pagination = {
             active: true,
-            prevLink: (products.hasPrevPage) ? `http://localhost:8080/products?limit=${limit}&page=${products.prevPage}` : '#',
+            prevLink: (products.hasPrevPage) ? `http://localhost:8080/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&query=${query}` : '#',
             pagesLinks: [],
-            nextLink: (products.hasNextPage) ? `http://localhost:8080/products?limit=${limit}&page=${products.nextPage}` : '#'
+            nextLink: (products.hasNextPage) ? `http://localhost:8080/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&query=${query}` : '#'
         };
 
         // Calculo de cantidad de paginas a mostrar.
@@ -73,7 +73,7 @@ viewsRouter.get('/products', async (req, res)=>{
             // Armado del objeto pageLink.
             let pageLink = {
                 page:actualPage,
-                link:`http://localhost:8080/products?limit=${limit}&page=${actualPage}`,
+                link:`http://localhost:8080/products?limit=${limit}&page=${actualPage}&sort=${sort}&query=${query}`,
                 active: products.page === actualPage
             }
 

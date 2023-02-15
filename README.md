@@ -37,6 +37,7 @@ El proyecto consta de la logica detras de cualquier e-commerce, la cual realiza 
   npm run start-dev
 ```
 En este modo el proyecto se lanzara utilizando *nodemon*, permitiendo una dinamica de relanzamiento al modificar los archivos.
+
 ## API Reference
 
 ### Products
@@ -49,7 +50,14 @@ En este modo el proyecto se lanzara utilizando *nodemon*, permitiendo una dinami
 {
     status: <String> Estado del response (success/error),
     payload: <Product>[] Array con el resultado de productos,
-    message: <String> Mensaje informativo (Solo para estado de error)
+    totalPages: <Number> Cantidad de paginas,
+    prevPage: <Number> Pagina anterior,
+    nextPage: <Number> Pagina siguiente,
+    page: <Number> Pagina actual,
+    hasPrevPage: <Boolean> Tiene pagina anterior?,
+    hasNextPage: <Boolean> Tiene pagina siguiente?,
+    prevLink: <String || null> URL para obtener la anterior pagina,
+    nextLink: <String || null> URL para obtener la siguiente pagina
 }
 ```
 
@@ -212,6 +220,165 @@ ___
     message: <String> Mensaje informativo
 }
 ```
+
+___
+#### Update cart
+
+```http
+  PUT /api/carts/:cid
+```
+- **URL Params**
+| Parameter | Type     | Description                                         |
+| :-------- | :------- | :-------------------------------------------------- |
+| `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
+- **Body**
+```
+{
+    products: [
+        {
+            product: <String> ID del producto,
+            quantity: <Number> Cantidad del producto
+        }
+    ]
+}
+```
+- **Response**
+```
+{
+    status: <String> Estado del response (success),
+    message: <String> Mensaje informativo
+}
+```
+
+___
+#### Update product in cart
+
+```http
+  PUT /api/carts/:cid/product/:pid
+```
+- **URL Params**
+| Parameter | Type     | Description                                         |
+| :-------- | :------- | :-------------------------------------------------- |
+| `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
+| `pid`     | `string` | **Requerido**. Id del producto a agregar            |
+- **Body**
+```
+{
+    quantity: <Number> Cantidad del producto
+}
+```
+- **Response**
+```
+{
+    status: <String> Estado del response (success),
+    message: <String> Mensaje informativo
+}
+```
+
+___
+#### Delete product in cart
+
+```http
+  DELETE /api/carts/:cid/product/:pid
+```
+- **URL Params**
+| Parameter | Type     | Description                                         |
+| :-------- | :------- | :-------------------------------------------------- |
+| `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
+| `pid`     | `string` | **Requerido**. Id del producto a agregar            |
+
+- **Response**
+```
+{
+    status: <String> Estado del response (success),
+    message: <String> Mensaje informativo
+}
+```
+
+___
+#### Delete all products in cart
+
+```http
+  DELETE /api/carts/:cid
+```
+- **URL Params**
+| Parameter | Type     | Description                                         |
+| :-------- | :------- | :-------------------------------------------------- |
+| `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
+
+- **Response**
+```
+{
+    status: <String> Estado del response (success),
+    message: <String> Mensaje informativo
+}
+```
+
+### Views
+#### Lista de productos
+
+```http
+  GET /products
+```
+- **Query params**
+| Parameter | Type     | Description                                | Posibles valores |
+| :-------- | :------- | :----------------------------------------- | :----------------------------------------- |
+| `limit`   | `number` | Numero de los registros por pagina.        |  |
+| `page`    | `number` | Numero de pagina que se quiere visualizar. |  |
+| `sort`    | `number` | Tipo de ordenamiento deseado por precio.   | 1: Ordenamiento ascendente.<br>-1: Ordenamiento descendente. |
+| `query`   | `JSON`   | Filtros a aplicar a la busqueda.           | stock: Filta productos con o sin stock (1 o 0)<br>maxStock: Filtra por productos con menor stock.<br>minStock: Filtra por productos con mayor stock.<br>category: Filtra productos por la categoria enviada. |
+ 
+- #### Response
+Devuelve una listado de los productos implementando la paginacion de los mismos.
+
+___
+#### Detalle de producto
+
+```http
+  GET /products/:pid
+```
+- **URL params**
+| Parameter | Type     | Description               |
+| :-------- | :------- | :------------------------ |
+| `pid`     | `string` | ID del producto a mostrar |
+ 
+- #### Response
+Devuelve el detalle de un producto en especifico.
+
+___
+#### Listado de productos en tiempo real
+
+```http
+  GET /realtimeproducts
+```
+ 
+- #### Response
+Devuelve un listado de los productos implementando WebSocket para poder mostrar cambios en tiempo real.
+
+___
+#### Detalle de Carrito
+
+```http
+  GET /carts/:cid
+```
+- **URL params**
+| Parameter | Type     | Description              |
+| :-------- | :------- | :----------------------- |
+| `cid`     | `string` | ID del carrito a mostrar |
+ 
+- #### Response
+Devuelve un listado de los productos dentro de un carrito, asi como otros datos propios del carrito.
+
+___
+#### Listado de productos en tiempo real
+
+```http
+  GET /chat
+```
+ 
+- #### Response
+Devuelve un chat interno para poder mantener comunicacion con otros usuarios del proyecto.
+
 ## Authors
 
 - [@FacuSautu](https://github.com/FacuSautu)
@@ -243,6 +410,11 @@ ___
 [![mongoose](https://miro.medium.com/max/1050/1*acfAKaDI7uv5GyFnJmiPhA.png)](https://www.npmjs.com/package/mongoose)
 ___
 *Mongoose* es la libreria que funciona como interfaz para poder administrar bases de datos MongoDB desde Java Script. Esta libreria permite mantener una persistencia de los datos en dicha base de datos.
+___
+___
+[![mongoose-paginate-v2](https://raw.githubusercontent.com/aravindnc/mongoose-paginate-v2/HEAD/static/banner.jpg)](https://www.npmjs.com/package/mongoose-paginate-v2)
+___
+*Mongoose-paginate-v2* es un plugin de Mongoose que permite realizar paginacion de registros al momento de hacer consultas. Dando la posibilidad de seleccionar el limite maximo de registros por pagina, la pagina que se desea ver, ordenamiento de los datos, filtrado, etc.
 ___
 ___
 [![express-handlebars](https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200)](https://www.npmjs.com/package/express-handlebars)
