@@ -55,6 +55,8 @@ En este modo el proyecto se lanzara utilizando *nodemon*, permitiendo una dinami
 | `sort`    | `number` | Tipo de ordenamiento deseado por precio.   | 1: Ordenamiento ascendente.<br>-1: Ordenamiento descendente. |
 | `query`   | `JSON`   | Filtros a aplicar a la busqueda.           | stock: Filta productos con o sin stock (1 o 0)<br>maxStock: Filtra por productos con menor stock.<br>minStock: Filtra por productos con mayor stock.<br>category: Filtra productos por la categoria enviada. |
 
+- **Response**
+
 ```
 {
     status: <String> Estado del response (success/error),
@@ -81,7 +83,9 @@ ___
 | :-------- | :------- | :--------------------------------------- |
 | `pid`     | `string` | **Requerido**. Id del producto a obtener |
 
-- #### Response
+
+- **Response**
+
 ```
 {
     status: <String> Estado del response (success/error),
@@ -96,7 +100,9 @@ ___
 ```http
   POST /api/products
 ```
-- #### JSON Body
+
+- **JSON Body**
+
 ```
 {
     title: <String> Titulo del producto,
@@ -109,7 +115,8 @@ ___
 }
 ```
 
-- #### Response
+- **Response**
+
 ```
 {
     status: <String> Estado del response (success/error),
@@ -128,7 +135,9 @@ ___
 | :-------- | :------- | :----------------------------------------- |
 | `pid`     | `string` | **Requerido**. Id del producto a modificar |
 
-- #### JSON Body
+
+- **JSON Body**
+
 ```
 {
     title: <String> Titulo modificado del producto,
@@ -142,7 +151,8 @@ ___
 ```
 No es necesario mandar todos los datos del producto, pueden enviarse solo los datos que se desean modificar.
 
-- #### Response
+- **Response**
+
 ```
 {
     status: <String> Estado del response (success/error),
@@ -161,7 +171,8 @@ ___
 | :-------- | :------- | :---------------------------------------- |
 | `pid`     | `string` | **Requerido**. Id del producto a eliminar |
 
-- #### Response
+- **Response**
+
 ```
 {
     status: <String> Estado del response (success/error),
@@ -180,7 +191,8 @@ ___
 | :-------- | :------- | :-------------------------------------- |
 | `cid`     | `string` | **Requerido**. Id del carrito a obtener |
 
-- #### Response
+- **Response**
+
 ```
 {
     status: <String> Estado del response (success/error),
@@ -196,14 +208,16 @@ ___
   POST /api/carts
 ```
 
-- #### JSON Body
+- **JSON Body**
+
 ```
 {
     "products": <CartProduct>[] Array con datos de los productos (solo Id del producto y cantidad en carrito),
 }
 ```
 
-- #### Response
+- **Response**
+
 ```
 {
     status: <String> Estado del response (success/error),
@@ -222,7 +236,8 @@ ___
 | `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
 | `pid`     | `string` | **Requerido**. Id del producto a agregar            |
 
-- #### Response
+- **Response**
+
 ```
 {
     status: <String> Estado del response (success),
@@ -237,10 +252,13 @@ ___
   PUT /api/carts/:cid
 ```
 - **URL Params**
+
 | Parameter | Type     | Description                                         |
 | :-------- | :------- | :-------------------------------------------------- |
 | `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
+
 - **Body**
+
 ```
 {
     products: [
@@ -252,6 +270,7 @@ ___
 }
 ```
 - **Response**
+
 ```
 {
     status: <String> Estado del response (success),
@@ -266,17 +285,22 @@ ___
   PUT /api/carts/:cid/product/:pid
 ```
 - **URL Params**
+
 | Parameter | Type     | Description                                         |
 | :-------- | :------- | :-------------------------------------------------- |
 | `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
 | `pid`     | `string` | **Requerido**. Id del producto a agregar            |
+
 - **Body**
+
 ```
 {
     quantity: <Number> Cantidad del producto
 }
 ```
+
 - **Response**
+
 ```
 {
     status: <String> Estado del response (success),
@@ -290,13 +314,16 @@ ___
 ```http
   DELETE /api/carts/:cid/product/:pid
 ```
+
 - **URL Params**
+
 | Parameter | Type     | Description                                         |
 | :-------- | :------- | :-------------------------------------------------- |
 | `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
 | `pid`     | `string` | **Requerido**. Id del producto a agregar            |
 
 - **Response**
+
 ```
 {
     status: <String> Estado del response (success),
@@ -311,11 +338,13 @@ ___
   DELETE /api/carts/:cid
 ```
 - **URL Params**
+
 | Parameter | Type     | Description                                         |
 | :-------- | :------- | :-------------------------------------------------- |
 | `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
 
 - **Response**
+
 ```
 {
     status: <String> Estado del response (success),
@@ -330,6 +359,7 @@ ___
   GET /products
 ```
 - **Query params**
+
 | Parameter | Type     | Description                                | Posibles valores                                             |
 | :-------- | :------- | :----------------------------------------- | :----------------------------------------------------------- |
 | `limit`   | `number` | Numero de los registros por pagina.        |                                                              |
@@ -337,7 +367,8 @@ ___
 | `sort`    | `number` | Tipo de ordenamiento deseado por precio.   | 1: Ordenamiento ascendente.<br>-1: Ordenamiento descendente. |
 | `query`   | `JSON`   | Filtros a aplicar a la busqueda.           | stock: Filta productos con o sin stock (1 o 0)<br>maxStock: Filtra por productos con menor stock.<br>minStock: Filtra por productos con mayor stock.<br>category: Filtra productos por la categoria enviada. |
  
-- #### Response
+- **Response**
+
 Devuelve una listado de los productos implementando la paginacion de los mismos.
 
 ___
@@ -347,11 +378,13 @@ ___
   GET /products/:pid
 ```
 - **URL params**
+
 | Parameter | Type     | Description               |
 | :-------- | :------- | :------------------------ |
 | `pid`     | `string` | ID del producto a mostrar |
  
-- #### Response
+- **Response**
+
 Devuelve el detalle de un producto en especifico.
 
 ___
@@ -361,7 +394,8 @@ ___
   GET /realtimeproducts
 ```
  
-- #### Response
+- **Response**
+
 Devuelve un listado de los productos implementando WebSocket para poder mostrar cambios en tiempo real.
 
 ___
@@ -371,11 +405,13 @@ ___
   GET /carts/:cid
 ```
 - **URL params**
+
 | Parameter | Type     | Description              |
 | :-------- | :------- | :----------------------- |
 | `cid`     | `string` | ID del carrito a mostrar |
  
-- #### Response
+- **Response**
+
 Devuelve un listado de los productos dentro de un carrito, asi como otros datos propios del carrito.
 
 ___
@@ -385,7 +421,8 @@ ___
   GET /chat
 ```
  
-- #### Response
+- **Response**
+
 Devuelve un chat interno para poder mantener comunicacion con otros usuarios del proyecto.
 
 ## Authors
