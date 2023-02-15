@@ -32,9 +32,9 @@ cartsRouter.post('/', async (req, res)=>{
     try {
         let newCart = req.body;
     
-        await cartDB.addCart(newCart);
+        const addedCart = await cartDB.addCart(newCart);
         
-        res.send({status:'success', message: 'El carrito fue agregado con exito'});
+        res.send({status:'success', message: `El carrito fue agregado con exito. ID del carrito: ${addedCart._id}`});
     } catch (error) {
         res.status(404).send({status:'error', message: error.message});
     }

@@ -46,6 +46,14 @@ En este modo el proyecto se lanzara utilizando *nodemon*, permitiendo una dinami
 ```http
   GET /api/products
 ```
+- **Query params**
+| Parameter | Type     | Description                                | Posibles valores                                             |
+| :-------- | :------- | :----------------------------------------- | :----------------------------------------------------------- |
+| `limit`   | `number` | Numero de los registros por pagina.        |                                                              |
+| `page`    | `number` | Numero de pagina que se quiere visualizar. |                                                              |
+| `sort`    | `number` | Tipo de ordenamiento deseado por precio.   | 1: Ordenamiento ascendente.<br>-1: Ordenamiento descendente. |
+| `query`   | `JSON`   | Filtros a aplicar a la busqueda.           | stock: Filta productos con o sin stock (1 o 0)<br>maxStock: Filtra por productos con menor stock.<br>minStock: Filtra por productos con mayor stock.<br>category: Filtra productos por la categoria enviada. |
+
 ```
 {
     status: <String> Estado del response (success/error),
@@ -321,10 +329,10 @@ ___
   GET /products
 ```
 - **Query params**
-| Parameter | Type     | Description                                | Posibles valores |
-| :-------- | :------- | :----------------------------------------- | :----------------------------------------- |
-| `limit`   | `number` | Numero de los registros por pagina.        |  |
-| `page`    | `number` | Numero de pagina que se quiere visualizar. |  |
+| Parameter | Type     | Description                                | Posibles valores                                             |
+| :-------- | :------- | :----------------------------------------- | :----------------------------------------------------------- |
+| `limit`   | `number` | Numero de los registros por pagina.        |                                                              |
+| `page`    | `number` | Numero de pagina que se quiere visualizar. |                                                              |
 | `sort`    | `number` | Tipo de ordenamiento deseado por precio.   | 1: Ordenamiento ascendente.<br>-1: Ordenamiento descendente. |
 | `query`   | `JSON`   | Filtros a aplicar a la busqueda.           | stock: Filta productos con o sin stock (1 o 0)<br>maxStock: Filtra por productos con menor stock.<br>minStock: Filtra por productos con mayor stock.<br>category: Filtra productos por la categoria enviada. |
  
