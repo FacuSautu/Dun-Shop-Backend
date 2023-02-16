@@ -1,11 +1,14 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import mongoose from 'mongoose';
 
 import { __dirname, uploader } from './utils.js';
 
 import viewsRouter from './routes/views.router.js';
+import sessionsRouter from './routes/sessions.router.js';
 import cartsRouter from './routes/carts.router.js';
 import productsRouter from './routes/products.router.js';
 import MessageDB from './daos/message.db.js';
@@ -16,6 +19,7 @@ const app = express();
 const server = app.listen(port, ()=>console.log(`Server live on http://localhost:${port}/`));
 const io = new Server(server);
 
+// Logica de chat con Websocket
 const messageDB = new MessageDB();
 const conectedUsers = [];
 
@@ -71,13 +75,30 @@ app.set('view engine', 'handlebars');
 app.use(express.static(__dirname+'/public'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl:'mongodb+srv://fsautu:root@coderhouse.lomute3.mongodb.net/?retryWrites=true&w=majority',
+        mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
+        ttl:15
+    }),
+    secret:'dunShopSecret',
+    resave:true,
+    saveUninitialized:true
+}))
 
-app.use((req, res, next)=>{
+// Custom middlewares
+app.use((req, res, next)=>{     // Middleware para agregar a las variables locales del objeto Response los datos de sesión.
+    res.locals.session = req.session;
+    next();
+})
+
+app.use((req, res, next)=>{     // Middleware para agregar el WebSocket al objeto Request.
     req.io = io;
     next();
 })
 
 // Rutas
 app.use('/', viewsRouter);
+app.use('/api/sessions/', sessionsRouter);
 app.use('/api/carts/', cartsRouter);
 app.use('/api/products/', productsRouter);

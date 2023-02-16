@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 
 const messagesCollection = 'messages';
 
-const messagesScheme = new mongoose.Schema({
+const messagesSchema = new mongoose.Schema({
     user: String,
     message: String,
 })
 
-const messagesModel = mongoose.model(messagesCollection, messagesScheme);
+const messagesModel = mongoose.model(messagesCollection, messagesSchema);
 
 export default messagesModel;

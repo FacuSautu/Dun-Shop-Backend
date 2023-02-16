@@ -13,14 +13,14 @@ const messageDB = new MessageDB();
 // Vista principal.
 viewsRouter.get('/', async (req, res)=>{
     try {
-        res.redirect('/realtimeproducts');
+        res.redirect('/products');
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status: 'error', message: error.message});
     }
 })
 
-// Visualizacion de productos.
+// Listado de productos.
 viewsRouter.get('/products', async (req, res)=>{
     try {
         // Query params
@@ -90,7 +90,7 @@ viewsRouter.get('/products', async (req, res)=>{
     }
 })
 
-// Visualizacion en detalle de un producto.
+// Detalle de producto.
 viewsRouter.get('/products/:pid', async (req, res)=>{
     try {
         const productId = req.params.pid;
@@ -107,7 +107,7 @@ viewsRouter.get('/products/:pid', async (req, res)=>{
     }
 })
 
-// Visualizacion de productos en tiempo real.
+// Listado productos en tiempo real.
 viewsRouter.get('/realtimeproducts', async (req, res)=>{
     try {
         const limit = req.query.limit || 10;
@@ -126,7 +126,7 @@ viewsRouter.get('/realtimeproducts', async (req, res)=>{
 
 })
 
-// Visualizacion de carrito.
+// Detalle del carrito.
 viewsRouter.get('/carts/:cid', async (req, res)=>{
     try {
         const cartId = req.params.cid;
@@ -148,11 +148,57 @@ viewsRouter.get('/carts/:cid', async (req, res)=>{
     }
 })
 
-// Visualizacion del chat.
+// Formulario de registro.
+viewsRouter.get('/register', publicView, (req, res)=>{
+    res.render('register');
+})
+
+// Formulario de login.
+viewsRouter.get('/login', publicView, (req, res)=>{
+    const validation = Number(req.query.validation);
+    const isLogout = Number(req.query.logout);
+    const isRegister = Number(req.query.register);
+    let message = '';
+
+    switch (validation) {
+        case 0:
+            message = 'No se encontro usuario con esas credenciales. Por favor vuelva a intentar.';
+            break;
+        case 1:
+            message = 'Solo usuarios registrados pueden acceder a esta pagina, por favor inicie sesión.';
+            break;
+    }
+
+    if(!!isRegister) message = 'Registro exitoso, por favor inicie sesión para comenzar.';    
+    if(!!isLogout) message = 'Por favor inicie sesión nuevamente para poder utilizar la totalidad de funciones.';
+    
+    res.render('login', {message});
+})
+
+// Vista de perfil de usuario.
+viewsRouter.get('/profile', privateView, (req, res)=>{
+    res.render('profile');
+})
+
+// Chat.
 viewsRouter.get('/chat', async (req, res)=>{
     let messages = await messageDB.getMessages();
 
     res.render('chat', {messages});
 })
+
+
+// Views custom middlewares.
+function privateView(req, res, next){       // Middleware de validacion de rutas privadas.
+    if(!!!req.session.user) return res.redirect('/login?validation=1');
+
+    next();
+}
+
+function publicView(req, res, next){       // Middleware de validacion de rutas publicas.
+    if(!!req.session.user) return res.redirect('/profile');
+
+    next();
+}
 
 export default viewsRouter;
