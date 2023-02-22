@@ -127,7 +127,7 @@ viewsRouter.get('/realtimeproducts', async (req, res)=>{
 })
 
 // Detalle del carrito.
-viewsRouter.get('/carts/:cid', async (req, res)=>{
+viewsRouter.get('/carts/:cid', privateView, async (req, res)=>{
     try {
         const cartId = req.params.cid;
 
