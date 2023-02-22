@@ -93,7 +93,7 @@ cartsRouter.delete('/:cid/product/:pid', async (req, res)=>{
     
         await cartDB.deleteProductFromCart(cartId, productId);
 
-        res.send({statis: 'success', message: `Producto ${productId} eliminado con exito del carrito ${cartId}`});
+        res.send({status: 'success', message: `Producto ${productId} eliminado con exito del carrito ${cartId}`});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', message: error.message});
