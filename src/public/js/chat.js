@@ -6,6 +6,8 @@ const socket = io();
 
 let user = document.getElementById('user_email').value;
 
+socket.emit('new_user', user);
+
 // Eventos
 messageInput.addEventListener('keypress', evt=>{
     if(evt.key === 'Enter'){
