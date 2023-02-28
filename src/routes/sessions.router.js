@@ -1,39 +1,49 @@
 import { Router } from 'express';
-
-import UserDB from '../daos/user.db.js';
+import passport from 'passport';
 
 const sessionsRouter = Router();
 
-// Instancias de clases.
-const userDB = new UserDB();
-
-sessionsRouter.post('/register', async (req, res)=>{
-    const userToAdd = req.body;
-
-    let user = await userDB.addUser(userToAdd);
-
+// Registro de usuarios.
+sessionsRouter.post('/register', passport.authenticate('register', {failureRedirect:'/failregister'}), (req, res)=>{
     res.redirect('/login?register=1');
 })
 
-sessionsRouter.post('/login', async (req, res)=>{
-    let user_email = req.body.email;
-    let user_pass = req.body.password;
+// Falla en registro.
+sessionsRouter.get('/failregister', (req, res)=>{
+    console.log("Error en estrategia de registro.");
+    res.send({status:'error', message:"Error en estrategia de registro"});
+})
 
-    // Busqueda de usuario.
-    let user = await userDB.getUserByCredentials(user_email, user_pass);
-
-    // Si no se eocntro usuario...
-    if(user.length === 0){
-        return res.redirect('/login?validation=0');
+// Login de usuarios.
+sessionsRouter.post('/login', passport.authenticate('login', {failureRedirect: 'faillogin'}), (req, res)=>{
+    if(!!!req.user) return res.redirect('/login?validation=0');
+    req.session.user = {
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+        age: req.user.age,
+        email: req.user.email
     }
-
-    // Se borra la password del objeto user por ser un dato sensible.
-    delete user.password;
-    req.session.user = user[0];
-
+    
     res.redirect('/products');
 })
 
+// Falla en login.
+sessionsRouter.get('/faillogin', (req, res)=>{
+    console.log("Error en estrategia de login.");
+    res.send({status:'error', message:"Error en estrategia de login"});
+})
+
+// Login de usuarios con Github.
+sessionsRouter.get('/github', passport.authenticate('github', {scope:['user:email']}), (req, res)=>{})
+
+// Login con Github exitoso.
+sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect:'/login?validation=2'}), (req, res)=>{
+    req.session.user = req.user;
+
+    res.redirect('/');
+})
+
+// Logout de usuarios.
 sessionsRouter.get('/logout', (req, res)=>{
     req.session.destroy(err=>{
         if(err) res.send({status:'error', message:'Error al cerrar la sesión: '+err});

@@ -181,7 +181,7 @@ viewsRouter.get('/profile', privateView, (req, res)=>{
 })
 
 // Chat.
-viewsRouter.get('/chat', async (req, res)=>{
+viewsRouter.get('/chat', privateView, async (req, res)=>{
     let messages = await messageDB.getMessages();
 
     res.render('chat', {messages});

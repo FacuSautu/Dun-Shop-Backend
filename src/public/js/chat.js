@@ -4,9 +4,7 @@ const messageBtn = document.getElementById('messageBtn');
 
 const socket = io();
 
-let user;
-
-validationSwal();
+let user = document.getElementById('user_email').value;
 
 // Eventos
 messageInput.addEventListener('keypress', evt=>{

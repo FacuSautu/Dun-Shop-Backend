@@ -558,6 +558,16 @@ ___
 *Connect-mongo* es la librería encargada de almacenar las sesiones existentes en el servidor en una base de datos Mongo.
 ___
 ___
+<a href="https://www.npmjs.com/package/bcrypt" target="_blank"><img src="https://stackjava.com/wp-content/uploads/2018/03/bcrypt-logo.jpg" height="200px" /></a>
+___
+*bcrypt* es un paquete para el hasheo de contraseñas, utilizado en el proyecto para la seguridad de las credenciales de los usuarios que se registren.
+___
+___
+<a href="https://www.npmjs.com/package/passport" target="_blank"><img src="https://antoniofernandez.com/assets/blog/passportjs.png" height="200px" /></a>
+___
+*passport* es un paquete de gestion de estrategias de autenticacion y autorizacion. Para este proyecto se estan usando estrategias para registro y loqueo de usuarios de forma local y utilizando GitHub, con los paquetes de: passport-local y passport-github2.
+___
+___
 <a href="https://www.npmjs.com/package/express-handlebars" target="_blank"><img src="https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200" height="200px" /></a>
 ___
 *Handlebars* es el motor de plantilla utilizado en el proyecto, con la ayuda de esta dependencia se logra renderizar vistas con información dinámica para la presentación de información útil (como el listado de productos existentes en el e-commerce).
@@ -571,6 +581,11 @@ ___
 <a href="https://www.npmjs.com/package/multer" target="_blank"><img src="https://user-images.githubusercontent.com/6388707/66124653-463a2d00-e5e5-11e9-8fed-b5bca26b66ea.png" height="200px" /></a>
 ___
 *Multer* es un paquete de middleware para manejo de datos `multipart/form-data`, normalmente utilizado para manejo de archivos enviados por HTTP. Este utilitario permite en el proyecto almacenar las imagenes de los productos que se quieren cargar, para asi poder mostrarlos desde las vistas donde se listan los productos.
+___
+___
+<a href="https://www.npmjs.com/package/dotenv" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvBqX2kKRb9ek5RJ470wjOX9pUgTaX8CIeUcLLi-o43nGLPeAQsnopvWuoIrFw77SogUA&usqp=CAU" height="200px" /></a>
+___
+*dotenv* se encarga de la gestion de variables de entorno. Dando la posibilidad de utilizar diferentes entornos del proyecto y tambien mantener seguros los datos sensibles utilizados en el mismo.
 
 ### Dependencias Dev
 <a href="https://www.npmjs.com/package/nodemon" target="_blank"><img src="https://user-images.githubusercontent.com/13700/35731649-652807e8-080e-11e8-88fd-1b2f6d553b2d.png" height="200px" /></a>
