@@ -13,8 +13,12 @@ class UserDB{
         return userModel.create(userToAdd);
     }
 
-    getUserByCredentials(email, pass){
-        return userModel.find({email, password:pass});
+    getUserByEmail(email){
+        return userModel.findOne({email});
+    }
+
+    getUserById(id){
+        return userModel.findById(id);
     }
 
 }

@@ -4,8 +4,11 @@ import { Server } from 'socket.io';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import mongoose from 'mongoose';
+import passport from 'passport';
 
 import { __dirname, uploader } from './utils.js';
+import config from './config/config.js';
+import initializePassport from './config/passport.config.js';
 
 import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
@@ -14,9 +17,8 @@ import productsRouter from './routes/products.router.js';
 import MessageDB from './daos/message.db.js';
 
 // Instancia de express y servidor.
-const port = 8080;
 const app = express();
-const server = app.listen(port, ()=>console.log(`Server live on http://localhost:${port}/`));
+const server = app.listen(config.port, ()=>console.log(`Server live on http://localhost:${config.port}/`));
 const io = new Server(server);
 
 // Logica de chat con Websocket
@@ -58,7 +60,7 @@ io.on('connection', socket=>{
 })
 
 // Instancia de Mongoose
-mongoose.connect('mongodb+srv://fsautu:root@coderhouse.lomute3.mongodb.net/?retryWrites=true&w=majority', (error)=>{
+mongoose.connect(config.mongoUrl, (error)=>{
     if(error){
         console.log("Cannot connect to database: "+error);
         process.exit();
@@ -85,6 +87,9 @@ app.use(session({
     resave:true,
     saveUninitialized:true
 }))
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Custom middlewares
 app.use((req, res, next)=>{     // Middleware para agregar a las variables locales del objeto Response los datos de sesión.
