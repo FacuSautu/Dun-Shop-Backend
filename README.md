@@ -568,7 +568,7 @@ ___
 *passport* es un paquete de gestion de estrategias de autenticacion y autorizacion. Para este proyecto se estan usando estrategias para registro y loqueo de usuarios de forma local y utilizando GitHub, con los paquetes de: passport-local y passport-github2.
 ___
 ___
-<a href="https://www.npmjs.com/package/express-handlebars" target="_blank"><img src="https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200" height="200px" style="background-color:white"/></a>
+<a href="https://www.npmjs.com/package/express-handlebars" target="_blank"><img src="https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200" height="200px" /></a>
 ___
 *Handlebars* es el motor de plantilla utilizado en el proyecto, con la ayuda de esta dependencia se logra renderizar vistas con información dinámica para la presentación de información útil (como el listado de productos existentes en el e-commerce).
 ___
