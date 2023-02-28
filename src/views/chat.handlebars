@@ -1,4 +1,5 @@
 <div class="container-fluid bg-danger d-flex justify-content-center align-items-center" style="min-height: 100vh">
+    <input type="hidden" id="user_email" value="{{session.user.email}}">
     <div class="col-10 bg-dark opacity-75 p-3">
         <h1 class="text-white text-center">Chat</h1>
         <div class="bg-white rounded-3 my-3" id="chatBox" style="height: 80vh;overflow-y:scroll"></div>
