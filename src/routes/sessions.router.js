@@ -24,7 +24,7 @@ sessionsRouter.post('/login', passport.authenticate('login', {failureRedirect: '
         email: req.user.email
     }
     
-    res.redirect('/products');
+    res.redirect('/');
 })
 
 // Falla en login.
