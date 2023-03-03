@@ -7,19 +7,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    last_name: {
-        type: String,
-        required: true
-    },
+    last_name: String,
     email: {
         type: String,
         required: true
     },
     age: Number,
-    password: {
-        type: String,
-        required: true
-    },
+    password: String,
     rol: {
         type: String,
         default: 'user'

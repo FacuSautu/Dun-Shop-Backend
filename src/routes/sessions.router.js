@@ -30,7 +30,7 @@ sessionsRouter.post('/login', passport.authenticate('login', {failureRedirect: '
 // Falla en login.
 sessionsRouter.get('/faillogin', (req, res)=>{
     console.log("Error en estrategia de login.");
-    res.send({status:'error', message:"Error en estrategia de login"});
+    res.redirect('/login?validation=0');
 })
 
 // Login de usuarios con Github.
