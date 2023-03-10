@@ -17,12 +17,7 @@ sessionsRouter.get('/failregister', (req, res)=>{
 // Login de usuarios.
 sessionsRouter.post('/login', passport.authenticate('login', {failureRedirect: 'faillogin'}), (req, res)=>{
     if(!!!req.user) return res.redirect('/login?validation=0');
-    req.session.user = {
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        age: req.user.age,
-        email: req.user.email
-    }
+    req.session.user = req.user;
     
     res.redirect('/');
 })

@@ -14,7 +14,7 @@ socket.on('products_update', products=>{
                     <div class="card-body">
                         <h5 class="card-title">${product.title}</h5>
                         <p class="card-text">Precio: $${product.price}</p>
-                        <a href="#" class="btn btn-dark">Ver detalle</a>
+                        <a href="/products/${product._id}" class="btn btn-dark">Ver detalle</a>
                     </div>
                 </div>
             </div>
