@@ -1,5 +1,6 @@
 import passport from 'passport';
 import local from 'passport-local';
+import jwt, { ExtractJwt } from 'passport-jwt';
 import GitHubStrategy from 'passport-github2';
 
 import config from './config.js';
@@ -9,7 +10,20 @@ import UserDB from '../daos/user.db.js';
 // Manager de usuarios
 const userDB = new UserDB();
 
+// Estrategias
 const LocalStrategy = local.Strategy;
+const JWTStrategy = jwt.Strategy;
+
+// Extractores de JWT
+const cookieExtractor = (req)=>{
+    let token = null;
+    console.log("Extractor cookie JWT");
+    if(req && req.cookies){
+        token = req.cookies['user_jwt'];
+    }
+
+    return token;
+}
 
 const initializePassport = ()=>{
     // Estrategia de registro.
@@ -63,6 +77,18 @@ const initializePassport = ()=>{
         })
     )
 
+    // Estrategia de jwt.
+    passport.use('jwt', new JWTStrategy({
+        jwtFromRequest:ExtractJwt.fromExtractors([cookieExtractor]),
+        secretOrKey: config.jwt_private_key
+    }, async(jwt_payload, done)=>{
+        try {
+            return done(null, jwt_payload);
+        } catch (error) {
+            return done(error);
+        }
+    }))
+
     // Estrategia de login con Github.
     passport.use('github', new GitHubStrategy(
         {clientID:config.gitHub_ClientId, clientSecret:config.gitHub_ClientSecret, callbackURL:config.gitHub_CallbackURL},
@@ -94,7 +120,7 @@ const initializePassport = ()=>{
 
     
     passport.serializeUser((user, done)=>{
-        done(null, user._id);
+        done(null, user);
     })
 
     passport.deserializeUser(async (id, done)=>{

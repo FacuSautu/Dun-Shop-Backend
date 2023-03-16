@@ -1,6 +1,7 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
+import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import mongoose from 'mongoose';
@@ -77,6 +78,7 @@ app.set('view engine', 'handlebars');
 app.use(express.static(__dirname+'/public'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use(cookieParser());
 app.use(session({
     store: MongoStore.create({
         mongoUrl:'mongodb+srv://fsautu:root@coderhouse.lomute3.mongodb.net/?retryWrites=true&w=majority',
@@ -94,6 +96,7 @@ app.use(passport.session());
 // Custom middlewares
 app.use((req, res, next)=>{     // Middleware para agregar a las variables locales del objeto Response los datos de sesión.
     res.locals.session = req.session;
+    res.locals.session.user = req.session.passport?.user;
     next();
 })
 

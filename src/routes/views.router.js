@@ -190,13 +190,13 @@ viewsRouter.get('/chat', privateView, async (req, res)=>{
 
 // Views custom middlewares.
 function privateView(req, res, next){       // Middleware de validacion de rutas privadas.
-    if(!!!req.session.user) return res.redirect('/login?validation=1');
+    if(!!!req.session.passport?.user) return res.redirect('/login?validation=1');
 
     next();
 }
 
 function publicView(req, res, next){       // Middleware de validacion de rutas publicas.
-    if(!!req.session.user) return res.redirect('/profile');
+    if(!!req.session.passport?.user) return res.redirect('/profile');
 
     next();
 }

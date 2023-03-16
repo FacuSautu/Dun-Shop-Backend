@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import passport from 'passport';
 
+import config from '../config/config.js';
+import { generateToken } from '../utils.js';
+
 const sessionsRouter = Router();
 
 // Registro de usuarios.
@@ -15,10 +18,14 @@ sessionsRouter.get('/failregister', (req, res)=>{
 })
 
 // Login de usuarios.
-sessionsRouter.post('/login', passport.authenticate('login', {failureRedirect: 'faillogin'}), (req, res)=>{
+sessionsRouter.post('/login', passport.authenticate('login', {failureRedirect: 'faillogin', session:config.login_strategy=='session'}), (req, res)=>{
     if(!!!req.user) return res.redirect('/login?validation=0');
-    req.session.user = req.user;
-    
+
+    if (config.login_strategy == 'jwt') {
+        const user_jwt = generateToken(req.user);
+        res.cookie('user_jwt', user_jwt, {maxAge:60*60*1000, httpOnly:true});
+    }
+
     res.redirect('/');
 })
 
@@ -33,8 +40,6 @@ sessionsRouter.get('/github', passport.authenticate('github', {scope:['user:emai
 
 // Login con Github exitoso.
 sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect:'/login?validation=2'}), (req, res)=>{
-    req.session.user = req.user;
-
     res.redirect('/');
 })
 
