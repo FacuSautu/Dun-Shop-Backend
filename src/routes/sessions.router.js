@@ -2,7 +2,7 @@ import { Router } from 'express';
 import passport from 'passport';
 
 import config from '../config/config.js';
-import { generateToken } from '../utils.js';
+import { authToken, generateToken } from '../utils.js';
 
 const sessionsRouter = Router();
 
@@ -29,7 +29,7 @@ sessionsRouter.post('/login', (req, res, next)=>{
         if(!user) return res.status(404).send({status: 'error', message: info.message ? info : {message:"Error de autenticacion", valCode:0}});
 
         if (config.login_strategy == 'jwt') {
-            const user_jwt = generateToken(req.user);
+            const user_jwt = generateToken(user);
             return res.cookie('user_jwt', user_jwt, {maxAge:60*60*1000, httpOnly:true}).send({status:'success', message:"Usuario logueado con exito."});
         }else{
             req.login(user, loginErr=>{
@@ -53,6 +53,11 @@ sessionsRouter.get('/github', passport.authenticate('github', {scope:['user:emai
 // Login con Github exitoso.
 sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect:'/login?validation=2'}), (req, res)=>{
     res.redirect('/');
+})
+
+// Obtencion de usuario actual por jwt
+sessionsRouter.get('/current', passport.authenticate('jwt', {session:false}), (req, res)=>{
+    res.send({status:'success', payload:req.user});
 })
 
 // Logout de usuarios.

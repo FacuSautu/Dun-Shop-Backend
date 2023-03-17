@@ -12,6 +12,7 @@ const userDB = new UserDB();
 
 // Estrategias
 const LocalStrategy = local.Strategy;
+
 const JWTStrategy = jwt.Strategy;
 
 // Extractores de JWT
@@ -20,6 +21,14 @@ const cookieExtractor = (req)=>{
 
     if(req && req.cookies){
         token = req.cookies['user_jwt'];
+    }
+
+    return token;
+}
+const headerExtractor = (req)=>{
+    let token = null;
+    if(!!req.headers.authorization){
+        token = req.headers.authorization.split(' ')[1];
     }
 
     return token;
@@ -83,7 +92,7 @@ const initializePassport = ()=>{
 
     // Estrategia de jwt.
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest:ExtractJwt.fromExtractors([cookieExtractor]),
+        jwtFromRequest:ExtractJwt.fromExtractors([cookieExtractor, headerExtractor]),
         secretOrKey: config.jwt_private_key
     }, async(jwt_payload, done)=>{
         try {
