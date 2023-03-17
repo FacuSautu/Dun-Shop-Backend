@@ -207,7 +207,7 @@ function privateView(req, res, next){       // Middleware de validacion de rutas
     next();
 }
 
-function publicView(req, res, next){       // Middleware de validacion de rutas publicas.
+function publicView(req, res, next){        // Middleware de validacion de rutas publicas.
     if(!!req.session.passport?.user) return res.redirect('/profile');
 
     next();

@@ -7,9 +7,6 @@ import { generateToken } from '../utils.js';
 const sessionsRouter = Router();
 
 // Registro de usuarios.
-// sessionsRouter.post('/register', passport.authenticate('register', {failureRedirect:'/failregister'}), (req, res)=>{
-//     res.redirect('/login?register=1');
-// })
 sessionsRouter.post('/register', (req, res, next)=>{
     passport.authenticate('register', (err, user, info)=>{
         if(err) return next(err);
