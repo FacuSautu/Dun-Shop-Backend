@@ -17,7 +17,7 @@ const JWTStrategy = jwt.Strategy;
 // Extractores de JWT
 const cookieExtractor = (req)=>{
     let token = null;
-    console.log("Extractor cookie JWT");
+
     if(req && req.cookies){
         token = req.cookies['user_jwt'];
     }
@@ -37,7 +37,7 @@ const initializePassport = ()=>{
 
                 if(!!user){
                     console.log("Ya existe este usuario");
-                    return done(null, false);
+                    return done(null, false, {message: "Ya existe este usuario.", valCode:1});
                 }
 
                 const newUser = {
@@ -66,12 +66,16 @@ const initializePassport = ()=>{
 
                 if(!!!user){
                     console.log("Usuario no encontrado.");
-                    return done(null, false);
+                    return done(null, false, {message:"Usuario no encontrado.", valCode:0});
                 }
-                if(!isValidPassword(user, password)) return done(null, false);
+                if(!isValidPassword(user, password)){
+                    console.log("Contraseña incorrecta.");
+                    return done(null, false, {message:"Contraseña incorrecta.", valCode:2});
+                }
 
                 return done(null, user);
             } catch (error) {
+                console.log("Error general en estrategia");
                 return done("Error en estrategia de login: "+error);
             }
         })

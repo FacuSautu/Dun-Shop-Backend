@@ -1,7 +1,8 @@
 <div class="container-fluid bg-danger d-flex justify-content-center align-items-center" style="min-height: 100vh">
     <div class="col-10 bg-dark opacity-75 text-white p-5">
         <h1 class="text-center mb-3">Registro</h1>
-        <form action="/api/sessions/register" method="post">
+        <h4 class="text-danger">{{message}}</h4>
+        <form action="/api/sessions/register" method="post" id="register_form">
             <div class="row mb-3">
                 <div class="col-6">
                     <label for="first_name" class="form-label">Nombre</label>
@@ -32,3 +33,5 @@
         </form>
     </div>
 </div>
+
+<script src="js/register.js"></script>

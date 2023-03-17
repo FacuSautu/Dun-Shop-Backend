@@ -7,8 +7,16 @@ import { generateToken } from '../utils.js';
 const sessionsRouter = Router();
 
 // Registro de usuarios.
-sessionsRouter.post('/register', passport.authenticate('register', {failureRedirect:'/failregister'}), (req, res)=>{
-    res.redirect('/login?register=1');
+// sessionsRouter.post('/register', passport.authenticate('register', {failureRedirect:'/failregister'}), (req, res)=>{
+//     res.redirect('/login?register=1');
+// })
+sessionsRouter.post('/register', (req, res, next)=>{
+    passport.authenticate('register', (err, user, info)=>{
+        if(err) return next(err);
+        if(!user) return res.status(409).send({status:'error', message: info.message ? info : {message:"Error de registro", valCode:0}});
+
+        res.send({status:'success', message:"Usuario registrado con exito."});
+    })(req, res, next)
 })
 
 // Falla en registro.
@@ -18,21 +26,28 @@ sessionsRouter.get('/failregister', (req, res)=>{
 })
 
 // Login de usuarios.
-sessionsRouter.post('/login', passport.authenticate('login', {failureRedirect: 'faillogin', session:config.login_strategy=='session'}), (req, res)=>{
-    if(!!!req.user) return res.redirect('/login?validation=0');
+sessionsRouter.post('/login', (req, res, next)=>{
+    passport.authenticate('login', (err, user, info)=>{
+        if(err) return next(err);
+        if(!user) return res.status(404).send({status: 'error', message: info.message ? info : {message:"Error de autenticacion", valCode:0}});
 
-    if (config.login_strategy == 'jwt') {
-        const user_jwt = generateToken(req.user);
-        res.cookie('user_jwt', user_jwt, {maxAge:60*60*1000, httpOnly:true});
-    }
+        if (config.login_strategy == 'jwt') {
+            const user_jwt = generateToken(req.user);
+            return res.cookie('user_jwt', user_jwt, {maxAge:60*60*1000, httpOnly:true}).send({status:'success', message:"Usuario logueado con exito."});
+        }else{
+            req.login(user, loginErr=>{
+                if(loginErr) return next(loginErr);
 
-    res.redirect('/');
+                return res.send({status:'success', message:"Usuario logueado con exito."});
+            })
+        }
+    })(req, res, next)
 })
 
 // Falla en login.
 sessionsRouter.get('/faillogin', (req, res)=>{
     console.log("Error en estrategia de login.");
-    res.redirect('/login?validation=0');
+    res.status(404).send({status: 'error', message: {message:"Error de autenticacion", valCode:0}});
 })
 
 // Login de usuarios con Github.

@@ -150,7 +150,17 @@ viewsRouter.get('/carts/:cid', privateView, async (req, res)=>{
 
 // Formulario de registro.
 viewsRouter.get('/register', publicView, (req, res)=>{
-    res.render('register');
+    const validation = Number(req.query.validation);
+    let message = '';
+
+    switch(validation){
+        case 0:
+            message = "Surgio un error al registrar al usuario, por favor intentelo denuevo.";
+        case 1:
+            message = "Ya existe un usuario asociado a ese e-mail, por favor inicie sesion.";
+    }
+
+    res.render('register', {message});
 })
 
 // Formulario de login.
@@ -167,6 +177,8 @@ viewsRouter.get('/login', publicView, (req, res)=>{
         case 1:
             message = 'Solo usuarios registrados pueden acceder a esta pagina, por favor inicie sesión.';
             break;
+        case 2:
+            message = 'La contraseña ingresada es incorrecta. Por favor vuelva a intentar.';
     }
 
     if(!!isRegister) message = 'Registro exitoso, por favor inicie sesión para comenzar.';    
