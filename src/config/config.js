@@ -1,10 +1,14 @@
 import dotenv from 'dotenv';
+import options from '../process.js';
 
-dotenv.config();
+dotenv.config({
+    path: options.mode.toUpperCase()==="DEVELOPMENT" ? './.env.development':'./.env.production'
+});
 
 export default {
     port: process.env.PORT,
     login_strategy: process.env.LOGIN_STRATEGY,
+    persistance_engine: process.env.PERSISTANCE_ENGINE,
 
     mongoUrl: process.env.MONGO_URL,
 

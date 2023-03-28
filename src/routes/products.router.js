@@ -1,39 +1,22 @@
 import { Router } from "express";
 
-import { __dirname, uploader } from '../utils.js';
-import ProductManager from '../daos/ProductManager.js';
-import ProductDB from '../daos/product.db.js';
+import { uploader } from '../utils.js';
+import ProductController from "../controllers/products.controller.js";
 
 const productsRouter = Router();
 
 // Instancias de clases.
-const productManager = new ProductManager(__dirname+'/fs_persistance/products.json');
-const productDB = new ProductDB();
+const productController = new ProductController();
 
 // Lista todos los productos.
 productsRouter.get('/', async (req, res)=>{
     try {
-        const limit = req.query.limit || 10;
-        const page = req.query.page || 1;
-        const query = (req.query.query) ? JSON.parse(req.query.query) : {};
+        const limit = req.query.limit;
+        const page = req.query.page;
+        const query = req.query.query;
         const sort = req.query.sort;
 
-        if(!!query.stock && (!!!query.maxStock || !!!query.minStock))
-            query.stock = (query.stock === 1) ? {$gt: 0} : {$gte: 0};
-        if(!!query.maxStock){
-            query.stock = query.stock || {};
-            query.stock.$lt = query.maxStock;
-            delete query.maxStock;
-        }
-        if(!!query.minStock){
-            query.stock = query.stock || {};
-            query.stock.$gt = query.minStock;
-            delete query.minStock;
-        }
-        if(!!query.category) 
-            query.category = {$eq: query.category};
-
-        const products = await productDB.getProducts(limit, page, query, sort);
+        const products = await productController.getProducts(limit, page, query, sort);
     
         res.send({
             status: 'success',
@@ -57,7 +40,8 @@ productsRouter.get('/', async (req, res)=>{
 productsRouter.get('/:pid', async (req, res)=>{
     try {
         const pid = req.params.pid;
-        let product = await productDB.getProductById(pid);
+        
+        let product = await productController.getProduct(pid);
     
         res.send({status:'success', payload:product});
     } catch (error) {
@@ -71,17 +55,15 @@ productsRouter.post('/', uploader.array('thumbnails'), async (req, res)=>{
     try {
         let product = req.body;
         
-        if(!!!product.thumbnails) product.thumbnails = [];
-
         if(!!req.files){
             req.files.forEach(file => product.thumbnails.push('img/'+file.filename));
         }
 
-        await productDB.addProduct(product);
+        let addedProduct = await productController.addProduct(product);
 
         await broadcastProducts(req.io.sockets);
 
-        res.send({status:'success', message:'Producto cargado exitosamente.'});
+        res.send({status:'success', message:`Producto cargado exitosamente. ID: ${addedProduct._id}`});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', message: error.message});
@@ -94,17 +76,15 @@ productsRouter.put('/:pid', uploader.array('thumbnails'), async (req, res)=>{
         let productId = req.params.pid;
         let product = req.body;
 
-        if(!!!product.thumbnails) product.thumbnails = [];
-
         if(!!req.files){
             req.files.forEach(file => product.thumbnails.push('img/'+file.filename));
         }
 
-        await productDB.updateProduct(productId, product);
+        await productController.updateProduct(productId, product);
 
         await broadcastProducts(req.io.sockets);
 
-        res.send({status:'success', message:'Producto modificado exitosamente.'});
+        res.send({status:'success', message:`Producto modificado exitosamente. ID: ${productId}`});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', message: error.message});
@@ -116,11 +96,11 @@ productsRouter.delete('/:pid', async (req, res)=>{
     try {
         let productId = req.params.pid;
         
-        await productDB.deleteProduct(productId);
+        await productController.deleteProduct(productId);
 
         await broadcastProducts(req.io.sockets);
 
-        res.send({status:'success', message:'Producto eliminado exitosamente.'});
+        res.send({status:'success', message:`Producto eliminado exitosamente. ID: ${productId}`});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'Error', message: error.message});
@@ -130,7 +110,7 @@ productsRouter.delete('/:pid', async (req, res)=>{
 
 // Funciones
 async function broadcastProducts(sockets){
-    let products = await productDB.getProducts();
+    let products = await productController.getProducts();
     sockets.emit('products_update', products);
 }
 

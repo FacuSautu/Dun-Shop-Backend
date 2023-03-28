@@ -1,26 +1,23 @@
 import { Router } from "express";
 
-import { __dirname } from '../utils.js';
-import CartManager from "../daos/CartManager.js";
-import CartDB from "../daos/cart.db.js";
+import CartController from "../controllers/carts.controller.js";
 
 const cartsRouter = Router();
 
 // Instancias de clases.
-const cartManager = new CartManager(__dirname+'/fs_persistance/carts.json');
-const cartDB = new CartDB();
+const cartController = new CartController
 
 // Muestra los datos de un carrito.
 cartsRouter.get('/:cid', async (req, res)=>{
     try {
+        let cid = req.params.cid;
         
-        let cartId = req.params.cid;
-        let cartToShow = await cartDB.getCartById(cartId, true);
+        let cartToShow = await cartController.getCart(cid, true);
         
         if(!!cartToShow){
             res.send({status:'success', payload:cartToShow.products});
         }else{
-            res.status(404).send({status:'error', message:`No se encontro carrito con el ID ${cartId}`});
+            res.status(404).send({status:'error', message:`No se encontro carrito con el ID ${cid}`});
         }
     } catch (error) {
         res.status(404).send({status:'error', message: error.message});
@@ -32,9 +29,9 @@ cartsRouter.post('/', async (req, res)=>{
     try {
         let newCart = req.body;
     
-        const addedCart = await cartDB.addCart(newCart);
+        const addedCart = await cartController.addCart(newCart);
         
-        res.send({status:'success', message: `El carrito fue agregado con exito. ID del carrito: ${addedCart._id}`});
+        res.send({status:'success', message: `El carrito fue agregado con exito. ID: ${addedCart._id}`});
     } catch (error) {
         res.status(404).send({status:'error', message: error.message});
     }
@@ -46,9 +43,9 @@ cartsRouter.post('/:cid/product/:pid', async (req, res)=>{
         let productId = req.params.pid;
         let cartId = req.params.cid;
     
-        await cartDB.addProductToCart(cartId, productId);
+        await cartController.addProductToCart(cartId, productId);
     
-        res.send({status: 'success', message: `Producto ${productId} cargado con exito al carrito ${cartId}`});
+        res.send({status: 'success', message: `Producto ${productId} cargado con exito al carrito. ID: ${cartId}.`});
     } catch (error) {
         res.status(404).send({status:'error', message: error.message});
     }
@@ -60,9 +57,9 @@ cartsRouter.put('/:cid', async (req, res)=>{
         const cartId = req.params.cid;
         const { products } = req.body;
 
-        await cartDB.updateCart(cartId, products);
+        await cartController.updateCart(cartId, products);
 
-        res.send({status: 'success', message: `El carrito ${cartId} se modifico con exito`});
+        res.send({status: 'success', message: `Carrito modificado con exito. ID: ${cartId}.`});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', message: error.message});
@@ -76,9 +73,9 @@ cartsRouter.put('/:cid/product/:pid', async (req, res)=>{
         const productId = req.params.pid;
         const { quantity } = req.body;
     
-        await cartDB.updateProductInCart(cartId, productId, quantity);
+        await cartController.updateProdQty(cartId, productId, quantity);
     
-        res.send({status: 'success', message: `Se modifico la cantidad del producto ${productId} por ${quantity} dentro del carrito ${cartId}.`});
+        res.send({status: 'success', message: `Se modifico la cantidad del producto ${productId} por ${quantity}. ID: ${cartId}.`});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', message: error.message});
@@ -91,9 +88,9 @@ cartsRouter.delete('/:cid/product/:pid', async (req, res)=>{
         let cartId = req.params.cid;
         let productId = req.params.pid;
     
-        await cartDB.deleteProductFromCart(cartId, productId);
+        await cartController.deleteProduct(cartId, productId);
 
-        res.send({status: 'success', message: `Producto ${productId} eliminado con exito del carrito ${cartId}`});
+        res.send({status: 'success', message: `Producto ${productId} eliminado con exito del carrito. ID: ${cartId}.`});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', message: error.message});
@@ -105,9 +102,9 @@ cartsRouter.delete('/:cid', async (req, res)=>{
     try {
         let cartId = req.params.cid;
     
-        await cartDB.deleteAllProductFromCart(cartId);
+        await cartController.deleteAllProducts(cartId);
 
-        res.send({statis: 'success', message: `Se eliminaron todos los productos del carrito ${cartId}`});
+        res.send({statis: 'success', message: `Se eliminaron todos los productos del carrito. ID: ${cartId}.`});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', message: error.message});
