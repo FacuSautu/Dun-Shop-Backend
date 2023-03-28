@@ -27,8 +27,8 @@ productsRouter.get('/', async (req, res)=>{
             page: products.page,
             hasPrevPage: products.hasPrevPage,
             hasNextPage: products.hasNextPage,
-            prevLink: products.hasPrevPage && `localhost:8080/api/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&query=${query}`,
-            nextLink: products.hasNextPage && `localhost:8080/api/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&query=${query}`
+            prevLink: products.prevLink,
+            nextLink: products.nextLink
         });
     } catch (error) {
         console.log(error.message);

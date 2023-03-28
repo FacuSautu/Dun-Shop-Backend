@@ -1,13 +1,15 @@
 import { Router } from 'express';
 
-import { __dirname } from '../utils.js';
-import ProductManager from '../daos/ProductManager.js';
-import ProductDB from '../daos/product.db.js';
+import ProductController from '../controllers/products.controller.js';
+import CartController from '../controllers/carts.controller.js';
 import MessageDB from '../daos/message.db.js';
+
 
 const viewsRouter = Router();
 
 // Instancias de clases.
+const productController = new ProductController();
+const cartController = new CartController();
 const messageDB = new MessageDB();
 
 // Vista principal.
@@ -30,8 +32,9 @@ viewsRouter.get('/products', async (req, res)=>{
         const sort = req.query.sort || 1;
 
         // Obtencion de producto
-        const productsRes = await fetch(`http://localhost:8080/api/products?limit=${limit}&page=${page}&query=${query}&sort=${sort}`);
-        const products = await productsRes.json();
+        const products = await productController.getProducts(limit, page, query, sort);
+        
+        products.payload = products.docs;
 
         // Agregado de objeto de paginacion
         products.pagination = {
@@ -83,7 +86,7 @@ viewsRouter.get('/products', async (req, res)=>{
         // Se muestra la paginacion?
         if(products.totalPages <= 1) products.pagination.active = false;
 
-        res.render('products', {products: products});
+        res.render('products', {products});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', error: error.message});
@@ -95,12 +98,11 @@ viewsRouter.get('/products/:pid', async (req, res)=>{
     try {
         const productId = req.params.pid;
 
-        const productRes = await fetch(`http://localhost:8080/api/products/${productId}`);
-        let product = await productRes.json();
+        let product = await productController.getProduct(productId);
 
-        product.payload.thumbnails = product.payload.thumbnails.map(thumbnail => (thumbnail.match(/^img/i)) ? '../'+thumbnail : thumbnail);
+        product.thumbnails = product.thumbnails.map(thumbnail => (thumbnail.match(/^img/i)) ? '../'+thumbnail : thumbnail);
 
-        res.render('productDetail', {product:product.payload});
+        res.render('productDetail', {product: product._doc});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', error: error.message});
@@ -115,10 +117,9 @@ viewsRouter.get('/realtimeproducts', async (req, res)=>{
         const query = req.query.query || '';
         const sort = req.query.sort || 1;
     
-        const productsRes = await fetch(`http://localhost:8080/api/products?limit=${limit}&page=${page}&query=${query}&sort=${sort}`);
-        const products = await productsRes.json();
-    
-        res.render('realTimeProducts', {products:products.payload});
+        const products = await productController.getProducts(limit, page, query, sort);
+
+        res.render('realTimeProducts', {products:products.docs});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status: 'error', message: error.message});
@@ -131,11 +132,9 @@ viewsRouter.get('/carts/:cid', privateView, async (req, res)=>{
     try {
         const cartId = req.params.cid;
 
-        const cartRes = await fetch(`http://localhost:8080/api/carts/${cartId}`);
-        let cart = await cartRes.json();
+        let cart = await cartController.getCart(cartId);
 
-        
-        cart.payload.map(prod=>{
+        cart.products.map(prod=>{
             prod.totalPrice = (prod.product.price*prod.quantity).toFixed(2);
             
             return prod;

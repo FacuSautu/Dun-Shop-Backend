@@ -5,8 +5,13 @@ class ProductController{
         this.productService = new ProductService();
     }
 
-    getProducts(limit=10, page=1, query='{}', sort=1){
-        return this.productService.getProducts(limit, page, query, sort);
+    async getProducts(limit=10, page=1, query='{}', sort=1){
+        const products = await this.productService.getProducts(limit, page, query, sort);
+
+        products.prevLink= products.hasPrevPage && `localhost:8080/api/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&query=${query}`;
+        products.nextLink= products.hasNextPage && `localhost:8080/api/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&query=${query}`;
+
+        return products;
     }
 
     getProduct(id){

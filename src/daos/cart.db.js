@@ -28,7 +28,7 @@ class CartDB{
   async getCartById(id, populated=false){
     await this.exists(id);
 
-    return (populated) ? cartModel.findById(id).populate('products.product') : cartModel.findById(id);
+    return (populated) ? cartModel.findById(id).populate('products.product').lean() : cartModel.findById(id).lean();
   }
 
   async addCart(cartToAdd){
