@@ -1,10 +1,11 @@
 import fs from 'fs';
+import { __dirname } from '../utils.js';
 
 class CartFsDAO{
 
-  constructor(path){
+  constructor(){
     this.fs = fs.promises;
-    this.path = path;
+    this.path = __dirname+'/fs_persistance/carts.json';
     this.carts = [];
     this.cartsId = 0;
     
@@ -16,8 +17,9 @@ class CartFsDAO{
   }
 
   async exist(cartId){
+    if(isNaN(cartId)) throw new Error(`El ID enviado no es valido. ID: ${cartId}.`);
     let carts = await this.readCarts();
-    let exist = carts.some(cart=>cart.cartId == cartId);
+    let exist = carts.some(cart=>cart.cartId == Number(cartId));
 
     if(!!!exist) throw new Error(`No existe carrito con el ID ${cartId}.`);
 
@@ -38,7 +40,7 @@ class CartFsDAO{
   async getCartById(id){
     await this.loadCarts();
 
-    let exist = this.carts.find(cart=>cart.cartId === id);
+    let exist = this.carts.find(cart=>cart.cartId === Number(id));
 
     if(!!!exist) throw new Error(`No existe carrito con el ID ${id}.`);
 
@@ -49,29 +51,31 @@ class CartFsDAO{
   async addCart(cartToAdd){
     await this.loadCarts();
     
-    let exist = this.carts.some(cart => cart.cartId === cartToAdd.cartId);
+    let exist = this.carts.some(cart => cart.cartId === Number(cartToAdd.cartId));
 
     if(exist && !!cartToAdd.cartId) throw new Error("El carrito que desea agregar ya existe.");
 
-    this.carts.push({cartId:this.cartsId, ...cartToAdd});
+    cartToAdd.cartId = this.cartsId;
+    this.carts.push(cartToAdd);
     this.cartsId++;
 
     this.writeCarts();
 
-    return this.cartsId-1;
+    return cartToAdd;
   }
 
   async updateCart(cartId, products){
-    let carts = this.getCarts();
+    let carts = await this.getCarts();
+
+    await this.exist(cartId);
 
     carts.map(cart=>{
-      if(cart.cartId == cartId){
+      if(cart.cartId == Number(cartId)){
         cart.products = products;
       }
     })
 
     this.carts = carts;
-
     await this.writeCarts();
   }
 
@@ -93,19 +97,31 @@ class CartFsDAO{
   }
 
   async updateProductInCart(cartId, productToUpdate, qty){
-    let carts = this.getCarts();
+    await this.exist(cartId);
+
+    let carts = await this.getCarts();
     let updatedCart;
+    let updatedProd;
 
     carts.map(cart=>{
-      if(cart.cartId === cartId){
+      if(cart.cartId === Number(cartId)){
         cart.products.map(prod=>{
           if(prod.product === productToUpdate){
             prod.quantity = qty;
+            updatedProd = prod;
           }
         })
         updatedCart = cart;
       }
     })
+
+    if(!!!updatedProd){
+      carts.map(cart=>{
+        if(cart.cartId === Number(cartId)){
+          cart.products.push({product: productToUpdate,quantity: qty});
+        }
+      })
+    }
 
     this.carts = carts;
     await this.writeCarts();
@@ -114,12 +130,16 @@ class CartFsDAO{
   }
 
   async deleteProductFromCart(cartId, productToDelete){
-    let carts = this.getCarts();
+    await this.exist(cartId);
+
+    let carts = await this.getCarts();
     let updatedCart;
 
     carts.map(cart=>{
-      if(cart.cartId===cartId){
-        cart.products = cart.products.filter(prod=>prod.product !== productToDelete);
+      if(cart.cartId===Number(cartId)){
+        if(!cart.products.some(prod=>prod.product === Number(productToDelete))) throw new Error(`No existe el producto ${productToDelete} en el carrito ${cartId}`);
+
+        cart.products = cart.products.filter(prod=>prod.product !== Number(productToDelete));
         
         updatedCart = cart;
       }
@@ -132,11 +152,13 @@ class CartFsDAO{
   }
 
   async deleteAllProductFromCart(cartId){
-    let carts = this.getCarts();
+    await this.exist(cartId);
+
+    let carts = await this.getCarts();
     let updatedCart;
 
     carts.map(cart=>{
-      if(cart.cartId===cartId){
+      if(cart.cartId===Number(cartId)){
         cart.products = [];
         updatedCart = cart;
       }

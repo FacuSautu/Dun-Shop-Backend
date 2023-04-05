@@ -1,10 +1,11 @@
 import fs from 'fs';
+import { __dirname } from '../utils.js';
 
 class MessageFsDAO{
     
-    constructor(path){
+    constructor(){
         this.fs = fs.promises;
-        this.path = path;
+        this.path = __dirname+'/fs_persistance/messages.json';
         this.messages = [];
         
         if(!fs.existsSync(this.path)){

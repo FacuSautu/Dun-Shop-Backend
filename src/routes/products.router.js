@@ -17,10 +17,10 @@ productsRouter.get('/', async (req, res)=>{
         const sort = req.query.sort;
 
         const products = await productController.getProducts(limit, page, query, sort);
-    
+
         res.send({
             status: 'success',
-            payload: products.docs,
+            payload: products.products,
             totalPages: products.totalPages,
             prevPage: products.prevPage,
             nextPage: products.nextPage,
@@ -60,10 +60,9 @@ productsRouter.post('/', uploader.array('thumbnails'), async (req, res)=>{
         }
 
         let addedProduct = await productController.addProduct(product);
-
         await broadcastProducts(req.io.sockets);
 
-        res.send({status:'success', message:`Producto cargado exitosamente. ID: ${addedProduct._id}`});
+        res.send({status:'success', message:`Producto cargado exitosamente. ID: ${addedProduct?.id || addedProduct?._id}`});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', message: error.message});

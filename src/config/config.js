@@ -6,6 +6,7 @@ dotenv.config({
 });
 
 export default {
+    host: process.env.HOST,
     port: process.env.PORT,
     login_strategy: process.env.LOGIN_STRATEGY,
     persistance_engine: process.env.PERSISTANCE_ENGINE,

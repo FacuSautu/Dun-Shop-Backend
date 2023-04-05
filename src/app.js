@@ -61,12 +61,12 @@ io.on('connection', socket=>{
 })
 
 // Instancia de Mongoose
-mongoose.connect(config.mongoUrl, (error)=>{
-    if(error){
-        console.log("Cannot connect to database: "+error);
-        process.exit();
-    }
-})
+// mongoose.connect(config.mongoUrl, (error)=>{
+//     if(error){
+//         console.log("Cannot connect to database: "+error);
+//         process.exit();
+//     }
+// })
 
 // Configuracion
 app.engine('handlebars', handlebars.engine());

@@ -4,9 +4,9 @@ import CartFsDAO from './cart.fs.dao.js';
 
 class UserFsDAO{
 
-    constructor(path){
+    constructor(){
         this.fs = fs.promises;
-        this.path = path;
+        this.path = __dirname+'/fs_persistance/users.json';
         this.users = [];
         this.userId = 0;
 
