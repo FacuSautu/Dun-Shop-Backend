@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import ProductController from '../controllers/products.controller.js';
 import CartController from '../controllers/carts.controller.js';
-import MessageDB from '../daos/message.db.js';
+import MessageDbDAO from '../daos/message.db.dao.js';
 
 
 const viewsRouter = Router();
@@ -10,7 +10,7 @@ const viewsRouter = Router();
 // Instancias de clases.
 const productController = new ProductController();
 const cartController = new CartController();
-const messageDB = new MessageDB();
+const messageDB = new MessageDbDAO();
 
 // Vista principal.
 viewsRouter.get('/', async (req, res)=>{

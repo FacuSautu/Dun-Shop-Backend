@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-class CartManager{
+class CartFsDAO{
 
   constructor(path){
     this.fs = fs.promises;
@@ -13,6 +13,22 @@ class CartManager{
     }
 
     this.loadCarts();
+  }
+
+  async exist(cartId){
+    let carts = await this.readCarts();
+    let exist = carts.some(cart=>cart.cartId == cartId);
+
+    if(!!!exist) throw new Error(`No existe carrito con el ID ${cartId}.`);
+
+    return true;
+  }
+
+  async hasProduct(cartId, productId){
+
+    let cart = await this.getCartById(cartId);
+
+    return cart.products.some(product=>product.product == productId);
   }
 
   async getCarts(){
@@ -45,6 +61,20 @@ class CartManager{
     return this.cartsId-1;
   }
 
+  async updateCart(cartId, products){
+    let carts = this.getCarts();
+
+    carts.map(cart=>{
+      if(cart.cartId == cartId){
+        cart.products = products;
+      }
+    })
+
+    this.carts = carts;
+
+    await this.writeCarts();
+  }
+
   async addProductToCart(cartId, productToAdd){
     let cart = await this.getCartById(cartId);
     let cartIndex = this.carts.indexOf(cart);
@@ -62,6 +92,63 @@ class CartManager{
     this.writeCarts();
   }
 
+  async updateProductInCart(cartId, productToUpdate, qty){
+    let carts = this.getCarts();
+    let updatedCart;
+
+    carts.map(cart=>{
+      if(cart.cartId === cartId){
+        cart.products.map(prod=>{
+          if(prod.product === productToUpdate){
+            prod.quantity = qty;
+          }
+        })
+        updatedCart = cart;
+      }
+    })
+
+    this.carts = carts;
+    await this.writeCarts();
+
+    return updatedCart;
+  }
+
+  async deleteProductFromCart(cartId, productToDelete){
+    let carts = this.getCarts();
+    let updatedCart;
+
+    carts.map(cart=>{
+      if(cart.cartId===cartId){
+        cart.products = cart.products.filter(prod=>prod.product !== productToDelete);
+        
+        updatedCart = cart;
+      }
+    })
+
+    this.carts = carts;
+    await this.writeCarts();
+
+    return updatedCart;
+  }
+
+  async deleteAllProductFromCart(cartId){
+    let carts = this.getCarts();
+    let updatedCart;
+
+    carts.map(cart=>{
+      if(cart.cartId===cartId){
+        cart.products = [];
+        updatedCart = cart;
+      }
+    })
+
+    this.carts = carts;
+    await this.writeCarts();
+
+    return updatedCart;
+  }
+
+
   async readCarts(){
     return JSON.parse(await this.fs.readFile(this.path, 'utf-8'));
   }
@@ -76,4 +163,4 @@ class CartManager{
   }
 }
 
-export default CartManager;
+export default CartFsDAO;

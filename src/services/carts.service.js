@@ -1,12 +1,12 @@
 import { __dirname } from "../utils.js";
-import CartManager from "../daos/CartManager.js";
-import CartDB from "../daos/cart.db.js";
+import CartFsDAO from "../daos/cart.fs.dao.js";
+import CartDbDAO from "../daos/cart.db.dao.js";
 import config from "../config/config.js";
 
 class CartService{
     constructor(){
-        const cartManager = new CartManager(__dirname+'/fs_persistance/carts.json');
-        const cartDB = new CartDB();
+        const cartManager = new CartFsDAO(__dirname+'/fs_persistance/carts.json');
+        const cartDB = new CartDbDAO();
 
         this.persistanceEngine = config.persistance_engine.toUpperCase() === 'DB' ? cartDB : cartManager;
     }

@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 import productModel from './models/product.model.js';
 
-class ProductDB{
+class ProductDbDAO{
 
     constructor(){}
 
-    getProducts(limit, page, query, sort){
-        return productModel.paginate(query, {limit, page, sort:{price:sort}, lean: true});
+    async getProducts(limit, page, query, sort){
+        return await productModel.paginate(query, {limit, page, sort:{price:sort}, lean: true});
     }
 
     async getProductById(id){
@@ -53,4 +53,4 @@ class ProductDB{
 }
 
 
-export default ProductDB;
+export default ProductDbDAO;

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import cartModel from './models/cart.model.js';
 
-class CartDB{
+class CartDbDAO{
 
   constructor(){}
 
@@ -99,4 +99,4 @@ class CartDB{
   }
 }
 
-export default CartDB;
+export default CartDbDAO;

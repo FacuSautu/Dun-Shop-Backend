@@ -5,10 +5,10 @@ import GitHubStrategy from 'passport-github2';
 
 import config from './config.js';
 import { createHash, isValidPassword } from '../utils.js';
-import UserDB from '../daos/user.db.js';
+import UserDbDAO from '../daos/user.db.dao.js';
 
 // Manager de usuarios
-const userDB = new UserDB();
+const userDB = new UserDbDAO();
 
 // Estrategias
 const LocalStrategy = local.Strategy;

@@ -1,12 +1,12 @@
 import { __dirname } from "../utils.js";
-import ProductManager from "../daos/ProductManager.js";
-import ProductDB from "../daos/product.db.js";
+import ProductFsDAO from "../daos/product.fs.dao.js";
+import ProductDbDAO from "../daos/product.db.dao.js";
 import config from "../config/config.js";
 
 class ProductService{
     constructor(){
-        const productManager = new ProductManager(__dirname+'/fs_persistance/products.json');
-        const productDB = new ProductDB();
+        const productManager = new ProductFsDAO(__dirname+'/fs_persistance/products.json');
+        const productDB = new ProductDbDAO();
 
         this.persistanceEngine = config.persistance_engine.toUpperCase() === 'DB' ? productDB : productManager;
     }

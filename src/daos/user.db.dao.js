@@ -1,7 +1,7 @@
 import userModel from './models/user.model.js';
 import cartModel from './models/cart.model.js';
 
-class UserDB{
+class UserDbDAO{
 
     constructor(){}
 
@@ -23,4 +23,4 @@ class UserDB{
 
 }
 
-export default UserDB;
+export default UserDbDAO;

@@ -15,7 +15,7 @@ import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import cartsRouter from './routes/carts.router.js';
 import productsRouter from './routes/products.router.js';
-import MessageDB from './daos/message.db.js';
+import MessageDbDAO from './daos/message.db.dao.js';
 
 // Instancia de express y servidor.
 const app = express();
@@ -23,7 +23,7 @@ const server = app.listen(config.port, ()=>console.log(`Server live on http://lo
 const io = new Server(server);
 
 // Logica de chat con Websocket
-const messageDB = new MessageDB();
+const messageDB = new MessageDbDAO();
 const conectedUsers = [];
 
 io.on('connection', socket=>{

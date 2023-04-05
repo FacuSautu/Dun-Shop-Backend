@@ -1,7 +1,6 @@
-import mongoose from 'mongoose';
 import messageModel from './models/message.model.js';
 
-class MessageDB{
+class MessageDbDAO{
 
     constructor(){}
 
@@ -15,4 +14,4 @@ class MessageDB{
     }
 }
 
-export default MessageDB;
+export default MessageDbDAO;
