@@ -1,180 +1,201 @@
 [
 	{
-		"id": 1,
-		"title": "Producto prueba 1",
-		"description": "Este es un producto de prueba 1",
-		"price": 200,
-		"thumbnail": "Sin imagen",
-		"code": "ProdPrueba1",
-		"stock": 25
+			"title": "Titulo modificado",
+			"description": "Este es un producto de prueba 1",
+			"price": 200,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba1",
+			"stock": 25,
+			"id": 1
 	},
 	{
-		"id": 2,
-		"title": "Producto prueba 2",
-		"description": "Este es un producto de prueba 2",
-		"price": 245,
-		"thumbnail": "Sin imagen",
-		"code": "ProdPrueba2",
-		"stock": 100
+			"title": "Producto prueba 6",
+			"description": "Este es un producto de prueba 6",
+			"price": 345,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba6",
+			"stock": 645,
+			"id": 2
 	},
 	{
-		"id": 3,
-		"title": "Producto prueba 3",
-		"description": "Este es un producto de prueba 3",
-		"price": 875,
-		"thumbnail": "Sin imagen",
-		"code": "ProdPrueba3",
-		"stock": 456
+			"title": "Producto prueba 9",
+			"description": "Este es un producto de prueba 9",
+			"price": 453,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba9",
+			"stock": 456,
+			"id": 3
 	},
 	{
-		"id": 4,
-		"title": "Producto prueba 4",
-		"description": "Este es un producto de prueba 4",
-		"price": 2546,
-		"thumbnail": "Sin imagen",
-		"code": "ProdPrueba4",
-		"stock": 78
+			"title": "Producto prueba 7",
+			"description": "Este es un producto de prueba 7",
+			"price": 465,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba7",
+			"stock": 15476,
+			"id": 4
 	},
 	{
-		"id": 5,
-		"title": "Producto prueba 5",
-		"description": "Este es un producto de prueba 5",
-		"price": 78845,
-		"thumbnail": "Sin imagen",
-		"code": "ProdPrueba5",
-		"stock": 5
+			"title": "Producto prueba 8",
+			"description": "Este es un producto de prueba 8",
+			"price": 789,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba8",
+			"stock": 4567,
+			"id": 5
 	},
 	{
-		"id": 6,
-		"title": "Producto prueba 6",
-		"description": "Este es un producto de prueba 6",
-		"price": 345,
-		"thumbnail": "Sin imagen",
-		"code": "ProdPrueba6",
-		"stock": 645
+			"title": "Producto prueba 3",
+			"description": "Este es un producto de prueba 3",
+			"price": 875,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba3",
+			"stock": 456,
+			"id": 6
 	},
 	{
-		"id": 7,
-		"title": "Producto prueba 7",
-		"description": "Este es un producto de prueba 7",
-		"price": 465,
-		"thumbnail": "Sin imagen",
-		"code": "ProdPrueba7",
-		"stock": 15476
+			"title": "nuevo producto",
+			"description": "Muy bueno",
+			"price": 987,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "4564564",
+			"stock": 100,
+			"id": 7
 	},
 	{
-		"id": 8,
-		"title": "Producto prueba 8",
-		"description": "Este es un producto de prueba 8",
-		"price": 789,
-		"thumbnail": "Sin imagen",
-		"code": "ProdPrueba8",
-		"stock": 4567
+			"title": "nuevo producto2",
+			"description": "Muy bueno",
+			"price": 987,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "4564564564",
+			"stock": 100,
+			"category": "Prueba",
+			"id": 8
 	},
 	{
-		"id": 9,
-		"title": "Producto prueba 9",
-		"description": "Este es un producto de prueba 9",
-		"price": 453,
-		"thumbnail": "Sin imagen",
-		"code": "ProdPrueba9",
-		"stock": 456
+			"title": "nuevo producto2",
+			"description": "Muy bueno",
+			"price": 987,
+			"thumbnails": [
+					"https://img.freepik.com/vector-gratis/conjunto-ropa-complementos-hombre-mujer-ilustraciones-prenda-armario-vestido-camisa-jeans-pantalones-dibujos-animados-aislado-blanco_74855-20713.jpg"
+			],
+			"code": "4564asa564564",
+			"stock": 100,
+			"id": 9
 	},
 	{
-		"id": 10,
-		"title": "Producto prueba 10",
-		"description": "Este es un producto de prueba 10",
-		"price": 786,
-		"thumbnail": "Sin imagen",
-		"code": "ProdPrueba10",
-		"stock": 321
+			"title": "Producto prueba 12",
+			"description": "Este es un producto de prueba 12",
+			"price": 1250,
+			"thumbnails": [
+					"img/reflejo_pag1.webp"
+			],
+			"code": "ProdPrueba12",
+			"stock": 150,
+			"id": 10
 	},
 	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba19",
-		"stock": 1900,
-		"id": 11
+			"title": "Producto prueba 4",
+			"description": "Este es un producto de prueba 4",
+			"price": 2546,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba4",
+			"stock": 78,
+			"id": 11
 	},
 	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba1920",
-		"stock": 1900,
-		"id": 12
+			"title": "Producto prueba 10",
+			"description": "Este es un producto de prueba 10",
+			"price": 5200,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba11",
+			"stock": 120,
+			"id": 12
 	},
 	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba1920123",
-		"stock": 1900,
-		"id": 13
+			"title": "Producto prueba 5",
+			"description": "Este es un producto de prueba 5",
+			"price": 78845,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba5",
+			"stock": 5,
+			"category": "Prueba",
+			"id": 13
 	},
 	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba19201231",
-		"stock": 1900,
-		"id": 14
+			"title": "Producto prueba 13",
+			"description": "Este es un producto de prueba 13",
+			"price": 121212,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba13",
+			"stock": 158,
+			"id": 14
 	},
 	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba192012311",
-		"stock": 1900,
-		"id": 15
+			"title": "Producto prueba 17",
+			"description": "Este es un producto de prueba 17",
+			"code": "ProdPrueba17",
+			"price": 171717,
+			"status": true,
+			"stock": 666,
+			"thumbnails": [],
+			"id": 15
 	},
 	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba1920123111",
-		"stock": 1900,
-		"id": 16
+			"title": "Producto prueba 19",
+			"description": "Este es un producto de prueba 19",
+			"code": "ProdPrueba192012311111",
+			"price": 191919,
+			"status": true,
+			"stock": 1900,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"id": 16
 	},
 	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba19201231111",
-		"stock": 1900,
-		"id": 17
+			"title": "Producto prueba 16",
+			"description": "Este es un producto de prueba 16",
+			"code": "ProdPrueba16",
+			"price": 707070,
+			"status": true,
+			"stock": 555,
+			"thumbnails": [],
+			"id": 17
 	},
 	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba192012311111",
-		"stock": 1900,
-		"id": 18
-	},
-	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba1920123111111",
-		"stock": 1900,
-		"id": 19
-	},
-	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba192012312",
-		"stock": 1900,
-		"id": 20
-	},
-	{
-		"title": "Producto prueba 19",
-		"description": "Este es un producto de prueba 19",
-		"price": 191919,
-		"code": "ProdPrueba1920123122",
-		"stock": 1900,
-		"id": 21
+			"title": "Producto prueba 11",
+			"description": "Este es un producto de prueba 11",
+			"price": 11111111,
+			"thumbnails": [
+					"img/default_product_img.png"
+			],
+			"code": "ProdPrueba11",
+			"stock": 11111,
+			"id": 18
 	}
 ]

@@ -33,15 +33,15 @@ viewsRouter.get('/products', async (req, res)=>{
 
         // Obtencion de producto
         const products = await productController.getProducts(limit, page, query, sort);
-        
-        products.payload = products.docs;
+
+        products.payload = products.products;
 
         // Agregado de objeto de paginacion
         products.pagination = {
             active: true,
-            prevLink: (products.hasPrevPage) ? `http://localhost:8080/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&query=${query}` : '#',
+            prevLink: products.prevLink,
             pagesLinks: [],
-            nextLink: (products.hasNextPage) ? `http://localhost:8080/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&query=${query}` : '#'
+            nextLink: products.nextLink
         };
 
         // Calculo de cantidad de paginas a mostrar.
@@ -99,10 +99,10 @@ viewsRouter.get('/products/:pid', async (req, res)=>{
         const productId = req.params.pid;
 
         let product = await productController.getProduct(productId);
-
+        console.log(product);
         product.thumbnails = product.thumbnails.map(thumbnail => (thumbnail.match(/^img/i)) ? '../'+thumbnail : thumbnail);
 
-        res.render('productDetail', {product: product._doc});
+        res.render('productDetail', {product: product});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', error: error.message});
@@ -119,7 +119,7 @@ viewsRouter.get('/realtimeproducts', async (req, res)=>{
     
         const products = await productController.getProducts(limit, page, query, sort);
 
-        res.render('realTimeProducts', {products:products.docs});
+        res.render('realTimeProducts', {products:products.products});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status: 'error', message: error.message});

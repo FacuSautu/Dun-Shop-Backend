@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import config from '../config/config.js';
 import productModel from './models/product.model.js';
 import ProductsDTO from '../dtos/response/products.res.dto.js';
+import ProductDTO from '../dtos/response/product.res.dto.js';
 
 class ProductDbDAO{
 
@@ -33,7 +34,23 @@ class ProductDbDAO{
 
         if(!!!exist) throw new Error(`No existe producto con el ID ${id}.`);
 
-        return productModel.findById(id);
+        let productDb = await productModel.findById(id).lean();
+
+        let productDTO = new ProductDTO({
+            _id: productDb._id,
+            title: productDb.title,
+            description: productDb.description,
+            code: productDb.code,
+            price: productDb.price,
+            status: productDb.status,
+            stock: productDb.stock,
+            category: productDb.category,
+            thumbnails: productDb.thumbnails
+        });
+
+        console.log(productDTO);
+
+        return productDTO;
     }
 
     async addProduct(productToAdd){

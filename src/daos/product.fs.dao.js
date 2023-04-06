@@ -50,6 +50,11 @@ class ProductFsDAO{
             }
         })
 
+        productsFile.map(prod=>{
+            prod._id = prod.id;
+            delete prod.id;
+        })
+
         let products = productsFile;
         let totalPages = Math.ceil(productsFileComplete.length/limit);
         let hasPrevPage = (page > 1);

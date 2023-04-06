@@ -83,14 +83,14 @@ class CartFsDAO{
     let cart = await this.getCartById(cartId);
     let cartIndex = this.carts.indexOf(cart);
 
-    let productExist = cart.products.find(prod => prod.product === productToAdd);
+    let productExist = cart.products.find(prod => prod.product === Number(productToAdd));
 
     if(!!productExist){
       let productIndex = cart.products.indexOf(productExist);
 
       this.carts[cartIndex].products[productIndex].quantity++;
     }else{
-      this.carts[cartIndex].products.push({product: productToAdd, quantity:1});
+      this.carts[cartIndex].products.push({product: Number(productToAdd), quantity:1});
     }
 
     this.writeCarts();

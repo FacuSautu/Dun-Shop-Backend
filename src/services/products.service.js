@@ -1,15 +1,8 @@
 import { __dirname } from "../utils.js";
-// import ProductFsDAO from "../daos/product.fs.dao.js";
-// import ProductDbDAO from "../daos/product.db.dao.js";
-// import config from "../config/config.js";
 import { ProductsFty } from '../daos/factory.js';
 
 class ProductService{
     constructor(){
-        // const productManager = new ProductFsDAO(__dirname+'/fs_persistance/products.json');
-        // const productDB = new ProductDbDAO();
-
-        // this.persistanceEngine = config.persistance_engine.toUpperCase() === 'MONGO' ? productDB : productManager;
         this.persistanceEngine = new ProductsFty();
     }
 

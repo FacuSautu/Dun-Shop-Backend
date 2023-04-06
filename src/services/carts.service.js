@@ -1,16 +1,8 @@
 import { __dirname } from "../utils.js";
-// import CartFsDAO from "../daos/cart.fs.dao.js";
-// import CartDbDAO from "../daos/cart.db.dao.js";
-// import config from "../config/config.js";
 import { CartsFty } from '../daos/factory.js';
 
 class CartService{
     constructor(){
-        // const cartManager = new CartFsDAO(__dirname+'/fs_persistance/carts.json');
-        // const cartDB = new CartDbDAO();
-
-        // this.persistanceEngine = config.persistance_engine.toUpperCase() === 'MONGO' ? cartDB : cartManager;
-
         this.persistanceEngine = new CartsFty();
     }
 
