@@ -28,7 +28,7 @@ sessionsRouter.post('/login', (req, res, next)=>{
         if(err) return next(err);
         if(!user) return res.status(404).send({status: 'error', message: info.message ? info : {message:"Error de autenticacion", valCode:0}});
 
-        if (config.login_strategy == 'jwt') {
+        if (config.login_strategy.toUpperCase() === 'JWT') {
             const user_jwt = generateToken(user);
             return res.cookie('user_jwt', user_jwt, {maxAge:60*60*1000, httpOnly:true}).send({status:'success', message:"Usuario logueado con exito."});
         }else{

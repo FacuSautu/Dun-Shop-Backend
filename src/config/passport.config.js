@@ -6,6 +6,7 @@ import GitHubStrategy from 'passport-github2';
 import config from './config.js';
 import { createHash, isValidPassword } from '../utils.js';
 import UserDbDAO from '../daos/user.db.dao.js';
+import UserDTO from '../dtos/response/user.res.dto.js';
 
 // Manager de usuarios
 const userDB = new UserDbDAO();
@@ -96,7 +97,16 @@ const initializePassport = ()=>{
         secretOrKey: config.jwt_private_key
     }, async(jwt_payload, done)=>{
         try {
-            return done(null, jwt_payload);
+            let userDTO = new UserDTO({
+                first_name: jwt_payload.data.first_name,
+                last_name: jwt_payload.data.last_name,
+                email: jwt_payload.data.email,
+                age: jwt_payload.data.age,
+                rol: jwt_payload.data.rol,
+                cart: jwt_payload.data.cart
+            });
+
+            return done(null, userDTO);
         } catch (error) {
             return done(error);
         }
