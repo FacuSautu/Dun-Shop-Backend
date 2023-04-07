@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import CartDTO from '../dtos/response/cart.res.dto.js';
 import cartModel from './models/cart.model.js';
 
 class CartDbDAO{
@@ -28,7 +29,14 @@ class CartDbDAO{
   async getCartById(id, populated=false){
     await this.exists(id);
 
-    return (populated) ? cartModel.findById(id).populate('products.product').lean() : cartModel.findById(id).lean();
+    let cartDb = (populated) ? await cartModel.findById(id).populate('products.product').lean() : await cartModel.findById(id).lean();
+
+    let cart = new CartDTO({
+      id: cartDb._id,
+      products: cartDb.products
+    });
+
+    return cart;
   }
 
   async addCart(cartToAdd){

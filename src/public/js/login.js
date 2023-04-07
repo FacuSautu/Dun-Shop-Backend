@@ -14,7 +14,6 @@ login_form.addEventListener('submit', evt=>{
     })
         .then(res=>res.json())
         .then(data=>{
-            console.log(data);
             if(data.status === 'error'){
                 location.href = `/login?validation=${data.message.valCode}`;
             }else{

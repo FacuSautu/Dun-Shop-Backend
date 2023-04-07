@@ -16,6 +16,13 @@ btnToAdd.addEventListener('click', ()=>{
                 }).then(()=>{
                     location.href = '/';
                 })
+            }else if(data.status === 'error'){
+                Swal.fire({
+                    text: 'No se pudo agregar el producto a su carrito, solo usuarios pueden realizar esta funcion.',
+                    icon: 'warning',
+                    timer: 1500,
+                    showConfirmButton: false
+                })
             }
         })
 })

@@ -3,6 +3,7 @@ import { Router } from 'express';
 import ProductController from '../controllers/products.controller.js';
 import CartController from '../controllers/carts.controller.js';
 import MessageDbDAO from '../daos/message.db.dao.js';
+import { handlePolicies } from '../utils.js';
 
 
 const viewsRouter = Router();
@@ -99,7 +100,7 @@ viewsRouter.get('/products/:pid', async (req, res)=>{
         const productId = req.params.pid;
 
         let product = await productController.getProduct(productId);
-        console.log(product);
+
         product.thumbnails = product.thumbnails.map(thumbnail => (thumbnail.match(/^img/i)) ? '../'+thumbnail : thumbnail);
 
         res.render('productDetail', {product: product});
@@ -192,7 +193,7 @@ viewsRouter.get('/profile', privateView, (req, res)=>{
 })
 
 // Chat.
-viewsRouter.get('/chat', privateView, async (req, res)=>{
+viewsRouter.get('/chat', privateView, handlePolicies(['USER']), async (req, res)=>{
     let messages = await messageDB.getMessages();
 
     res.render('chat', {messages});

@@ -10,6 +10,7 @@ import config from '../config/config.js';
 
 export let CartsFty;
 export let ProductsFty;
+export let TicketFty;
 export let UsersFty;
 export let MessagesFty;
 
@@ -24,11 +25,13 @@ switch (config.persistance_engine.toUpperCase()) {
 
         const {default: CartDbDAO} = await import('./cart.db.dao.js');
         const {default: ProductDbDAO} = await import('./product.db.dao.js');
+        const {default: TicketDAO} = await import('./ticket.db.dao.js');
         const {default: UserDbDAO} = await import('./user.db.dao.js');
         const {default: MessageDbDAO} = await import('./user.db.dao.js');
 
         CartsFty = CartDbDAO;
         ProductsFty = ProductDbDAO;
+        TicketFty = TicketDAO;
         UsersFty = UserDbDAO;
         MessagesFty = MessageDbDAO;
         break;

@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { uploader } from '../utils.js';
+import { handlePolicies, uploader } from '../utils.js';
 import ProductController from "../controllers/products.controller.js";
 
 const productsRouter = Router();
@@ -51,7 +51,7 @@ productsRouter.get('/:pid', async (req, res)=>{
 })
 
 // Agrega un nuevo producto.
-productsRouter.post('/', uploader.array('thumbnails'), async (req, res)=>{
+productsRouter.post('/', handlePolicies(['ADMIN']), uploader.array('thumbnails'), async (req, res)=>{
     try {
         let product = req.body;
         
@@ -70,7 +70,7 @@ productsRouter.post('/', uploader.array('thumbnails'), async (req, res)=>{
 })
 
 // Modifica un producto.
-productsRouter.put('/:pid', uploader.array('thumbnails'), async (req, res)=>{
+productsRouter.put('/:pid', handlePolicies(['ADMIN']), uploader.array('thumbnails'), async (req, res)=>{
     try {
         let productId = req.params.pid;
         let product = req.body;
@@ -91,7 +91,7 @@ productsRouter.put('/:pid', uploader.array('thumbnails'), async (req, res)=>{
 })
 
 // Elimina un producto.
-productsRouter.delete('/:pid', async (req, res)=>{
+productsRouter.delete('/:pid', handlePolicies(['ADMIN']), async (req, res)=>{
     try {
         let productId = req.params.pid;
         

@@ -4,10 +4,9 @@ import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import mongoose from 'mongoose';
 import passport from 'passport';
 
-import { __dirname, uploader } from './utils.js';
+import { __dirname } from './utils.js';
 import config from './config/config.js';
 import initializePassport from './config/passport.config.js';
 
@@ -19,7 +18,7 @@ import MessageDbDAO from './daos/message.db.dao.js';
 
 // Instancia de express y servidor.
 const app = express();
-const server = app.listen(config.port, ()=>console.log(`Server live on http://localhost:${config.port}/`));
+const server = app.listen(config.port, ()=>console.log(`Server live on http://${config.host}:${config.port}/`));
 const io = new Server(server);
 
 // Logica de chat con Websocket
@@ -59,14 +58,6 @@ io.on('connection', socket=>{
         if(validationObj.validation) socket.broadcast.emit('new_user_connected', user);
     });
 })
-
-// Instancia de Mongoose
-// mongoose.connect(config.mongoUrl, (error)=>{
-//     if(error){
-//         console.log("Cannot connect to database: "+error);
-//         process.exit();
-//     }
-// })
 
 // Configuracion
 app.engine('handlebars', handlebars.engine());

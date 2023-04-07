@@ -48,8 +48,6 @@ class ProductDbDAO{
             thumbnails: productDb.thumbnails
         });
 
-        console.log(productDTO);
-
         return productDTO;
     }
 

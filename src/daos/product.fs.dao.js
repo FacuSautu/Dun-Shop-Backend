@@ -101,7 +101,6 @@ class ProductFsDAO{
         else if(!!!productToAdd.title || !!!productToAdd.description || !!!productToAdd.price || !!!productToAdd.code || !!!productToAdd.stock) 
             throw new Error("No se pudo agregar el producto, debe completar todos los campos.");
 
-            console.log("Flag 1");
         productToAdd.id = this.productId;
         this.products.push(productToAdd);
         this.productId++;

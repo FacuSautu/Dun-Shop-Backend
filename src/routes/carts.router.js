@@ -1,11 +1,16 @@
 import { Router } from "express";
 
 import CartController from "../controllers/carts.controller.js";
+import ProductController from "../controllers/products.controller.js";
+import TicketController from "../controllers/ticket.controller.js";
+import { handlePolicies } from "../utils.js";
 
 const cartsRouter = Router();
 
 // Instancias de clases.
-const cartController = new CartController
+const cartController = new CartController;
+const productController = new ProductController;
+const ticketController = new TicketController;
 
 // Muestra los datos de un carrito.
 cartsRouter.get('/:cid', async (req, res)=>{
@@ -38,7 +43,7 @@ cartsRouter.post('/', async (req, res)=>{
 })
 
 // Agrega un producto al carrito indicado.
-cartsRouter.post('/:cid/product/:pid', async (req, res)=>{
+cartsRouter.post('/:cid/product/:pid', handlePolicies(["USER"]), async (req, res)=>{
     try {
         let productId = req.params.pid;
         let cartId = req.params.cid;
@@ -105,6 +110,45 @@ cartsRouter.delete('/:cid', async (req, res)=>{
         await cartController.deleteAllProducts(cartId);
 
         res.send({statis: 'success', message: `Se eliminaron todos los productos del carrito. ID: ${cartId}.`});
+    } catch (error) {
+        console.log(error.message);
+        res.status(404).send({status:'error', message: error.message});
+    }
+})
+
+// Realizar compra del contenido del carrito
+cartsRouter.get('/:cid/purchase', async (req, res)=>{
+    try {
+        let cid = req.params.cid;
+        let cart = await cartController.getCart(cid, true);
+        let totalCompra = 0;
+        let itemsOutOfStock = [];
+        
+        // Chequeo y modificacion de stock.
+        cart.products.forEach(async (prod)=>{
+            if(prod.product.stock > 0 || prod.product.stock >= prod.quantity) {
+                productController.updateProduct(prod.product._id, {stock: prod.product.stock-prod.quantity});
+                cartController.deleteProduct(cart._id.toString(), prod.product._id.toString());
+                totalCompra += prod.product.price*prod.quantity;
+            }else{
+                itemsOutOfStock.push({
+                    id:prod.product._id,
+                    title:prod.product.title,
+                    stock: prod.product.stock, 
+                    quantity:prod.quantity
+                });
+            }
+        });
+        
+        let ticketData = {
+            code: `TCKT-${Date.now()}`,
+            amount: totalCompra,
+            purchaser: req.user.email
+        }
+
+        let ticket = await ticketController.generateTicket(ticketData);
+
+        res.send({status:'success', payload:{ticket:ticket._id, products_out_of_stock:itemsOutOfStock}});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', message: error.message});

@@ -48,3 +48,15 @@ export const authToken = (req, res, next)=>{
         next();
     })
 }
+
+// General use Custom Middlewares
+
+export const handlePolicies = policies => (req, res, next)=>{
+    if(policies.includes("PUBLIC")) return next();
+
+    if(!!!req.user) return res.status(401).send({status:"error", message:"Unauthorized"});
+
+    if(!policies.includes(req.user.rol.toUpperCase())) return res.status(403).send({status:"error", message:"No tiene permisos suficientes."});
+
+    next();
+}
