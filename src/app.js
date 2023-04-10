@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
+import nodemailer from 'nodemailer';
+import twilio from 'twilio';
 
 import { __dirname } from './utils.js';
 import config from './config/config.js';
@@ -16,7 +18,7 @@ import cartsRouter from './routes/carts.router.js';
 import productsRouter from './routes/products.router.js';
 import MessageDbDAO from './daos/message.db.dao.js';
 
-// Instancia de express y servidor.
+// Instancia de express server y websocket.
 const app = express();
 const server = app.listen(config.port, ()=>console.log(`Server live on http://${config.host}:${config.port}/`));
 const io = new Server(server);
@@ -59,6 +61,18 @@ io.on('connection', socket=>{
     });
 })
 
+// Instancia de mailing y twilio
+const mailer = nodemailer.createTransport({
+    service: 'gmail',
+    port: 587,
+    auth:{
+        user: 'facundo.sautu@gmail.com',
+        pass: config.google_app_password
+    }
+})
+
+const twilioClient = twilio(config.twilio_account_sid, config.twilio_auth_token);
+
 // Configuracion
 app.engine('handlebars', handlebars.engine());
 
@@ -91,8 +105,11 @@ app.use((req, res, next)=>{     // Middleware para agregar a las variables local
     next();
 })
 
-app.use((req, res, next)=>{     // Middleware para agregar el WebSocket al objeto Request.
+app.use((req, res, next)=>{     // Middleware para agregar utilidades al objeto Request (server websocket, mailer, cliente twilio).
     req.io = io;
+    req.mailer = mailer;
+    req.twilioClient = twilioClient;
+    
     next();
 })
 

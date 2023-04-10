@@ -4,6 +4,7 @@ import CartController from "../controllers/carts.controller.js";
 import ProductController from "../controllers/products.controller.js";
 import TicketController from "../controllers/ticket.controller.js";
 import { handlePolicies } from "../utils.js";
+import config from "../config/config.js";
 
 const cartsRouter = Router();
 
@@ -122,13 +123,16 @@ cartsRouter.get('/:cid/purchase', async (req, res)=>{
         let cid = req.params.cid;
         let cart = await cartController.getCart(cid, true);
         let totalCompra = 0;
+        let soldItems = [];
         let itemsOutOfStock = [];
+        let phone = req.query.phone;
         
         // Chequeo y modificacion de stock.
         cart.products.forEach(async (prod)=>{
             if(prod.product.stock > 0 || prod.product.stock >= prod.quantity) {
                 productController.updateProduct(prod.product._id, {stock: prod.product.stock-prod.quantity});
                 cartController.deleteProduct(cart._id.toString(), prod.product._id.toString());
+                soldItems.push(prod.product.title);
                 totalCompra += prod.product.price*prod.quantity;
             }else{
                 itemsOutOfStock.push({
@@ -140,20 +144,55 @@ cartsRouter.get('/:cid/purchase', async (req, res)=>{
             }
         });
         
-        let ticketData = {
-            code: `TCKT-${Date.now()}`,
-            amount: totalCompra,
-            purchaser: req.user.email
+        // Si hay items para vender...
+        if(soldItems.length > 0){
+            // Armado y carga del ticket
+            let ticketData = {
+                code: `TCKT-${Date.now()}`,
+                amount: totalCompra,
+                purchaser: req.user.email
+            }
+    
+            let ticket = await ticketController.generateTicket(ticketData);
+
+            // Armado del mail.
+            let mail_body = `<div>
+                                <h1>Su compra se realizo exitosamente!</h1>
+                                <p> Buenos dias ${req.user.first_name} ${req.user.last_name}! Se te avisa que tu compra por los siguientes productos fue realizada con el ticket N° ${ticket._id}</p>
+                                <ul>`;
+    
+            soldItems.forEach(item=>mail_body += `<li>${item}</li>`);
+            mail_body += `</ul>
+                        <br>
+                        <p>Muchas gracias por confiar en nosotros!</p>
+                        <p>Que tengas buen dia.</p>`;
+    
+            req.mailer.sendMail({
+                from: 'Dun-shop E-Commerce <noreplay@mail.com.ar',
+                to: req.user.email,
+                subject: 'Compra realizada!',
+                html:mail_body,
+                attachments:[]
+            })
+
+            // Si se indica un numero telefonico se envia SMS.
+            if(!!phone){
+                req.twilioClient.messages.create({
+                    body: `Su compra en Dun-shop fue realizada con el N° de ticket ${ticket._id}`,
+                    from: config.twilio_sms_number,
+                    to: `+54${phone}`
+                })
+            }
+
+            res.send({status:'success', payload:{ticket:ticket._id, products_out_of_stock:itemsOutOfStock}});
+        }else{
+            res.send({status:'error', message:'No se pudo realizar la compra por falta de stock.'});
         }
 
-        let ticket = await ticketController.generateTicket(ticketData);
-
-        res.send({status:'success', payload:{ticket:ticket._id, products_out_of_stock:itemsOutOfStock}});
     } catch (error) {
         console.log(error.message);
         res.status(404).send({status:'error', message: error.message});
     }
 })
-
 
 export default cartsRouter;
