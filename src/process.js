@@ -6,7 +6,7 @@ const program = new Command();
 
 program
     .option('-d', 'Variable para debug', false)
-    .option('-p <port>', 'Puerto del server', 8080)
+    .option('-p <port>', 'Puerto del server')
     .option('--mode <mode>', 'Modo de lanzamiento del programa', 'production')
     .option('--persistance <persistance>', 'Motor de persistencia a utilizar');
 

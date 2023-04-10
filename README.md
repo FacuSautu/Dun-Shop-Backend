@@ -38,6 +38,51 @@ El proyecto consta de la logica detras de cualquier e-commerce, la cual realiza 
 ```
 En este modo el proyecto se lanzara utilizando *nodemon*, permitiendo una dinamica de relanzamiento al modificar los archivos.
 
+___
+El proyecto acepta ciertas variables por linea de comando al iniciar el proyecto, el formato del comando de lanzamiento seria el siguiente:
+
+```bash
+  npm run start-dev -- -d -p <port> --mode <mode> --persistance <persistance>
+```
+
+- `-d:` Variable de Debug, para realizar los testing correspondientes del proyecto.
+- `-p <port>:` Puerto en el que se lanzara el proyecto (si no se le indica uno tomara el que esta en el archivo `.env`).
+- `--mode <mode>:` Modo en el que se lanzara el proyecto, puede ser `development` o `production` (si no se le indica uno tomara `production` por default).
+- `--persistance <persistance>:` El motor de persistencia que se desea utilizar, puede ser `mongo` o `fs` (si no se le indica uno tomara el que esta en el archivo `.env`).
+
+## Environment Variables
+
+Para poder correr este proyecto se deben completar las siguientes variables de entorno en los archivos ".env.development" y ".env.production" respectivamente para cada modo.
+
+
+`HOST:` Direccion host donde se alojara el proyecto (localhost por default).
+
+`PORT:` Puerto donde se levantara el proyecto.
+
+`LOGIN_STRATEGY:` Estrategia de logueo a utilizar (Puede ser `SESSION` o `JWT`).
+
+`PERSISTANCE_ENGINE:` Motor de persistencia a utilizar (Puede ser `MONGO` o `FS`).
+
+`MONGO_URL:` URL para coneccion con mongo.
+
+`GITHUB_APP_ID:` ID de aplicacion de Github, para estrategia de logueo con Github.
+
+`GITHUB_CLIENT_ID:` ID de cliente de Github, para estrategia de logueo con Github.
+
+`GITHUB_CLIENT_SECRET:` Secreto de Github, para estrategia de logueo con Github.
+
+`GITHUB_CALLBACK_URL:` URL de callback llamada cuando se loguea con Github.
+
+`JWT_PRIVATE_KEY:` Key privada para el hasheo de JWT.
+
+`GOOGLE_APP_PASSWORD:` Contraseña de aplicacion de google para el envio de mails desde Gmail.
+
+`TWILIO_ACCOUNT_SID:` ID de cuenta de Twilio, para envio de SMS.
+
+`TWILIO_AUTH_TOKEN:` Token de autenticacion de Twilio, para envio de SMS.
+
+`TWILIO_SMS_NUMBER:` Numero a utilizar para el envio de SMS.
+
 ## API Reference
 
 ### Products
@@ -565,7 +610,17 @@ ___
 ___
 <a href="https://www.npmjs.com/package/passport" target="_blank"><img src="https://antoniofernandez.com/assets/blog/passportjs.png" height="200px" /></a>
 ___
-*passport* es un paquete de gestion de estrategias de autenticacion y autorizacion. Para este proyecto se estan usando estrategias para registro y loqueo de usuarios de forma local y utilizando GitHub, con los paquetes de: passport-local y passport-github2.
+*passport* es un paquete de gestion de estrategias de autenticacion y autorizacion. Para este proyecto se estan usando estrategias para registro y loqueo de usuarios de forma local, utilizando GitHub o con JWT, con los paquetes de: passport-local, passport-github2 y passport-jwt.
+___
+___
+<a href="https://www.npmjs.com/package/cookie-parser" target="_blank"><img src="https://www.section.io/engineering-education/client-side-auth-with-express-cookie-parser/hero.png" height="200px" /></a>
+___
+*cookie-parser* permite administrar las cookies que utilizara el proyecto con los diferentes clientes. Para este proyecto se esta utilizando para mantener sesiones utilizando JWT.
+___
+___
+<a href="https://www.npmjs.com/package/jsonwebtoken" target="_blank"><img src="https://i.imgur.com/qDOOu4o.jpeg" height="200px" /></a>
+___
+*jsonwebtoken* es la libreria encargada de generar y autenticar sesiones utilizando JWT para mantener vivas dichas sesiones.
 ___
 ___
 <a href="https://www.npmjs.com/package/express-handlebars" target="_blank"><img src="https://i0.wp.com/blog.fossasia.org/wp-content/uploads/2017/07/handlebars-js.png?fit=500%2C500&ssl=1&resize=350%2C200" height="200px" /></a>
@@ -586,6 +641,21 @@ ___
 <a href="https://www.npmjs.com/package/dotenv" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvBqX2kKRb9ek5RJ470wjOX9pUgTaX8CIeUcLLi-o43nGLPeAQsnopvWuoIrFw77SogUA&usqp=CAU" height="200px" /></a>
 ___
 *dotenv* se encarga de la gestion de variables de entorno. Dando la posibilidad de utilizar diferentes entornos del proyecto y tambien mantener seguros los datos sensibles utilizados en el mismo.
+___
+___
+<a href="https://www.npmjs.com/package/commander" target="_blank"><img src="https://miro.medium.com/v2/resize:fit:1400/1*m_Hk0OyZFipUvDT84WtBQA.png" height="200px" /></a>
+___
+*commander* permite gestionar las variables admitidas por linea de comando al inicializar el proyecto, haciando que se puedan setear diferentes variables de forma mas dinamica para diferentes lanzamientos del proyecto.
+___
+___
+<a href="https://www.npmjs.com/package/nodemailer" target="_blank"><img src="https://i0.wp.com/community.nodemailer.com/wp-content/uploads/2015/10/n2-2.png?fit=422%2C360&ssl=1" height="200px" /></a>
+___
+*nodemailer* da la posibilidad de enviar emails utilizando diferentes servicios de mensajeria. Para este proyecto se utilizara el servicio de GMail para el envio de correos electronicos.
+___
+___
+<a href="https://www.npmjs.com/package/twilio" target="_blank"><img src="https://www.chetu.com/img/twilio/partner/twilio-logo.png" height="200px" /></a>
+___
+*twilio* es la libreria encargada de gestionar el envio de mensajeria por SMS.
 
 ### Dependencias Dev
 <a href="https://www.npmjs.com/package/nodemon" target="_blank"><img src="https://user-images.githubusercontent.com/13700/35731649-652807e8-080e-11e8-88fd-1b2f6d553b2d.png" height="200px" /></a>
