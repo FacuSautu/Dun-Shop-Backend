@@ -9,7 +9,7 @@ export default {
     host: process.env.HOST,
     port: process.env.PORT,
     login_strategy: process.env.LOGIN_STRATEGY,
-    persistance_engine: process.env.PERSISTANCE_ENGINE,
+    persistance_engine: (options.persistance) ? options.persistance : process.env.PERSISTANCE_ENGINE,
 
     mongoUrl: process.env.MONGO_URL,
 
