@@ -7,6 +7,7 @@ import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import nodemailer from 'nodemailer';
 import twilio from 'twilio';
+import compression from 'express-compression';
 
 import { __dirname } from './utils.js';
 import config from './config/config.js';
@@ -85,6 +86,9 @@ app.set('view engine', 'handlebars');
 app.use(express.static(__dirname+'/public'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use(compression({
+    brotli:{enabled:true, zlib:{}}
+}));
 app.use(cookieParser());
 app.use(session({
     store: MongoStore.create({
