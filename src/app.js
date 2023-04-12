@@ -11,12 +11,13 @@ import twilio from 'twilio';
 import { __dirname } from './utils.js';
 import config from './config/config.js';
 import initializePassport from './config/passport.config.js';
+import MessageDbDAO from './daos/message.db.dao.js';
 
 import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import cartsRouter from './routes/carts.router.js';
 import productsRouter from './routes/products.router.js';
-import MessageDbDAO from './daos/message.db.dao.js';
+import mocksRouter from './routes/mocks.router.js';
 
 // Instancia de express server y websocket.
 const app = express();
@@ -118,3 +119,4 @@ app.use('/', viewsRouter);
 app.use('/api/sessions/', sessionsRouter);
 app.use('/api/carts/', cartsRouter);
 app.use('/api/products/', productsRouter);
+app.use('/api/tests/', mocksRouter);
