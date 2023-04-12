@@ -18,6 +18,7 @@ import sessionsRouter from './routes/sessions.router.js';
 import cartsRouter from './routes/carts.router.js';
 import productsRouter from './routes/products.router.js';
 import mocksRouter from './routes/mocks.router.js';
+import errorHandler from './services/errors/errorHandler.middleware.js';
 
 // Instancia de express server y websocket.
 const app = express();
@@ -120,3 +121,4 @@ app.use('/api/sessions/', sessionsRouter);
 app.use('/api/carts/', cartsRouter);
 app.use('/api/products/', productsRouter);
 app.use('/api/tests/', mocksRouter);
+app.use(errorHandler);

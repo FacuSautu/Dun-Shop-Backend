@@ -1,0 +1,1 @@
+export const userNotFound = ()=>`El usuario que intenta enviar el mensaje no esta registrado.`

@@ -4,6 +4,11 @@ import { __dirname } from '../utils.js';
 import config from '../config/config.js';
 import ProductsDTO from '../dtos/response/products.res.dto.js';
 
+import CustomError from '../services/errors/CustomError.js';
+import EErrors from '../services/errors/enums.js';
+import { invalidId, idCantChange, missingData } from '../services/errors/info/generic.error.info.js';
+import { productNotFound, productAlreadyExist } from '../services/errors/info/products.error.info.js';
+
 class ProductFsDAO{
 
     constructor(){
@@ -80,13 +85,25 @@ class ProductFsDAO{
     }
 
     async getProductById(id){
-        if(isNaN(id)) throw new Error(`El id indicado no es valido, debe ser numerico. ID ${id}`);
+        if(isNaN(id))
+            CustomError.createError({
+                name: "ID de producto no valido",
+                cause: invalidId(id, 'numeric'),
+                message: `El id indicado no es valido, debe ser numerico. ID ${id}`,
+                code: EErrors.GENERICS.ID_TYPE_NOT_VALID
+            });
 
         await this.loadProducts();
 
         let exist = this.products.find(product=>product.id === Number(id));
 
-        if(!!!exist) throw new Error(`No existe producto con el ID ${id}.`);
+        if(!!!exist)
+            CustomError.createError({
+                name: "No existe producto",
+                cause: productNotFound(id),
+                message: `No existe producto con el ID ${id}.`,
+                code: EErrors.PRODUCTS.PRODUCT_NOT_FOUND
+            });
 
         let prodIndex = this.products.indexOf(exist);
         return this.products[prodIndex];
@@ -97,9 +114,25 @@ class ProductFsDAO{
         let exist = this.products.some(product => product.code === productToAdd.code);
 
         if(!!exist)
-            throw new Error("El producto que desea agregar ya existe.");
-        else if(!!!productToAdd.title || !!!productToAdd.description || !!!productToAdd.price || !!!productToAdd.code || !!!productToAdd.stock) 
-            throw new Error("No se pudo agregar el producto, debe completar todos los campos.");
+            CustomError.createError({
+                name: "Producto ya existe",
+                cause: productAlreadyExist(),
+                message: "El producto que desea agregar ya existe.",
+                code: EErrors.PRODUCTS.PRODUCT_EXIST
+            });
+        else if(!!!productToAdd.title || !!!productToAdd.description || !!!productToAdd.price || !!!productToAdd.code || !!!productToAdd.stock)
+            CustomError.createError({
+                name: "Faltan Datos",
+                cause: missingData(productToAdd, {
+                    title: "Titulo",
+                    description: "Descripcion",
+                    price: 100,
+                    code: "Codigo",
+                    stock: 20,
+                }),
+                message: "No se pudo agregar el producto, debe completar todos los campos.",
+                code: EErrors.GENERICS.MISSING_REQUIRED_DATA
+            });
 
         productToAdd.id = this.productId;
         this.products.push(productToAdd);
@@ -111,14 +144,32 @@ class ProductFsDAO{
     }
 
     async updateProduct(idToUpdate, dataToUpdate){
-        if(isNaN(idToUpdate)) throw new Error(`El id indicado no es valido, debe ser numerico. ID ${idToUpdate}`);
+        if(isNaN(idToUpdate))
+            CustomError.createError({
+                name: "ID de producto no valido",
+                cause: invalidId(idToUpdate, 'numeric'),
+                message: `El id indicado no es valido, debe ser numerico. ID ${idToUpdate}`,
+                code: EErrors.GENERICS.ID_TYPE_NOT_VALID
+            });
 
         await this.loadProducts()
 
         let productToUpdate = this.products.find(prod => prod.id === Number(idToUpdate));
 
-        if(!!!productToUpdate) throw new Error(`Imposible actualizar. No existe producto con el ID ${idToUpdate}`);
-        if(!!dataToUpdate.id) throw new Error(`Imposible actualizar. Intento modificar el ID por ${dataToUpdate.id}, no puede modificar este dato del producto.`)
+        if(!!!productToUpdate)
+            CustomError.createError({
+                name: "Producto no existe",
+                cause: productNotFound(idToUpdate),
+                message: `Imposible actualizar. No existe producto con el ID ${idToUpdate}`,
+                code: EErrors.PRODUCTS.PRODUCT_NOT_FOUND
+            });
+        if(!!dataToUpdate.id)
+            CustomError.createError({
+                name: "No se puede modificar ID",
+                cause: idCantChange(),
+                message: `Imposible actualizar. Intenta modificar el ID por ${dataToUpdate._id}, no puede modificar este dato del producto.`,
+                code: EErrors.GENERICS.ID_CANT_CHANGE
+            });
 
         let productIndex = this.products.indexOf(productToUpdate);
         this.products[productIndex] = {...productToUpdate, ...dataToUpdate};
@@ -127,13 +178,25 @@ class ProductFsDAO{
     }
 
     async deleteProduct(idToDelete){
-        if(isNaN(idToDelete)) throw new Error(`El id indicado no es valido, debe ser numerico. ID ${idToDelete}`);
+        if(isNaN(idToDelete))
+            CustomError.createError({
+                name: "ID de producto no valido",
+                cause: invalidId(idToDelete, 'numeric'),
+                message: `El id indicado no es valido, debe ser numerico. ID ${id}`,
+                code: EErrors.GENERICS.ID_TYPE_NOT_VALID
+            });
 
         await this.loadProducts()
 
         let productToDelete = this.products.find(prod => prod.id === Number(idToDelete));
 
-        if(!!!productToDelete) throw new Error(`Imposible eliminar. No existe producto con el ID ${idToDelete}`)
+        if(!!!productToDelete)
+            CustomError.createError({
+                name: "Producto no existe",
+                cause: productNotFound(idToDelete),
+                message: `Imposible eliminar. No existe producto con el ID ${idToDelete}`,
+                code: EErrors.PRODUCTS.PRODUCT_NOT_FOUND
+            });
 
         let productIndex = this.products.indexOf(productToDelete);
         this.products.splice(productIndex, 1);

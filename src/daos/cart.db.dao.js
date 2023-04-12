@@ -2,16 +2,33 @@ import mongoose from 'mongoose';
 import CartDTO from '../dtos/response/cart.res.dto.js';
 import cartModel from './models/cart.model.js';
 
+import CustomError from '../services/errors/CustomError.js';
+import EErrors from '../services/errors/enums.js';
+import { invalidId } from '../services/errors/info/generic.error.info.js';
+import { cartNotFound, productNotInCart } from '../services/errors/info/carts.error.info.js';
+
 class CartDbDAO{
 
   constructor(){}
 
   async exists(cartId){
-    if(!mongoose.Types.ObjectId.isValid(cartId)) throw new Error('El valor enviado no corresponde a un ID valido');
+    if(!mongoose.Types.ObjectId.isValid(cartId))
+      CustomError.createError({
+        name: "ID de carrito no valido",
+        cause: invalidId(cartId, 'ObjectId'),
+        message: 'El valor enviado no corresponde a un ID valido',
+        code: EErrors.GENERICS.ID_TYPE_NOT_VALID
+      });
 
     let exist = await cartModel.exists({_id:cartId});
     
-    if(!!!exist) throw new Error(`No existe carrito con el ID ${cartId}.`);
+    if(!!!exist)
+      CustomError.createError({
+        name: "No existe carrito",
+        cause: cartNotFound(cartId),
+        message: `No existe carrito con el ID ${cartId}.`,
+        code: EErrors.CARTS.CART_NOT_FOUND
+      });
 
     return true;
   }
@@ -72,7 +89,13 @@ class CartDbDAO{
   async updateProductInCart(cartId, productToUpdate, qty){
     await this.exists(cartId);
 
-    if(!await this.hasProduct(cartId, productToUpdate)) throw new Error(`No existe el producto ${productToUpdate} dentro del carrito ${cartId}`);
+    if(!await this.hasProduct(cartId, productToUpdate))
+      CustomError.createError({
+        name: "Producto no existe en carrito",
+        cause: productNotInCart(productToUpdate, cartId),
+        message: `No existe el producto ${productToUpdate} dentro del carrito ${cartId}`,
+        code: EErrors.CARTS.PRODUCT_NOT_IN_CART
+      });
 
     let cart = await this.getCartById(cartId);
     let product = cart.products.find(prod=>prod.product == productToUpdate);
@@ -81,7 +104,6 @@ class CartDbDAO{
     cart.products[productIndex].quantity = qty;
 
     return cartModel.updateOne({_id: cartId}, {products: cart.products})
-
   }
 
   async deleteProductFromCart(cartId, productToDelete){
@@ -91,7 +113,13 @@ class CartDbDAO{
 
     let productExist = cart.products.find(prod => prod.product._id == productToDelete);
 
-    if(!!!productExist) throw new Error(`No existe el producto ${productToDelete} en el carrito ${cartId}`);
+    if(!!!productExist)
+      CustomError.createError({
+        name: "Producto no existe en carrito",
+        cause: productNotInCart(productToDelete, cartId),
+        message: `No existe el producto ${productToDelete} en el carrito ${cartId}`,
+        code: EErrors.CARTS.PRODUCT_NOT_IN_CART
+      });
     
     let productIndex = cart.products.indexOf(productExist);
 

@@ -1,6 +1,11 @@
 import fs from 'fs';
 import { __dirname } from '../utils.js';
 
+import CustomError from '../services/errors/CustomError.js';
+import EErrors from '../services/errors/enums.js';
+import { invalidId } from '../services/errors/info/generic.error.info.js';
+import { cartNotFound, cartAlreadyExist, productNotInCart } from '../services/errors/info/carts.error.info.js';
+
 class CartFsDAO{
 
   constructor(){
@@ -17,11 +22,23 @@ class CartFsDAO{
   }
 
   async exist(cartId){
-    if(isNaN(cartId)) throw new Error(`El ID enviado no es valido. ID: ${cartId}.`);
+    if(isNaN(cartId))
+      CustomError.createError({
+        name: "ID de carrito no valido",
+        cause: invalidId(cartId, 'numeric'),
+        message: `El ID enviado no es valido. ID: ${cartId}.`,
+        code: EErrors.GENERICS.ID_TYPE_NOT_VALID
+      });
     let carts = await this.readCarts();
     let exist = carts.some(cart=>cart.cartId == Number(cartId));
 
-    if(!!!exist) throw new Error(`No existe carrito con el ID ${cartId}.`);
+    if(!!!exist)
+      CustomError.createError({
+        name: "No existe carrito",
+        cause: cartNotFound(cartId),
+        message: `No existe carrito con el ID ${cartId}.`,
+        code: EErrors.CARTS.CART_NOT_FOUND
+      });
 
     return true;
   }
@@ -38,11 +55,10 @@ class CartFsDAO{
   }
 
   async getCartById(id){
+    await this.exist(id);
     await this.loadCarts();
 
     let exist = this.carts.find(cart=>cart.cartId === Number(id));
-
-    if(!!!exist) throw new Error(`No existe carrito con el ID ${id}.`);
 
     let cartIndex = this.carts.indexOf(exist);
     return this.carts[cartIndex];
@@ -53,7 +69,13 @@ class CartFsDAO{
     
     let exist = this.carts.some(cart => cart.cartId === Number(cartToAdd.cartId));
 
-    if(exist && !!cartToAdd.cartId) throw new Error("El carrito que desea agregar ya existe.");
+    if(exist && !!cartToAdd.cartId)
+      CustomError.createError({
+        name: "Carrito ya existe",
+        cause: cartAlreadyExist(cartToAdd.cartId),
+        message: "El carrito que desea agregar ya existe.",
+        code: EErrors.CARTS.CART_EXIST
+      });
 
     cartToAdd.cartId = this.cartsId;
     this.carts.push(cartToAdd);
@@ -65,9 +87,9 @@ class CartFsDAO{
   }
 
   async updateCart(cartId, products){
-    let carts = await this.getCarts();
-
     await this.exist(cartId);
+    
+    let carts = await this.getCarts();
 
     carts.map(cart=>{
       if(cart.cartId == Number(cartId)){
@@ -137,7 +159,13 @@ class CartFsDAO{
 
     carts.map(cart=>{
       if(cart.cartId===Number(cartId)){
-        if(!cart.products.some(prod=>prod.product === Number(productToDelete))) throw new Error(`No existe el producto ${productToDelete} en el carrito ${cartId}`);
+        if(!cart.products.some(prod=>prod.product === Number(productToDelete)))
+        CustomError.createError({
+          name: "Producto no existe en carrito",
+          cause: productNotInCart(productToDelete, cartId),
+          message: `No existe el producto ${productToDelete} en el carrito ${cartId}`,
+          code: EErrors.CARTS.PRODUCT_NOT_IN_CART
+        });
 
         cart.products = cart.products.filter(prod=>prod.product !== Number(productToDelete));
         

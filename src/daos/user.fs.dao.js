@@ -2,6 +2,10 @@ import fs from 'fs';
 import { __dirname } from '../utils.js';
 import CartFsDAO from './cart.fs.dao.js';
 
+import CustomError from '../services/errors/CustomError.js';
+import EErrors from '../services/errors/enums.js';
+import { idNotFound, emailNotFound } from '../services/errors/info/users.error.info.js';
+
 class UserFsDAO{
 
     constructor(){
@@ -38,7 +42,13 @@ class UserFsDAO{
 
         let user = users.find(user=>user.email === email);
 
-        if(!!!user) throw new Error(`No se encontro usuario con el email ${email}`);
+        if(!!!user)
+            CustomError.createError({
+                name: "Error de autenticacion",
+                cause: emailNotFound(email),
+                message: `No se encontro usuario con el email ${email}`,
+                code: EErrors.USERS.USER_EMAIL_NOT_FOUND
+            });
 
         return user;
     }
@@ -48,7 +58,13 @@ class UserFsDAO{
 
         let user = users.find(user=>user.id === id);
 
-        if(!!!user) throw new Error(`No se encontro usuario con el ID ${id}.`);
+        if(!!!user)
+            CustomError.createError({
+                name: "Error de autenticacion",
+                cause: idNotFound(id),
+                message: `No se encontro usuario con el ID ${id}.`,
+                code: EErrors.USERS.USER_ID_NOT_FOUND
+            });
 
         return user;
     }
