@@ -9,7 +9,7 @@ const productsRouter = Router();
 const productController = new ProductController();
 
 // Lista todos los productos.
-productsRouter.get('/', async (req, res)=>{
+productsRouter.get('/', async (req, res, next)=>{
     try {
         const limit = req.query.limit;
         const page = req.query.page;
@@ -31,13 +31,12 @@ productsRouter.get('/', async (req, res)=>{
             nextLink: products.nextLink
         });
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status: 'error', message: error.message});
+        next(error);
     }
 })
 
 // Muestra los datos de un solo producto.
-productsRouter.get('/:pid', async (req, res)=>{
+productsRouter.get('/:pid', async (req, res, next)=>{
     try {
         const pid = req.params.pid;
         
@@ -45,13 +44,12 @@ productsRouter.get('/:pid', async (req, res)=>{
     
         res.send({status:'success', payload:product});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 
 // Agrega un nuevo producto.
-productsRouter.post('/', handlePolicies(['ADMIN']), uploader.array('thumbnails'), async (req, res)=>{
+productsRouter.post('/', handlePolicies(['ADMIN']), uploader.array('thumbnails'), async (req, res, next)=>{
     try {
         let product = req.body;
         
@@ -64,13 +62,12 @@ productsRouter.post('/', handlePolicies(['ADMIN']), uploader.array('thumbnails')
 
         res.send({status:'success', message:`Producto cargado exitosamente. ID: ${addedProduct?.id || addedProduct?._id}`});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 
 // Modifica un producto.
-productsRouter.put('/:pid', handlePolicies(['ADMIN']), uploader.array('thumbnails'), async (req, res)=>{
+productsRouter.put('/:pid', handlePolicies(['ADMIN']), uploader.array('thumbnails'), async (req, res, next)=>{
     try {
         let productId = req.params.pid;
         let product = req.body;
@@ -85,13 +82,12 @@ productsRouter.put('/:pid', handlePolicies(['ADMIN']), uploader.array('thumbnail
 
         res.send({status:'success', message:`Producto modificado exitosamente. ID: ${productId}`});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 
 // Elimina un producto.
-productsRouter.delete('/:pid', handlePolicies(['ADMIN']), async (req, res)=>{
+productsRouter.delete('/:pid', handlePolicies(['ADMIN']), async (req, res, next)=>{
     try {
         let productId = req.params.pid;
         
@@ -101,8 +97,7 @@ productsRouter.delete('/:pid', handlePolicies(['ADMIN']), async (req, res)=>{
 
         res.send({status:'success', message:`Producto eliminado exitosamente. ID: ${productId}`});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'Error', message: error.message});
+        next(error);
     }
 })
 

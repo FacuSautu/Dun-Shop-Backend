@@ -14,7 +14,7 @@ const productController = new ProductController;
 const ticketController = new TicketController;
 
 // Muestra los datos de un carrito.
-cartsRouter.get('/:cid', async (req, res)=>{
+cartsRouter.get('/:cid', async (req, res, next)=>{
     try {
         let cid = req.params.cid;
         
@@ -26,12 +26,12 @@ cartsRouter.get('/:cid', async (req, res)=>{
             res.status(404).send({status:'error', message:`No se encontro carrito con el ID ${cid}`});
         }
     } catch (error) {
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 
 // Agrega un nuevo carrito.
-cartsRouter.post('/', async (req, res)=>{
+cartsRouter.post('/', async (req, res, next)=>{
     try {
         let newCart = req.body;
     
@@ -39,12 +39,12 @@ cartsRouter.post('/', async (req, res)=>{
         
         res.send({status:'success', message: `El carrito fue agregado con exito. ID: ${addedCart?._id || addedCart?.cartId}`});
     } catch (error) {
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 
 // Agrega un producto al carrito indicado.
-cartsRouter.post('/:cid/product/:pid', handlePolicies(["USER"]), async (req, res)=>{
+cartsRouter.post('/:cid/product/:pid', handlePolicies(["USER"]), async (req, res, next)=>{
     try {
         let productId = req.params.pid;
         let cartId = req.params.cid;
@@ -53,12 +53,12 @@ cartsRouter.post('/:cid/product/:pid', handlePolicies(["USER"]), async (req, res
     
         res.send({status: 'success', message: `Producto ${productId} cargado con exito al carrito. ID: ${cartId}.`});
     } catch (error) {
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 
 // Modificar el array de productos de un carrito.
-cartsRouter.put('/:cid', async (req, res)=>{
+cartsRouter.put('/:cid', async (req, res, next)=>{
     try {
         const cartId = req.params.cid;
         const { products } = req.body;
@@ -67,13 +67,12 @@ cartsRouter.put('/:cid', async (req, res)=>{
 
         res.send({status: 'success', message: `Carrito modificado con exito. ID: ${cartId}.`});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 
 // Modifica la cantidad de un producto en un carrito.
-cartsRouter.put('/:cid/product/:pid', async (req, res)=>{
+cartsRouter.put('/:cid/product/:pid', async (req, res, next)=>{
     try {
         const cartId = req.params.cid;
         const productId = req.params.pid;
@@ -83,13 +82,12 @@ cartsRouter.put('/:cid/product/:pid', async (req, res)=>{
     
         res.send({status: 'success', message: `Se modifico la cantidad del producto ${productId} por ${quantity}. ID: ${cartId}.`});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 
 // Eliminar un producto de un carrito.
-cartsRouter.delete('/:cid/product/:pid', async (req, res)=>{
+cartsRouter.delete('/:cid/product/:pid', async (req, res, next)=>{
     try {
         let cartId = req.params.cid;
         let productId = req.params.pid;
@@ -98,13 +96,12 @@ cartsRouter.delete('/:cid/product/:pid', async (req, res)=>{
 
         res.send({status: 'success', message: `Producto ${productId} eliminado con exito del carrito. ID: ${cartId}.`});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 
 // Eliminar todos los productos de un carrito.
-cartsRouter.delete('/:cid', async (req, res)=>{
+cartsRouter.delete('/:cid', async (req, res, next)=>{
     try {
         let cartId = req.params.cid;
     
@@ -112,13 +109,12 @@ cartsRouter.delete('/:cid', async (req, res)=>{
 
         res.send({statis: 'success', message: `Se eliminaron todos los productos del carrito. ID: ${cartId}.`});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 
 // Realizar compra del contenido del carrito
-cartsRouter.get('/:cid/purchase', async (req, res)=>{
+cartsRouter.get('/:cid/purchase', async (req, res, next)=>{
     try {
         let cid = req.params.cid;
         let cart = await cartController.getCart(cid, true);
@@ -190,8 +186,7 @@ cartsRouter.get('/:cid/purchase', async (req, res)=>{
         }
 
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', message: error.message});
+        next(error);
     }
 })
 

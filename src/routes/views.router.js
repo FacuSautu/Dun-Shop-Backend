@@ -14,17 +14,16 @@ const cartController = new CartController();
 const messageDB = new MessageDbDAO();
 
 // Vista principal.
-viewsRouter.get('/', async (req, res)=>{
+viewsRouter.get('/', async (req, res, next)=>{
     try {
         res.redirect('/products');
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status: 'error', message: error.message});
+        next(error);
     }
 })
 
 // Listado de productos.
-viewsRouter.get('/products', async (req, res)=>{
+viewsRouter.get('/products', async (req, res, next)=>{
     try {
         // Query params
         const limit = req.query.limit || 10;
@@ -89,13 +88,12 @@ viewsRouter.get('/products', async (req, res)=>{
 
         res.render('products', {products});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', error: error.message});
+        next(error);
     }
 })
 
 // Detalle de producto.
-viewsRouter.get('/products/:pid', async (req, res)=>{
+viewsRouter.get('/products/:pid', async (req, res, next)=>{
     try {
         const productId = req.params.pid;
 
@@ -105,13 +103,12 @@ viewsRouter.get('/products/:pid', async (req, res)=>{
 
         res.render('productDetail', {product: product});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', error: error.message});
+        next(error);
     }
 })
 
 // Listado productos en tiempo real.
-viewsRouter.get('/realtimeproducts', async (req, res)=>{
+viewsRouter.get('/realtimeproducts', async (req, res, next)=>{
     try {
         const limit = req.query.limit || 10;
         const page = req.query.page || 1;
@@ -122,14 +119,13 @@ viewsRouter.get('/realtimeproducts', async (req, res)=>{
 
         res.render('realTimeProducts', {products:products.products});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status: 'error', message: error.message});
+        next(error);
     }
 
 })
 
 // Detalle del carrito.
-viewsRouter.get('/carts/:cid', privateView, async (req, res)=>{
+viewsRouter.get('/carts/:cid', privateView, async (req, res, next)=>{
     try {
         const cartId = req.params.cid;
 
@@ -143,8 +139,7 @@ viewsRouter.get('/carts/:cid', privateView, async (req, res)=>{
 
         res.render('cart', {cart, cartId});
     } catch (error) {
-        console.log(error.message);
-        res.status(404).send({status:'error', error: error.message});
+        next(error);
     }
 })
 
