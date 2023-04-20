@@ -13,7 +13,7 @@ export const generateProduct = ()=>{
         price: Number(faker.random.numeric(4)),
         status: true,
         stock: Number(faker.random.numeric(3)),
-        category: faker.word.noun(),
+        category: faker.commerce.department(),
         thumbnails: [faker.image.imageUrl()]
     })
 }
