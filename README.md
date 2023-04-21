@@ -34,7 +34,7 @@ El proyecto consta de la logica detras de cualquier e-commerce, la cual realiza 
 ```
 4. Correrlo en modo development.
 ```bash
-  npm run start-dev
+  npm run dev
 ```
 En este modo el proyecto se lanzara utilizando *nodemon*, permitiendo una dinamica de relanzamiento al modificar los archivos.
 
@@ -42,7 +42,7 @@ ___
 El proyecto acepta ciertas variables por linea de comando al iniciar el proyecto, el formato del comando de lanzamiento seria el siguiente:
 
 ```bash
-  npm run start-dev -- -d -p <port> --mode <mode> --persistance <persistance>
+  npm run dev -- -d -p <port> --mode <mode> --persistance <persistance>
 ```
 
 - `-d:` Variable de Debug, para realizar los testing correspondientes del proyecto.
