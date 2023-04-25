@@ -33,7 +33,8 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "socket.io": "^4.5.4",
-    "twilio": "^4.10.0"
+    "twilio": "^4.10.0",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

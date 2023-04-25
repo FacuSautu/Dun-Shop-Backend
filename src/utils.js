@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import winston from 'winston';
 
 import config from './config/config.js';
 
@@ -47,6 +48,54 @@ export const authToken = (req, res, next)=>{
         req.user = credentials.user;
         next();
     })
+}
+
+// Logger utilities.
+const customLevelsOptions = {
+    levels:{
+        critical: 0,
+        error: 1,
+        warning: 2,
+        info: 3,
+        debug: 4
+    },
+    colors:{
+        critical: 'red',
+        error: 'orange',
+        warning: 'yellow',
+        info: 'blue',
+        debug: 'white'
+    }
+}
+const transports = (config.mode == 'DEVELOPMENT') ?
+    [
+        new winston.transports.Console({
+            level: config.debug ? "debug" : "info",
+            format: winston.format.combine(winston.format.colorize({colors: customLevelsOptions.colors}), winston.format.simple())
+        })
+    ]
+    :
+    [
+        new winston.transports.Console({
+            level: "info",
+            format: winston.format.combine(winston.format.colorize({colors: customLevelsOptions.colors}), winston.format.simple())
+        }),
+        new winston.transports.File({
+            filename: './dunshop.log',
+            level: "warning",
+            format: winston.format.simple()
+        })
+    ]
+
+const logger = winston.createLogger({
+    levels: customLevelsOptions.levels,
+    transports
+})
+
+export const addLogger = (req, res, next)=>{
+    req.logger = logger;
+    req.logger.info(`Petición ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}`);
+    next();
 }
 
 // General use Custom Middlewares

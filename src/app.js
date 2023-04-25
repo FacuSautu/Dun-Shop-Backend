@@ -9,7 +9,7 @@ import nodemailer from 'nodemailer';
 import twilio from 'twilio';
 import compression from 'express-compression';
 
-import { __dirname } from './utils.js';
+import { __dirname, addLogger } from './utils.js';
 import config from './config/config.js';
 import initializePassport from './config/passport.config.js';
 import MessageDbDAO from './daos/message.db.dao.js';
@@ -77,20 +77,18 @@ const mailer = nodemailer.createTransport({
 const twilioClient = twilio(config.twilio_account_sid, config.twilio_auth_token);
 
 // Configuracion
-app.engine('handlebars', handlebars.engine());
+app.engine('handlebars', handlebars.engine());                  // Creacion del motor de vistas.
 
-app.set('views', __dirname+'/views');
-app.set('view engine', 'handlebars');
+app.set('views', __dirname+'/views');                           // Definicion de carpeta Views.
+app.set('view engine', 'handlebars');                           // Seteo del motor de vistas a usar.
 
 // Middlewares
-app.use(express.static(__dirname+'/public'));
-app.use(express.urlencoded({extended:true}));
-app.use(express.json());
-app.use(compression({
-    brotli:{enabled:true, zlib:{}}
-}));
-app.use(cookieParser());
-app.use(session({
+app.use(express.static(__dirname+'/public'));                   // Path statico para carpeta public.
+app.use(express.urlencoded({extended:true}));                   // Decodificacion de datos req.
+app.use(express.json());                                        // Decodificacion de datos en JSON.
+app.use(compression({brotli:{enabled:true, zlib:{}}}));         // Compresion de paquetes de respuesta.
+app.use(cookieParser());                                        // Gestor de cookies.
+app.use(session({                                               // Administrador de sesiones.
     store: MongoStore.create({
         mongoUrl:'mongodb+srv://fsautu:root@coderhouse.lomute3.mongodb.net/?retryWrites=true&w=majority',
         mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
@@ -101,8 +99,9 @@ app.use(session({
     saveUninitialized:true
 }))
 initializePassport();
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize());                                 // Inicializacion de passport.
+app.use(passport.session());                                    // Inicializacion de administrador de sesiones de passport.
+app.use(addLogger);                                             // Agregado de Logger al objeto request.
 
 // Custom middlewares
 app.use((req, res, next)=>{     // Middleware para agregar a las variables locales del objeto Response los datos de sesión.

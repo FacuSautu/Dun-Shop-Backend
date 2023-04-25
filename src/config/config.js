@@ -6,8 +6,11 @@ dotenv.config({
 });
 
 export default {
+    mode: options.mode.toUpperCase(),
+    debug: options.d,
+
     host: process.env.HOST,
-    port: process.env.PORT,
+    port: options.p || process.env.PORT,
     login_strategy: process.env.LOGIN_STRATEGY,
     persistance_engine: (options.persistance) ? options.persistance : process.env.PERSISTANCE_ENGINE,
 

@@ -46,7 +46,7 @@ const initializePassport = ()=>{
                 let user = await userDB.getUserByEmail(email);
 
                 if(!!user){
-                    console.log("Ya existe este usuario");
+                    req.logger.error(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Ya existe este usuario`);
                     return done(null, false, {message: "Ya existe este usuario.", valCode:1});
                 }
 
@@ -69,23 +69,23 @@ const initializePassport = ()=>{
 
     // Estrategia de login.
     passport.use('login', new LocalStrategy(
-        {usernameField:'email'},
-        async (username, password, done)=>{
+        {passReqToCallback:true, usernameField:'email'},
+        async (req, username, password, done)=>{
             try {
                 const user = await userDB.getUserByEmail(username);
 
                 if(!!!user){
-                    console.log("Usuario no encontrado.");
+                    req.logger.warning(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Usuario no encontrado.`);
                     return done(null, false, {message:"Usuario no encontrado.", valCode:0});
                 }
                 if(!isValidPassword(user, password)){
-                    console.log("Contraseña incorrecta.");
+                    req.logger.error(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Contraseña incorrecta.`);
                     return done(null, false, {message:"Contraseña incorrecta.", valCode:2});
                 }
 
                 return done(null, user);
             } catch (error) {
-                console.log("Error general en estrategia");
+                req.logger.critical(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Error general en estrategia.`);
                 return done("Error en estrategia de login: "+error);
             }
         })
