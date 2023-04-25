@@ -1,7 +1,7 @@
 import EErrors from './enums.js';
 
 export default (error, req, res, next)=>{
-    req.logger.critical(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: ERROR: ${error}`);
+    req.logger.fatal(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: ERROR: ${error}`);
 
     let errorCodes = [];
 

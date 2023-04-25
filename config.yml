@@ -1,0 +1,39 @@
+config:
+  plugins:
+    metrics-by-endpoint: {}
+  target: 'http://localhost:8080'
+  phases:
+    - duration: 20
+      arrivalRate: 20
+
+scenarios:
+  - name: "Session flow (register + login)"
+    flow:
+      - log: "Creating moking data for user"
+      - get:
+        url: '/api/test/user'
+        capture:
+          - json: "$.first_name"
+            as: "first_name"
+          - json: "$.last_name"
+            as: "last_name"
+          - json: "$.email"
+            as: "email"
+          - json: "$.password"
+            as: "password"
+      - log: "Registering the user"
+      - post:
+        url: '/api/sessions/register'
+        json:
+          first_name: "{{ first_name }}"
+          last_name: "{{ last_name }}"
+          email: "{{ email }}"
+          password: "{{ password }}"
+      - think: 2
+      - log: "Login the usuario"
+      - post:
+        url: '/api/sessions/login'
+        json:
+          email: "{{ email }}"
+          password: "{{ password }}"
+          

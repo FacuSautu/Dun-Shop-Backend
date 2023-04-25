@@ -18,7 +18,7 @@ sessionsRouter.post('/register', (req, res, next)=>{
 
 // Falla en registro.
 sessionsRouter.get('/failregister', (req, res)=>{
-    req.logger.critical(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Error en estrategia de registro.`);
+    req.logger.fatal(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Error en estrategia de registro.`);
     res.send({status:'error', message:"Error en estrategia de registro"});
 })
 
@@ -43,7 +43,7 @@ sessionsRouter.post('/login', (req, res, next)=>{
 
 // Falla en login.
 sessionsRouter.get('/faillogin', (req, res)=>{
-    req.logger.critical(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Error en estrategia de login.`);
+    req.logger.fatal(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Error en estrategia de login.`);
     res.status(404).send({status: 'error', message: {message:"Error de autenticacion", valCode:0}});
 })
 

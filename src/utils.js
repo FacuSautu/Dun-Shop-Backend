@@ -53,18 +53,20 @@ export const authToken = (req, res, next)=>{
 // Logger utilities.
 const customLevelsOptions = {
     levels:{
-        critical: 0,
+        fatal: 0,
         error: 1,
         warning: 2,
         info: 3,
-        debug: 4
+        http: 4,
+        debug: 5,
     },
     colors:{
-        critical: 'red',
-        error: 'orange',
+        fatal: 'red',
+        error: 'red',
         warning: 'yellow',
         info: 'blue',
-        debug: 'white'
+        http: 'cyan',
+        debug: 'grey'
     }
 }
 const transports = (config.mode == 'DEVELOPMENT') ?
@@ -82,7 +84,7 @@ const transports = (config.mode == 'DEVELOPMENT') ?
         }),
         new winston.transports.File({
             filename: './dunshop.log',
-            level: "warning",
+            level: "error",
             format: winston.format.simple()
         })
     ]

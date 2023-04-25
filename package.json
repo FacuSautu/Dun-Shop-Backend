@@ -13,7 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@faker-js/faker": "^7.6.0",
     "bcrypt": "^5.1.0",
     "commander": "^10.0.0",
     "connect-mongo": "^4.6.0",
@@ -37,6 +36,9 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "artillery": "^2.0.0-31",
+    "artillery-plugin-metrics-by-endpoint": "^1.0.2",
     "nodemon": "^2.0.20"
   },
   "nodemonConfig": {

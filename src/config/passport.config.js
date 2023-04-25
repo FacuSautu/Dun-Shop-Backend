@@ -85,7 +85,7 @@ const initializePassport = ()=>{
 
                 return done(null, user);
             } catch (error) {
-                req.logger.critical(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Error general en estrategia.`);
+                req.logger.fatal(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Error general en estrategia.`);
                 return done("Error en estrategia de login: "+error);
             }
         })
