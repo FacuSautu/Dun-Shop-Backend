@@ -3,7 +3,7 @@ config:
     metrics-by-endpoint: {}
   target: 'http://localhost:8080'
   phases:
-    - duration: 20
+    - duration: 10
       arrivalRate: 20
 
 scenarios:
@@ -11,7 +11,7 @@ scenarios:
     flow:
       - log: "Creating moking data for user"
       - get:
-        url: '/api/test/user'
+        url: '/api/tests/mockingusers?qty=1'
         capture:
           - json: "$.first_name"
             as: "first_name"
@@ -36,4 +36,3 @@ scenarios:
         json:
           email: "{{ email }}"
           password: "{{ password }}"
-          
