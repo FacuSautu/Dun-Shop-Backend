@@ -69,6 +69,20 @@ class UserFsDAO{
         return user;
     }
 
+    async updateUserPassword(id, new_password){
+        let users = await this.readUsers();
+
+        users.forEach(user => {
+            if(user.id === id){
+                user.password = new_password;
+            }
+        });
+
+        this.users = users;
+        
+        this.writeUsers();
+    }
+
 
     async readUsers(){
         return JSON.parse(await this.fs.readFile(this.path, 'utf-8'));

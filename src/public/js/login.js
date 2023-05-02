@@ -1,5 +1,7 @@
 const login_form = document.getElementById('login_form');
+const recuperar_password = document.getElementById('recuperar_password');
 
+// Evento para el submit del login.
 login_form.addEventListener('submit', evt=>{
     evt.preventDefault();
 
@@ -8,6 +10,7 @@ login_form.addEventListener('submit', evt=>{
         data.append(pair[0], pair[1]);
     }
 
+    console.log(data);
     fetch('http://localhost:8080/api/sessions/login', {
         method: 'POST',
         body: data
@@ -20,4 +23,45 @@ login_form.addEventListener('submit', evt=>{
                 location.href = '/';
             }
         })
+})
+
+// Evento para la recuperacion de contraseña.
+recuperar_password.addEventListener('click', evt=>{
+    Swal.fire({
+        title: 'Recuperacion de contraseña',
+        text: 'Ingrese su e-mail:',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Recuperar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: (email) => {
+            if(!!!email.length) Swal.showValidationMessage(`Debe indicar un email para la recuperación.`);
+        },
+    }).then((result) => {
+        if(result.isConfirmed){
+            Swal.fire({
+                title: 'Recuperacion de contraseña',
+                html: 'Aguarde unos momentos...',
+                didOpen: () => {
+                  Swal.showLoading()
+
+                  fetch(`http://localhost:8080/api/sessions/recover?email=${result.value}`)
+                    .then(res=>res.json())
+                    .then(data=>{
+                        console.log("RESPONSE: ", data);
+
+                        if(data.status === 'success'){
+                            Swal.fire({
+                                title: 'Recuperacion de contraseña',
+                                text: 'Se le ha enviado un mail a la dirección indicada para que pueda recuperar su contraseña',
+                                icon: 'success'
+                            })
+                        }else{
+                            Swal.close();
+                        }
+                    })
+                }
+            })
+        }
+    })
 })

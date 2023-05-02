@@ -13,7 +13,8 @@ const EErrors = {
     USERS: {
         USER_ID_NOT_FOUND: '3-1',
         USER_EMAIL_NOT_FOUND: '3-2',
-        INVALID_PASSWORD: '3-3'
+        INVALID_PASSWORD: '3-3',
+        SAME_PASSWORD: '3-4'
     },
 
     MESSAGES: {

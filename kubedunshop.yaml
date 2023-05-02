@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeservice
+spec:
+  selector:
+    app: kubedunshop
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubedunshop
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: kubedunshop
+  template:
+    metadata:
+      labels:
+        app: kubedunshop
+    spec:
+      containers:
+        - name: kubecontainer
+          image: dunshop
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: '8080'
+          imagePullPolicy: Always

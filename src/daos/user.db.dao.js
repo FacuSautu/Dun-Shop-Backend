@@ -21,6 +21,10 @@ class UserDbDAO{
         return userModel.findById(id);
     }
 
+    updateUserPassword(id, new_password){
+        return userModel.updateOne({_id:id}, {password: new_password});
+    }
+
 }
 
 export default UserDbDAO;

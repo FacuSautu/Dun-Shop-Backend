@@ -174,12 +174,23 @@ viewsRouter.get('/login', publicView, (req, res)=>{
             break;
         case 2:
             message = 'La contraseña ingresada es incorrecta. Por favor vuelva a intentar.';
+        case 3:
+            message = 'Contraseña restablecida exitosamente. Por favor inicie sesión.'
     }
 
     if(!!isRegister) message = 'Registro exitoso, por favor inicie sesión para comenzar.';    
     if(!!isLogout) message = 'Por favor inicie sesión nuevamente para poder utilizar la totalidad de funciones.';
     
     res.render('login', {message});
+})
+
+// Formulario de recuperacion de contraseña.
+viewsRouter.get('/recover', publicView, (req, res)=>{
+    const email = req.query.email;
+    const user = req.query.user;
+    const timestamp = req.query.timestamp;
+
+    res.render('recover', {email, user, timestamp});
 })
 
 // Vista de perfil de usuario.
