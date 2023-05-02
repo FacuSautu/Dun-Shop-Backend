@@ -49,7 +49,7 @@ productsRouter.get('/:pid', async (req, res, next)=>{
 })
 
 // Agrega un nuevo producto.
-productsRouter.post('/', handlePolicies(['ADMIN']), uploader.array('thumbnails'), async (req, res, next)=>{
+productsRouter.post('/', handlePolicies(['ADMIN', 'PREMIUM']), uploader.array('thumbnails'), async (req, res, next)=>{
     try {
         let product = req.body;
         
@@ -67,7 +67,7 @@ productsRouter.post('/', handlePolicies(['ADMIN']), uploader.array('thumbnails')
 })
 
 // Modifica un producto.
-productsRouter.put('/:pid', handlePolicies(['ADMIN']), uploader.array('thumbnails'), async (req, res, next)=>{
+productsRouter.put('/:pid', handlePolicies(['ADMIN', 'PREMIUM']), uploader.array('thumbnails'), async (req, res, next)=>{
     try {
         let productId = req.params.pid;
         let product = req.body;
@@ -87,7 +87,7 @@ productsRouter.put('/:pid', handlePolicies(['ADMIN']), uploader.array('thumbnail
 })
 
 // Elimina un producto.
-productsRouter.delete('/:pid', handlePolicies(['ADMIN']), async (req, res, next)=>{
+productsRouter.delete('/:pid', handlePolicies(['ADMIN', 'PREMIUM']), async (req, res, next)=>{
     try {
         let productId = req.params.pid;
         

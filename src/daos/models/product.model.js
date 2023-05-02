@@ -28,11 +28,12 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required:true
     },
-    category:String,
+    category: String,
     thumbnails:{
         type: [String],
         default: ['img/default_product_img.png']
-    }
+    },
+    owner: mongoose.Schema.Types.ObjectId
 })
 
 productSchema.plugin(mongoosePaginate);
