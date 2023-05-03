@@ -44,7 +44,7 @@ cartsRouter.post('/', async (req, res, next)=>{
 })
 
 // Agrega un producto al carrito indicado.
-cartsRouter.post('/:cid/product/:pid', handlePolicies(["USER", "PREMIUM"]), async (req, res, next)=>{
+cartsRouter.post('/:cid/product/:pid', handlePolicies(["USER", "PREMIUM", "ADMIN"]), async (req, res, next)=>{
     try {
         let productId = req.params.pid;
         let cartId = req.params.cid;

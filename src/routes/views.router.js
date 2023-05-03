@@ -92,6 +92,36 @@ viewsRouter.get('/products', async (req, res, next)=>{
     }
 })
 
+// Tabla ABM producto.
+viewsRouter.get('/products/abm', async (req, res, next)=>{
+    try {
+        const products = await productController.getProducts();
+
+        res.render('products/productsTable', {products});
+    } catch (error) {
+        next(error);
+    }
+})
+
+// Formulario de producto.
+viewsRouter.get('/products/abm/:opt', async (req, res, next)=>{
+    try {
+        const opt = req.params.opt;
+        const pid = req.query.pid;
+        let product;
+
+        if(!!pid){
+            product = await productController.getProduct(pid);
+
+            product.thumbnails = product.thumbnails.map(thumbnail => (thumbnail.match(/^img/i)) ? '../'+thumbnail : thumbnail);    
+        }
+
+        res.render('products/productForm', {product, opt});
+    } catch (error) {
+        next(error);
+    }
+})
+
 // Detalle de producto.
 viewsRouter.get('/products/:pid', async (req, res, next)=>{
     try {
@@ -101,7 +131,7 @@ viewsRouter.get('/products/:pid', async (req, res, next)=>{
 
         product.thumbnails = product.thumbnails.map(thumbnail => (thumbnail.match(/^img/i)) ? '../'+thumbnail : thumbnail);
 
-        res.render('productDetail', {product: product});
+        res.render('productDetail', {product});
     } catch (error) {
         next(error);
     }
