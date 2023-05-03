@@ -66,8 +66,8 @@ class ProductFsDAO{
         let hasNextPage = (page < (productsFileComplete.length/limit));
         let prevPage = hasPrevPage ? (page-1) : null;
         let nextPage = hasNextPage ? (page+1) : null;
-        let prevLink = hasPrevPage ? `${config.host}:${config.port}/api/products?limit=${limit}&page=${prevPage}&sort=${sort}&query=${JSON.stringify(query)}` : null;
-        let nextLink = hasNextPage ? `${config.host}:${config.port}/api/products?limit=${limit}&page=${nextPage}&sort=${sort}&query=${JSON.stringify(query)}` : null;
+        let prevLink = hasPrevPage ? `http://${config.host}:${config.port}/products?limit=${limit}&page=${prevPage}&sort=${sort}&query=${JSON.stringify(query)}` : null;
+        let nextLink = hasNextPage ? `http://${config.host}:${config.port}/products?limit=${limit}&page=${nextPage}&sort=${sort}&query=${JSON.stringify(query)}` : null;
 
         let productsToSend = new ProductsDTO({
             products,

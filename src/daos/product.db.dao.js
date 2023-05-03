@@ -25,8 +25,8 @@ class ProductDbDAO{
             page: productsDb.page,
             hasPrevPage: productsDb.hasPrevPage,
             hasNextPage: productsDb.hasNextPage,
-            prevLink: (productsDb.hasPrevPage) ? `${config.host}:${config.port}/api/products?limit=${limit}&page=${productsDb.prevPage}&sort=${sort}&query=${query}` : null,
-            nextLink: (productsDb.hasNextPage) ? `${config.host}:${config.port}/api/products?limit=${limit}&page=${productsDb.nextPage}&sort=${sort}&query=${query}` : null
+            prevLink: (productsDb.hasPrevPage) ? `http://${config.host}:${config.port}/products?limit=${limit}&page=${productsDb.prevPage}&sort=${sort}&query=${JSON.stringify(query)}` : null,
+            nextLink: (productsDb.hasNextPage) ? `http://${config.host}:${config.port}/products?limit=${limit}&page=${productsDb.nextPage}&sort=${sort}&query=${JSON.stringify(query)}` : null
         })
 
         return products;
