@@ -44,12 +44,12 @@ cartsRouter.post('/', async (req, res, next)=>{
 })
 
 // Agrega un producto al carrito indicado.
-cartsRouter.post('/:cid/product/:pid', handlePolicies(["USER"]), async (req, res, next)=>{
+cartsRouter.post('/:cid/product/:pid', handlePolicies(["USER", "PREMIUM"]), async (req, res, next)=>{
     try {
         let productId = req.params.pid;
         let cartId = req.params.cid;
     
-        await cartController.addProductToCart(cartId, productId);
+        await cartController.addProductToCart(cartId, productId, req.user);
     
         res.send({status: 'success', message: `Producto ${productId} cargado con exito al carrito. ID: ${cartId}.`});
     } catch (error) {

@@ -8,7 +8,8 @@ const EErrors = {
     CARTS: {
         CART_NOT_FOUND: 'CART-1',
         CART_EXIST: 'CART-2',
-        PRODUCT_NOT_IN_CART: 'CART-3'
+        PRODUCT_NOT_IN_CART: 'CART-3',
+        IS_PRODUCT_OWNER: 'CART-4'
     },
 
     USERS: {

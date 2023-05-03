@@ -107,7 +107,7 @@ export const handlePolicies = policies => (req, res, next)=>{
 
     if(!!!req.user) return res.status(401).send({status:"error", message:"Unauthorized"});
 
-    if(!policies.includes(req.user.rol.toUpperCase())) return res.status(403).send({status:"error", message:"No tiene permisos suficientes."});
+    if(!policies.includes(req.user.rol.toUpperCase()) && req.user.rol.toUpperCase() !== 'ADMIN') return res.status(403).send({status:"error", message:"No tiene permisos suficientes."});
 
     next();
 }
