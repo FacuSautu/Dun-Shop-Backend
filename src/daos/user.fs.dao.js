@@ -83,6 +83,20 @@ class UserFsDAO{
         this.writeUsers();
     }
 
+    async updateUserRol(id, new_rol){
+        let users = await this.readUsers();
+
+        users.forEach(user=>{
+            if(user.id === id){
+                user.rol = new_rol;
+            }
+        })
+
+        this.users = users;
+
+        this.writeUsers();
+    }
+
 
     async readUsers(){
         return JSON.parse(await this.fs.readFile(this.path, 'utf-8'));

@@ -25,6 +25,9 @@ class UserDbDAO{
         return userModel.updateOne({_id:id}, {password: new_password});
     }
 
+    updateUserRol(id, new_rol){
+        return userModel.updateOne({_id:id}, {rol: new_rol});
+    }
 }
 
 export default UserDbDAO;

@@ -15,13 +15,14 @@ import { __dirname, addLogger } from './utils.js';
 import config from './config/config.js';
 import initializePassport from './config/passport.config.js';
 import MessageDbDAO from './daos/message.db.dao.js';
+import errorHandler from './services/errors/errorHandler.middleware.js';
 
 import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
+import usersRouter from './routes/users.router.js';
 import cartsRouter from './routes/carts.router.js';
 import productsRouter from './routes/products.router.js';
 import mocksRouter from './routes/mocks.router.js';
-import errorHandler from './services/errors/errorHandler.middleware.js';
 
 if(cluster.isPrimary){
     console.log("Levantando proceso primario, se procede a crear worker process:");
@@ -134,6 +135,7 @@ if(cluster.isPrimary){
     // Rutas
     app.use('/', viewsRouter);
     app.use('/api/sessions/', sessionsRouter);
+    app.use('/api/users/', usersRouter);
     app.use('/api/carts/', cartsRouter);
     app.use('/api/products/', productsRouter);
     app.use('/api/tests/', mocksRouter);

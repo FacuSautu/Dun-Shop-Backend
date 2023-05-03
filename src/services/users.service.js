@@ -23,6 +23,21 @@ class UserService{
         
         return this.persistanceEngine.updateUserPassword(id, password);
     }
+
+    async changeRol(id){
+        const user = await this.persistanceEngine.getUserById(id);
+        let new_rol;
+
+        if(user.rol.toUpperCase() === 'PREMIUM'){
+            new_rol = 'user';
+        }else if (user.rol.toUpperCase() === 'USER') {
+            new_rol = 'premium';
+        }
+
+        await this.persistanceEngine.updateUserRol(id, new_rol);
+
+        return new_rol;
+    }
 }
 
 export default UserService;
