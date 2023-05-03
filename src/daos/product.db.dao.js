@@ -62,7 +62,8 @@ class ProductDbDAO{
             status: productDb.status,
             stock: productDb.stock,
             category: productDb.category,
-            thumbnails: productDb.thumbnails
+            thumbnails: productDb.thumbnails,
+            owner: productDb.owner
         });
 
         return productDTO;

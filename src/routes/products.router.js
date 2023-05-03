@@ -76,7 +76,7 @@ productsRouter.put('/:pid', handlePolicies(['ADMIN', 'PREMIUM']), uploader.array
             req.files.forEach(file => product.thumbnails.push('img/'+file.filename));
         }
 
-        await productController.updateProduct(productId, product);
+        await productController.updateProduct(productId, product, req.user);
 
         await broadcastProducts(req.io.sockets);
 
@@ -91,7 +91,7 @@ productsRouter.delete('/:pid', handlePolicies(['ADMIN', 'PREMIUM']), async (req,
     try {
         let productId = req.params.pid;
         
-        await productController.deleteProduct(productId);
+        await productController.deleteProduct(productId, req.user);
 
         await broadcastProducts(req.io.sockets);
 

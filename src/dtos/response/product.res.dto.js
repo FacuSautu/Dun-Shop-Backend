@@ -9,6 +9,7 @@ class ProductDTO{
     this.stock = product.stock || 0;
     this.category = product.category;
     this.thumbnails = product.thumbnails || [];
+    this.owner = product.owner || 'admin';
   }
 }
 
