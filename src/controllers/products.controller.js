@@ -8,7 +8,7 @@ class ProductController{
         this.productService = new ProductService();
     }
 
-    getProducts(limit=10, page=1, query='{}', sort=1){
+    getProducts({limit=10, page=1, query='{}', sort=1}){
         return this.productService.getProducts(limit, page, query, sort);
     }
 

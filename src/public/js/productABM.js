@@ -2,7 +2,6 @@ const operation = document.getElementById('operation').value;
 const submitBtn = document.getElementById('sbt_btn');
 const prod_form = document.getElementById('prod_form');
 const product_id = document.getElementById('product_id').value;
-const user_id = document.getElementById('user_id').value;
 
 switch (operation) {
     case "add":
@@ -42,27 +41,26 @@ prod_form.addEventListener('submit', evt=>{
         data.append(pair[0], pair[1]);
     }
 
-    data.append('owner', user_id);
-
     // console.log("Endpoint: ", endpoint);
     // console.log("Method: ", method);
-    console.log("Body: ", body);
+    console.log("Body: ", data);
 
     fetch(`http://localhost:8080${endpoint}`, {
         method: method,
-        body: data
+        body: new FormData(evt.target)
     })
         .then(res=>res.json())
         .then(data=>{
             console.log(data);
             if(data.status === 'success'){
                 Swal.fire({
-                    title:"Operacion realizada con exito.",
+                    title:data.message,
                     icon: "success",
-                    timmer: 2500,
+                    timer: 2000,
                     showConfirmButton: false
+                }).then(()=>{
+                    window.location = '../abm';
                 })
-                window.location = '../abm';
             }else if(data.status === 'error') {
                 Swal.fire({
                     text: data.message,

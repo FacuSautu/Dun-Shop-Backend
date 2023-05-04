@@ -5,7 +5,14 @@
                 <img src="{{product.thumbnails}}" class="w-100" alt="{{product.title}}">
             </div>
             <div class="col-8 d-flex flex-column justify-content-between">
-                <h1 class="text-center">{{product.title}}</h1>
+                <div class="d-flex">
+                    <h1 class="text-center flex-grow-1">{{product.title}}</h1>
+                    {{#if isOwner}}
+                        <div>
+                            <a href="/products/abm/mod?pid={{product._id}}" type="button" class="btn btn-outline-danger"><i class="fa-solid fa-lg fa-pencil"></i></a>
+                        </div>
+                    {{/if}}
+                </div>
                 <div>
                     <p>{{product.description}}</p>
                     <p>Precio: ${{product.price}}</p>

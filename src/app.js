@@ -105,8 +105,7 @@ if(cluster.isPrimary){
     app.use(session({                                               // Administrador de sesiones.
         store: MongoStore.create({
             mongoUrl:'mongodb+srv://fsautu:root@coderhouse.lomute3.mongodb.net/?retryWrites=true&w=majority',
-            mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
-            ttl:15
+            mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true}
         }),
         secret:'dunShopSecret',
         resave:true,
@@ -119,6 +118,10 @@ if(cluster.isPrimary){
     
     // Custom middlewares
     app.use((req, res, next)=>{     // Middleware para agregar a las variables locales del objeto Response los datos de sesión.
+        if(!!req.session.passport?.user){
+            req.session.passport.user.abmPanel = (["ADMIN", "PREMIUM"].includes(req.session.passport.user.rol.toUpperCase())) ? true : false;
+        }
+
         res.locals.session = req.session;
         res.locals.session.user = req.session.passport?.user;
         next();

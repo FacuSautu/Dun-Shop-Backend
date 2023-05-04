@@ -24,6 +24,9 @@ class ProductService{
         if(!!query.category){
             query.category = {$eq: query.category};
         }
+        if(!!query.owner){
+            query.owner = {$eq: query.owner};
+        }
 
         return this.persistanceEngine.getProducts(limit, page, query, sort);
     }

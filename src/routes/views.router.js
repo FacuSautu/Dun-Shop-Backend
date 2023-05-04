@@ -32,7 +32,7 @@ viewsRouter.get('/products', async (req, res, next)=>{
         const sort = req.query.sort || 1;
 
         // Obtencion de producto
-        const products = await productController.getProducts(limit, page, query, sort);
+        const products = await productController.getProducts({limit, page, query, sort});
 
         products.payload = products.products;
 
@@ -93,10 +93,13 @@ viewsRouter.get('/products', async (req, res, next)=>{
 })
 
 // Tabla ABM producto.
-viewsRouter.get('/products/abm', async (req, res, next)=>{
+viewsRouter.get('/products/abm', privateView, handlePolicies(["ADMIN", "PREMIUM"]), async (req, res, next)=>{
     try {
-        const products = await productController.getProducts();
+        let query = {};
+        if(req.session.user.rol.toUpperCase() == "PREMIUM") query = {owner: req.session.user._id};
 
+        const products = await productController.getProducts({query: JSON.stringify(query)});
+        
         res.render('products/productsTable', {products});
     } catch (error) {
         next(error);
@@ -104,7 +107,7 @@ viewsRouter.get('/products/abm', async (req, res, next)=>{
 })
 
 // Formulario de producto.
-viewsRouter.get('/products/abm/:opt', async (req, res, next)=>{
+viewsRouter.get('/products/abm/:opt', privateView, handlePolicies(["ADMIN", "PREMIUM"]), async (req, res, next)=>{
     try {
         const opt = req.params.opt;
         const pid = req.query.pid;
@@ -123,7 +126,7 @@ viewsRouter.get('/products/abm/:opt', async (req, res, next)=>{
 })
 
 // Detalle de producto.
-viewsRouter.get('/products/:pid', async (req, res, next)=>{
+viewsRouter.get('/products/:pid', privateView, async (req, res, next)=>{
     try {
         const productId = req.params.pid;
 
@@ -131,7 +134,9 @@ viewsRouter.get('/products/:pid', async (req, res, next)=>{
 
         product.thumbnails = product.thumbnails.map(thumbnail => (thumbnail.match(/^img/i)) ? '../'+thumbnail : thumbnail);
 
-        res.render('productDetail', {product});
+        let isOwner = (String(product.owner) === String(req.user._id)) || (req.user.rol.toUpperCase() === 'ADMIN');
+
+        res.render('productDetail', {product, isOwner});
     } catch (error) {
         next(error);
     }
@@ -145,7 +150,7 @@ viewsRouter.get('/realtimeproducts', async (req, res, next)=>{
         const query = req.query.query || '';
         const sort = req.query.sort || 1;
     
-        const products = await productController.getProducts(limit, page, query, sort);
+        const products = await productController.getProducts({limit, page, query, sort});
 
         res.render('realTimeProducts', {products:products.products});
     } catch (error) {

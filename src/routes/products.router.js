@@ -16,7 +16,7 @@ productsRouter.get('/', async (req, res, next)=>{
         const query = req.query.query;
         const sort = req.query.sort;
 
-        const products = await productController.getProducts(limit, page, query, sort);
+        const products = await productController.getProducts({limit, page, query, sort});
 
         res.send({
             status: 'success',
@@ -54,6 +54,7 @@ productsRouter.post('/', handlePolicies(['ADMIN', 'PREMIUM']), uploader.array('t
         let product = req.body;
         
         if(!!req.files){
+            if(!!!product.thumbnails) product.thumbnails = [];
             req.files.forEach(file => product.thumbnails.push('img/'+file.filename));
         }
 
@@ -73,6 +74,7 @@ productsRouter.put('/:pid', handlePolicies(['ADMIN', 'PREMIUM']), uploader.array
         let product = req.body;
 
         if(!!req.files){
+            if(!!!product.thumbnails) product.thumbnails = [];
             req.files.forEach(file => product.thumbnails.push('img/'+file.filename));
         }
 
@@ -104,7 +106,7 @@ productsRouter.delete('/:pid', handlePolicies(['ADMIN', 'PREMIUM']), async (req,
 
 // Funciones
 async function broadcastProducts(sockets){
-    let products = await productController.getProducts();
+    let products = await productController.getProducts({});
     sockets.emit('products_update', products);
 }
 
