@@ -182,7 +182,7 @@ cartsRouter.get('/:cid/purchase', async (req, res, next)=>{
 
             res.send({status:'success', payload:{ticket:ticket._id, products_out_of_stock:itemsOutOfStock}});
         }else{
-            res.send({status:'error', message:'No se pudo realizar la compra por falta de stock.'});
+            res.status('404').send({status:'error', message:'No se pudo realizar la compra por falta de stock.'});
         }
 
     } catch (error) {

@@ -23,6 +23,8 @@ import usersRouter from './routes/users.router.js';
 import cartsRouter from './routes/carts.router.js';
 import productsRouter from './routes/products.router.js';
 import mocksRouter from './routes/mocks.router.js';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 if(cluster.isPrimary){
     console.log("Levantando proceso primario, se procede a crear worker process:");
@@ -90,6 +92,20 @@ if(cluster.isPrimary){
     
     const twilioClient = twilio(config.twilio_account_sid, config.twilio_auth_token);
     
+    // Configuracion de Swagger
+    const swaggerOptions = {
+        definition:{
+            openapi:'3.0.1',
+            info:{
+                title:"Dun-shop API documentation",
+                description: "Documentacion para la API de Dun-shop"
+            }
+        },
+        apis:[`${__dirname}/docs/**/*.yaml`]
+    }
+
+    const specs = swaggerJsdoc(swaggerOptions);
+
     // Configuracion
     app.engine('handlebars', handlebars.engine());                  // Creacion del motor de vistas.
     
@@ -142,5 +158,8 @@ if(cluster.isPrimary){
     app.use('/api/carts/', cartsRouter);
     app.use('/api/products/', productsRouter);
     app.use('/api/tests/', mocksRouter);
+
+    app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+
     app.use(errorHandler);
 }
