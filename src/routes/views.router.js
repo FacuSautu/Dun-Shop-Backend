@@ -16,7 +16,7 @@ const messageDB = new MessageDbDAO();
 // Vista principal.
 viewsRouter.get('/', async (req, res, next)=>{
     try {
-        res.redirect('/products');
+        res.status(301).redirect('/products');
     } catch (error) {
         next(error);
     }
