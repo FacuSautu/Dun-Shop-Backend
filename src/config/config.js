@@ -14,7 +14,9 @@ export default {
     login_strategy: process.env.LOGIN_STRATEGY,
     persistance_engine: (options.persistance) ? options.persistance : process.env.PERSISTANCE_ENGINE,
 
-    mongoUrl: process.env.MONGO_URL,
+    session_secret: process.env.SESSION_SECRET,
+
+    mongo_url: process.env.MONGO_URL,
 
     gitHub_AppId: process.env.GITHUB_APP_ID,
     gitHub_ClientId: process.env.GITHUB_CLIENT_ID,

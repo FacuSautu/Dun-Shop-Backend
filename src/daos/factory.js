@@ -16,7 +16,7 @@ export let MessagesFty;
 
 switch (config.persistance_engine.toUpperCase()) {
     case 'MONGO':
-        const connection = mongoose.connect(config.mongoUrl, (error)=>{
+        const connection = mongoose.connect(config.mongo_url, (error)=>{
             if(error){
                 console.log("Cannot connect to database: "+error);
                 process.exit();

@@ -120,10 +120,10 @@ if(cluster.isPrimary){
     app.use(cookieParser());                                        // Gestor de cookies.
     app.use(session({                                               // Administrador de sesiones.
         store: MongoStore.create({
-            mongoUrl:'mongodb+srv://fsautu:root@coderhouse.lomute3.mongodb.net/?retryWrites=true&w=majority',
+            mongoUrl:config.mongo_url,
             mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true}
         }),
-        secret:'dunShopSecret',
+        secret:config.session_secret,
         resave:true,
         saveUninitialized:true
     }))
