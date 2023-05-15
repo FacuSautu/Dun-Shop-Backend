@@ -5,6 +5,7 @@ import { generateUsers } from '../tests/mocks/users.mock.js';
 
 const mocksRouter = Router();
 
+// Datos mock de productos.
 mocksRouter.get('/mockingproducts', (req, res, next)=>{
     try {
         let qty = req.query.qty || 50;
@@ -17,6 +18,7 @@ mocksRouter.get('/mockingproducts', (req, res, next)=>{
     }
 })
 
+// Datos mock de usuarios.
 mocksRouter.get('/mockingusers', (req, res, next)=>{
     try {
         let qty = req.query.qty || 20;
@@ -29,6 +31,7 @@ mocksRouter.get('/mockingusers', (req, res, next)=>{
     }
 })
 
+// Datos mock de logeo.
 mocksRouter.get('/loggerTest', (req, res, next)=>{
     try{
         req.logger.info(`Endpoint para test de logger [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]`);

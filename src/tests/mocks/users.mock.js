@@ -6,7 +6,7 @@ import { generateCart } from './carts.mock.js';
 faker.locale = 'es';
 
 const randomRol = ()=>{
-    let roles = ['user', 'admin'];
+    let roles = ['user', 'premium', 'admin'];
     let randomIndex = Math.round(Math.random()*roles.length);
 
     return roles[randomIndex];
