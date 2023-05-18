@@ -14,7 +14,8 @@ export const generateProduct = ()=>{
         status: true,
         stock: Number(faker.random.numeric(3)),
         category: faker.commerce.department(),
-        thumbnails: [faker.image.imageUrl()]
+        thumbnails: [faker.image.imageUrl()],
+        owner: '642f6163797edba02f02a463'
     })
 }
 

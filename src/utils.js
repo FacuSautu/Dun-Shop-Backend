@@ -105,7 +105,6 @@ export const addLogger = (req, res, next)=>{
 export const handlePolicies = policies => (req, res, next)=>{
     if(policies.includes("PUBLIC")) return next();
 
-    console.log("HEADERS: ", req.headers);
     if(!!!req.user) return res.status(401).send({status:"error", message:"Unauthorized"});
 
     if(!policies.includes(req.user.rol.toUpperCase())) return res.status(403).send({status:"error", message:"No tiene permisos suficientes."});
