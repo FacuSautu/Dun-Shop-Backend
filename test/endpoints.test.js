@@ -14,7 +14,7 @@ import userModel from '../src/daos/models/user.model.js';
 const expect = chai.expect;
 const requester = supertest(`http://localhost:8080`);
 
-describe('Test de Endpoints', ()=>{
+export const EndpointTests = describe('Test de Endpoints', ()=>{
     describe('Products: ', ()=>{
         before(async function(){
             this.timeout(5000);
