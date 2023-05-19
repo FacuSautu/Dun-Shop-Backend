@@ -33,6 +33,10 @@ class CartService{
     deleteAllProducts(cartId){
         return this.persistanceEngine.deleteAllProductFromCart(cartId);
     }
+
+    deleteCart(cartId){
+        return this.persistanceEngine.deleteCart(cartId);
+    }
 }
 
 export default CartService;

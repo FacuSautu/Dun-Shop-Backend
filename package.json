@@ -1,5 +1,5 @@
 {
-  "name": "clase-6",
+  "name": "dun-shop",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -39,7 +39,7 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "^8.0.1",
     "artillery": "^2.0.0-31",
     "artillery-plugin-metrics-by-endpoint": "^1.0.2",
     "chai": "^4.3.7",

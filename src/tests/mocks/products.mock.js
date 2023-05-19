@@ -1,8 +1,6 @@
-import { faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker/locale/es";
 
 import ProductDTO from "../../dtos/response/product.res.dto.js";
-
-faker.locale = 'es';
 
 export const generateProduct = ()=>{
     return new ProductDTO({

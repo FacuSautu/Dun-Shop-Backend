@@ -1,9 +1,7 @@
-import { faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker/locale/es";
 
 import UserDTO from '../../dtos/request/user.req.dto.js';
 import { generateCart } from './carts.mock.js';
-
-faker.locale = 'es';
 
 const randomRol = ()=>{
     let roles = ['user', 'premium', 'admin'];

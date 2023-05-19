@@ -198,6 +198,13 @@ class CartFsDAO{
     return updatedCart;
   }
 
+  async deleteCart(cartId){
+    let carts = await this.getCarts();
+    
+    this.carts = carts.filter(cart=>cart.cartId!==Number(cartId));
+    await this.writeCarts();
+  }
+
 
   async readCarts(){
     return JSON.parse(await this.fs.readFile(this.path, 'utf-8'));

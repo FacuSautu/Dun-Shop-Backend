@@ -107,7 +107,7 @@ cartsRouter.delete('/:cid', async (req, res, next)=>{
     
         await cartController.deleteAllProducts(cartId);
 
-        res.send({statis: 'success', message: `Se eliminaron todos los productos del carrito. ID: ${cartId}.`});
+        res.send({status: 'success', message: `Se eliminaron todos los productos del carrito. ID: ${cartId}.`});
     } catch (error) {
         next(error);
     }

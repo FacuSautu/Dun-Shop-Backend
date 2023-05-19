@@ -133,6 +133,10 @@ class CartDbDAO{
 
     return cartModel.updateOne({_id:cartId}, {products:[]});
   }
+
+  async deleteCart(cartId){
+    return cartModel.deleteOne({_id:cartId});
+  }
 }
 
 export default CartDbDAO;

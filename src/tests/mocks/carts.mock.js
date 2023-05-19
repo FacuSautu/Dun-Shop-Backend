@@ -1,11 +1,10 @@
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker/locale/es';
 
 import ProductController from "../../controllers/products.controller.js";
 import CartDTO from '../../dtos/response/cart.res.dto.js';
+import CartDTOReq from '../../dtos/request/cart.req.dto.js';
 import CartProductDTO from '../../dtos/cartProduct.dto.js';
 import { generateProduct } from "./products.mock.js";
-
-faker.locale = 'es';
 
 const productController = new ProductController();
 
@@ -53,7 +52,7 @@ export const generateCartProductForReq = async ()=>{
 
     return new CartProductDTO({
         product:productsId[Math.floor(Math.random()*productsId.length)],
-        quantity: faker.random.numeric(2)
+        quantity: faker.number.int({min: 0, max:20})
     })
 }
 
@@ -61,35 +60,46 @@ export const generateCartproductsForReq = async (qty=10)=>{
     let cartProducts = [];
 
     for (let i = 0; i < qty; i++) {
+        let exist = false;
         let productToAdd = await generateCartProductForReq();
         
-        
-        let exist;
         cartProducts.forEach((product, index)=>{
-            console.log("DATOS: ", product, index);
+            if(product.product === productToAdd.product){
+                exist = index;
+            }
         })
-        // if(!!exist){
-        //     cartProducts[cartProducts.indexOf(exist)]
-        // }
-        cartProducts.push();
+
+        if(!!exist){
+            cartProducts[exist].quantity += productToAdd.quantity;
+        }else{
+            cartProducts.push(productToAdd);
+        }
     }
 
     return cartProducts;
 }
 
-export const generateCartForReq = ()=>{
-    return new CartDTO({
-        _id: faker.random.alphaNumeric(10),
-        products: generateCartproducts(Math.random()*20)
+export const generateCartForReq = async (qty)=>{
+    let realQty = qty || Math.random()*20;
+
+    return new CartDTOReq({
+        products: await generateCartproductsForReq(realQty)
     })
 }
 
-export const generateCartsForReq = qty=>{
+export const generateCartsForReq = async (qty)=>{
     let carts = [];
 
     for (let i = 0; i < qty; i++) {
-        carts.push(generateCart());
+        carts.push(await generateCartForReq());
     }
 
     return carts;
+}
+
+export const getRandomProductOnDB = async ()=>{
+    const products = await productController.getProducts({limit:1000});
+    const productsId = products.products.map(product=>String(product._id))
+
+    return productsId[Math.floor(Math.random()*productsId.length)]
 }
