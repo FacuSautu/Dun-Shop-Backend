@@ -12,10 +12,10 @@ const randomRol = ()=>{
 
 export const generateUser = ()=>{
     return new UserDTO({
-        first_name: faker.name.firstName(),
-        last_name: faker.name.lastName(),
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
         email: faker.internet.email(),
-        age: faker.random.numeric(2),
+        age: faker.number.int({min: 15, max:67}),
         password: faker.internet.password(16),
         rol: randomRol(),
         cart: generateCart()

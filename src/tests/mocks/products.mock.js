@@ -4,15 +4,15 @@ import ProductDTO from "../../dtos/response/product.res.dto.js";
 
 export const generateProduct = ()=>{
     return new ProductDTO({
-        _id: faker.random.alphaNumeric(10),
+        _id: faker.string.alphanumeric(10),
         title: faker.commerce.productName(),
         description: faker.commerce.productDescription(),
-        code: faker.random.alphaNumeric(5),
-        price: Number(faker.random.numeric(4)),
+        code: faker.string.alphanumeric(5),
+        price: faker.number.int({min:150, max:10500}),
         status: true,
-        stock: Number(faker.random.numeric(3)),
+        stock: faker.number.int({min: 5, max: 2500}),
         category: faker.commerce.department(),
-        thumbnails: [faker.image.imageUrl()],
+        thumbnails: [faker.image.url()],
         owner: '642f6163797edba02f02a463'
     })
 }

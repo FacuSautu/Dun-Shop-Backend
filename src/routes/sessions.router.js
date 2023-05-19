@@ -72,7 +72,7 @@ sessionsRouter.get('/logout', (req, res)=>{
     req.session.destroy(err=>{
         if(err) res.send({status:'error', message:'Error al cerrar la sesión: '+err});
 
-        res.redirect('/login?logout=1');
+        res.status(301).redirect('/login?logout=1');
     });
 })
 
@@ -121,7 +121,7 @@ sessionsRouter.post('/recover', async (req, res, next)=>{
 
         await userService.updateUserPassword(user, pass);
     
-        res.send({status:'success', payload:`Contraseña modificada!`});
+        res.send({status:'success', message:`Contraseña modificada!`});
     } catch (error) {
         next(error);
     }

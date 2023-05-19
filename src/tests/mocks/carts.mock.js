@@ -13,7 +13,7 @@ const productController = new ProductController();
 export const generateCartProduct = ()=>{
     return new CartProductDTO({
         product:generateProduct(),
-        quantity: faker.random.numeric(2)
+        quantity: faker.number.int({min: 1, max: 500})
     })
 }
 
@@ -29,7 +29,7 @@ export const generateCartproducts = qty=>{
 
 export const generateCart = ()=>{
     return new CartDTO({
-        _id: faker.random.alphaNumeric(10),
+        _id: faker.string.alphanumeric(10),
         products: generateCartproducts(Math.random()*20)
     })
 }
