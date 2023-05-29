@@ -97,6 +97,22 @@ class UserFsDAO{
         this.writeUsers();
     }
 
+    async setLastConnection(id, last_connection){
+        if(!!!last_connection) last_connection = new Date();
+
+        let users = await this.readUsers();
+
+        user.forEach(user=>{
+            if(user.id == id){
+                user.last_connection = last_connection;
+            }
+        })
+
+        this.users = users;
+
+        this.writeUsers();
+    }
+
 
     async readUsers(){
         return JSON.parse(await this.fs.readFile(this.path, 'utf-8'));

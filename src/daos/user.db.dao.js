@@ -28,6 +28,13 @@ class UserDbDAO{
     updateUserRol(id, new_rol){
         return userModel.updateOne({_id:id}, {rol: new_rol});
     }
+
+    setLastConnection(id, last_connection){
+        if(!!!last_connection) last_connection = new Date();
+        console.log("ID: ", id, "LAST DATE: ", last_connection);
+        
+        return userModel.updateOne({_id:id}, {last_connection});
+    }
 }
 
 export default UserDbDAO;

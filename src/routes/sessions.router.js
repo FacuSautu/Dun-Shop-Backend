@@ -72,6 +72,8 @@ sessionsRouter.get('/logout', (req, res)=>{
     req.session.destroy(err=>{
         if(err) res.send({status:'error', message:'Error al cerrar la sesión: '+err});
 
+        userService.setLastConnection(req.user._id);
+
         res.status(301).redirect('/login?logout=1');
     });
 })

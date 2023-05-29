@@ -38,6 +38,10 @@ class UserService{
 
         return new_rol;
     }
+
+    setLastConnection(id){
+        return this.persistanceEngine.setLastConnection(id, new Date());
+    }
 }
 
 export default UserService;

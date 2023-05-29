@@ -83,6 +83,8 @@ const initializePassport = ()=>{
                     return done(null, false, {message:"Contraseña incorrecta.", valCode:2});
                 }
 
+                await userDB.setLastConnection(user._id, new Date());
+
                 return done(null, user);
             } catch (error) {
                 req.logger.fatal(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Error general en estrategia.`);
@@ -131,8 +133,13 @@ const initializePassport = ()=>{
                     }
 
                     let result = await userDB.addUser(newUser);
+
+                    await userDB.setLastConnection(result._id, new Date());
+
                     done(null, result);
                 }else{
+                    await userDB.setLastConnection(user._id, new Date());
+
                     done(null, user);
                 }
             } catch (error) {
