@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 
         switch (file.fieldname) {
             case 'profile':
-                path = `${__dirname}/public/img/profiles/${req.session.user._id}`;
+                path = `${__dirname}/public/img/profiles/${req.params.uid}`;
                 break;
 
             case 'product':
@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
             case 'domicilio':
             case 'estado_cuenta':
             case 'document':
-                path = `${__dirname}/public/documents/${req.session.user._id}`;
+                path = `${__dirname}/public/documents/${req.params.uid}`;
                 break;
 
             default:

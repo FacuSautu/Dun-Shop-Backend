@@ -37,6 +37,7 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
     try {
         const uid = req.params.uid;
 
+        // Se chequea que se enviaran archivos
         if(!!!req.files){
             CustomError.createError({
                 name: "No se envio ningun archivo",
@@ -46,40 +47,41 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
             });
         }
 
+        // Se analizan los documentos para cargarlos a cada usuario.
         if(!!req.files.document){
             req.files.document.forEach(async file=>{    
                 let newDocument = {
                     name: 'document',
-                    reference: `img/documents/${req.session.user._id}/${file.filename}`
+                    reference: `img/documents/${uid}/${file.filename}`
                 }
         
-                await userService.addDocument(req.session.user._id, newDocument);
+                await userService.addDocument(uid, newDocument);
             })
         }
 
         if(!!req.files.identificacion){
             let newDocument = {
                 name: 'identificacion',
-                reference: `img/documents/${req.session.user._id}/${req.files.identificacion.filename}`
+                reference: `img/documents/${uid}/${req.files.identificacion[0].filename}`
             }
 
-            await userService.addDocument(req.session.user._id, newDocument);
+            await userService.addDocument(uid, newDocument);
         }
         if(!!req.files.domicilio){
             let newDocument = {
                 name: 'domicilio',
-                reference: `img/documents/${req.session.user._id}/${req.files.domicilio.filename}`
+                reference: `img/documents/${uid}/${req.files.domicilio[0].filename}`
             }
 
-            await userService.addDocument(req.session.user._id, newDocument);
+            await userService.addDocument(uid, newDocument);
         }
         if(!!req.files.estado_cuenta){
             let newDocument = {
                 name: 'estado_cuenta',
-                reference: `img/documents/${req.session.user._id}/${req.files.estado_cuenta.filename}`
+                reference: `img/documents/${uid}/${req.files.estado_cuenta[0].filename}`
             }
 
-            await userService.addDocument(req.session.user._id, newDocument);
+            await userService.addDocument(uid, newDocument);
         }
 
         res.send({status:'success', message:'Documento cargado con exito.'});
