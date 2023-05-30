@@ -102,14 +102,28 @@ class UserFsDAO{
 
         let users = await this.readUsers();
 
-        user.forEach(user=>{
-            if(user.id == id){
+        users.forEach(user=>{
+            if(user.id === id){
                 user.last_connection = last_connection;
             }
         })
 
         this.users = users;
 
+        this.writeUsers();
+    }
+
+    async addDocument(id, document){
+        let users = await this.readUsers();
+
+        users.forEach(user=>{
+            if(user.id === id){
+                user.documents.push(document);
+            }
+        })
+
+        this.users = users;
+        
         this.writeUsers();
     }
 

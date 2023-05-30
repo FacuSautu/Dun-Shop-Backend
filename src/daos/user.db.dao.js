@@ -31,9 +31,12 @@ class UserDbDAO{
 
     setLastConnection(id, last_connection){
         if(!!!last_connection) last_connection = new Date();
-        console.log("ID: ", id, "LAST DATE: ", last_connection);
         
         return userModel.updateOne({_id:id}, {last_connection});
+    }
+
+    addDocument(id, document){
+        return userModel.updateOne({_id:id}, {$push:{documents:document}});
     }
 }
 

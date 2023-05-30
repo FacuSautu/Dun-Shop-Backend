@@ -4,15 +4,63 @@ import { dirname } from 'path';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import winston from 'winston';
+import fs from 'fs';
 
 import config from './config/config.js';
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
-        cb(null, __dirname+'/public/img');
+        let path;
+
+        switch (file.fieldname) {
+            case 'profile':
+                path = `${__dirname}/public/img/profiles/${req.session.user._id}`;
+                break;
+
+            case 'product':
+                path = `${__dirname}/public/img/products`;
+                break;
+        
+            case 'identificacion':
+            case 'domicilio':
+            case 'estado_cuenta':
+            case 'document':
+                path = `${__dirname}/public/documents/${req.session.user._id}`;
+                break;
+
+            default:
+                path = `${__dirname}/public/img`;
+                break;
+        }
+            
+        if(!fs.existsSync(path)){
+            fs.mkdirSync(path);
+        }
+        cb(null, path);
+
     },
     filename:function(req, file, cb){
-        cb(null, file.originalname);
+        let newFileName;
+
+        switch (file.fieldname) {
+            case 'identificacion':
+                newFileName = "Identificacion.pdf";
+                break;
+
+            case 'domicilio':
+                newFileName = "Comprobante de Domicilio.pdf";
+                break;
+
+            case 'estado_cuenta':
+                newFileName = "Comprobante de Estado de Cuenta.pdf";
+                break;
+
+            default:
+                newFileName = file.originalname;
+                break;
+        }
+
+        cb(null, newFileName);
     }
 })
 

@@ -16,7 +16,9 @@ const EErrors = {
         USER_ID_NOT_FOUND: 'USER-1',
         USER_EMAIL_NOT_FOUND: 'USER-2',
         INVALID_PASSWORD: 'USER-3',
-        SAME_PASSWORD: 'USER-4'
+        SAME_PASSWORD: 'USER-4',
+        FILES_NOT_FOUND: 'USER-5',
+        MISSING_DOCUMENTS: 'user-6'
     },
 
     MESSAGES: {

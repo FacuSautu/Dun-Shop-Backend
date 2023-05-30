@@ -1,5 +1,10 @@
+# Carpetaas
 /node_modules
 
+# Archivos dentro de carpetas
+/src/public/documents/*
+
+# Archivos de entorno
 .env
 .env.development
 .env.production
