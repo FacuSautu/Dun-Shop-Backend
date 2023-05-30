@@ -185,7 +185,7 @@ components:
             price: 1500,
             stock: 27,
             category: Armaduras,
-            thumbnails: [ img/armadura_de_placas.png ],
+            thumbnails: [ img/products/armadura_de_placas.png ],
             owner: ObjectId(642f6163197edba02a02a443)
           }
         totalPages: 3
@@ -239,7 +239,7 @@ components:
         status: true
         stock: "27"
         category: Armaduras
-        thumbnails: [ img/armadura_de_placas.png ]
+        thumbnails: [ img/products/armadura_de_placas.png ]
         owner: ObjectId(642f6163197edba02a02a443)
   
   requestBodies:
@@ -277,5 +277,5 @@ components:
         price: "1500"
         stock: "27"
         category: Armaduras
-        thumbnails: [ img/armadura_de_placas.png ]
+        thumbnails: [ img/products/armadura_de_placas.png ]
         owner: ObjectId(642f6163197edba02a02a443)

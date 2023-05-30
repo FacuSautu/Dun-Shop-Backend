@@ -31,7 +31,7 @@ const productSchema = new mongoose.Schema({
     category: String,
     thumbnails:{
         type: [String],
-        default: ['img/default_product_img.png']
+        default: ['img/products/default_product_img.png']
     },
     owner: mongoose.Schema.Types.ObjectId
 })

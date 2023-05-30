@@ -4,7 +4,7 @@
 			"description": "Este es un producto de prueba 1",
 			"price": 200,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba1",
 			"stock": 25,
@@ -15,7 +15,7 @@
 			"description": "Este es un producto de prueba 6",
 			"price": 345,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba6",
 			"stock": 645,
@@ -26,7 +26,7 @@
 			"description": "Este es un producto de prueba 9",
 			"price": 453,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba9",
 			"stock": 456,
@@ -37,7 +37,7 @@
 			"description": "Este es un producto de prueba 7",
 			"price": 465,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba7",
 			"stock": 15476,
@@ -48,7 +48,7 @@
 			"description": "Este es un producto de prueba 8",
 			"price": 789,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba8",
 			"stock": 4567,
@@ -59,7 +59,7 @@
 			"description": "Este es un producto de prueba 3",
 			"price": 875,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba3",
 			"stock": 456,
@@ -70,7 +70,7 @@
 			"description": "Muy bueno",
 			"price": 987,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "4564564",
 			"stock": 100,
@@ -81,7 +81,7 @@
 			"description": "Muy bueno",
 			"price": 987,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "4564564564",
 			"stock": 100,
@@ -104,7 +104,7 @@
 			"description": "Este es un producto de prueba 12",
 			"price": 1250,
 			"thumbnails": [
-					"img/reflejo_pag1.webp"
+					"img/products/reflejo_pag1.webp"
 			],
 			"code": "ProdPrueba12",
 			"stock": 150,
@@ -115,7 +115,7 @@
 			"description": "Este es un producto de prueba 4",
 			"price": 2546,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba4",
 			"stock": 78,
@@ -126,7 +126,7 @@
 			"description": "Este es un producto de prueba 10",
 			"price": 5200,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba11",
 			"stock": 120,
@@ -137,7 +137,7 @@
 			"description": "Este es un producto de prueba 5",
 			"price": 78845,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba5",
 			"stock": 5,
@@ -149,7 +149,7 @@
 			"description": "Este es un producto de prueba 13",
 			"price": 121212,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba13",
 			"stock": 158,
@@ -173,7 +173,7 @@
 			"status": true,
 			"stock": 1900,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"id": 16
 	},
@@ -192,7 +192,7 @@
 			"description": "Este es un producto de prueba 11",
 			"price": 11111111,
 			"thumbnails": [
-					"img/default_product_img.png"
+					"img/products/default_product_img.png"
 			],
 			"code": "ProdPrueba11",
 			"stock": 11111,

@@ -55,7 +55,7 @@ productsRouter.post('/', handlePolicies(['ADMIN', 'PREMIUM']), uploader.array('t
         
         if(!!req.files){
             if(!!!product.thumbnails) product.thumbnails = [];
-            req.files.forEach(file => product.thumbnails.push('img/'+file.filename));
+            req.files.forEach(file => product.thumbnails.push('img/products/'+file.filename));
         }
 
         let addedProduct = await productController.addProduct(product);
@@ -75,7 +75,7 @@ productsRouter.put('/:pid', handlePolicies(['ADMIN', 'PREMIUM']), uploader.array
 
         if(!!req.files){
             if(!!!product.thumbnails) product.thumbnails = [];
-            req.files.forEach(file => product.thumbnails.push('img/'+file.filename));
+            req.files.forEach(file => product.thumbnails.push('img/products/'+file.filename));
         }
 
         await productController.updateProduct(productId, product, req.user);
