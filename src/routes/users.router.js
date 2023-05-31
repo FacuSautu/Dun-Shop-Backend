@@ -18,7 +18,9 @@ usersRouter.get('/premium/:uid', handlePolicies(['PREMIUM', 'USER']), async (req
 
         let changeRol = await userService.changeRol(uid);
 
-        res.send({status:'success', payload:`Rol del usuario modificado a ${changeRol.toUpperCase()}.`});
+        if(req.session.user._id === uid) req.session.user.rol = changeRol;
+
+        res.send({status:'success', message:`Rol del usuario modificado a ${changeRol.toUpperCase()}.`});
     } catch (error) {
         next(error);
     }
@@ -84,7 +86,7 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
             await userService.addDocument(uid, newDocument);
         }
 
-        res.send({status:'success', message:'Documento cargado con exito.'});
+        res.send({status:'success', message:'Documento/s cargado/s con exito.'});
     } catch (error) {
         next(error);
     }

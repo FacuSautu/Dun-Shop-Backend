@@ -1,9 +1,10 @@
 import { Router } from 'express';
+import fs from 'fs';
 
 import ProductController from '../controllers/products.controller.js';
 import CartController from '../controllers/carts.controller.js';
 import MessageDbDAO from '../daos/message.db.dao.js';
-import { handlePolicies } from '../utils.js';
+import { __dirname, handlePolicies } from '../utils.js';
 
 
 const viewsRouter = Router();
@@ -231,6 +232,17 @@ viewsRouter.get('/recover', publicView, (req, res)=>{
 // Vista de perfil de usuario.
 viewsRouter.get('/profile', privateView, (req, res)=>{
     res.render('profile');
+})
+
+// Vista de carga de documentos de usuario.
+viewsRouter.get('/users/documents', privateView, (req, res)=>{
+    const documents = {
+        identificacion: fs.existsSync(`${__dirname}/public/documents/${req.session.user._id}/Identificacion.pdf`),
+        domicilio: fs.existsSync(`${__dirname}/public/documents/${req.session.user._id}/Comprobante de Domicilio.pdf`),
+        estado_cuenta: fs.existsSync(`${__dirname}/public/documents/${req.session.user._id}/Comprobante de Estado de Cuenta.pdf`)
+    }
+
+    res.render('userDocuments', {documents});
 })
 
 // Chat.
