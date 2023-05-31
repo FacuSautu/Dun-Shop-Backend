@@ -1,0 +1,73 @@
+paths:
+  /api/users/premium/{uid}:
+    get:
+      summary: Modificacion de Rol de usuario
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id del usuario al que se le cambiara el rol
+          schema:
+            $type: Strig
+      responses:
+        "200":
+          description: Rol de usuario modificado con exito.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#components/schemas/rolChangeResponse'
+
+  /api/users/{uid}/documents:
+    post:
+      summary: Carga de documentacion de usuario
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id del usuario al que se le cargara la documentacion
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Documentacion de usuario cargada con exito.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#components/schemas/documentsResponse'
+
+components:
+  schemas:
+    rolChangeResponse:
+      type: object
+      properties:
+        status:
+          type: String
+          description: Estado de la respuesta (success/error)
+        message:
+          type: String
+          description: Mensaje de respuesta
+      example:
+        status: success
+        message: Rol del usuario modificado a PREMIUM.
+
+
+    documentsResponse:
+      type: object
+      properties:
+        status:
+          type: String
+          description: Estado de la respuesta (success/error)
+        message:
+          type: String
+          description: Mensaje de respuesta
+      example:
+        status: success
+        message: Documento/s cargado/s con exito.

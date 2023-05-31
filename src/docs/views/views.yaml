@@ -146,6 +146,15 @@ paths:
         "200":
           description: Vista de perfil de usuario
 
+  /users/documents:
+    get:
+      summary: Formulario de carga de documentacion de usuario
+      tags:
+        - Views
+      responses:
+        "200":
+          description: Vista del formulario de carga de documentacion
+
   /chat:
     get:
       summary: Chat de usuarios
