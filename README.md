@@ -85,475 +85,7 @@ Para poder correr este proyecto se deben completar las siguientes variables de e
 
 ## API Reference
 
-### Products
-#### Get all products
-
-```http
-  GET /api/products
-```
-- **Query params**
-
-| Parameter | Type     | Description                                | Valores posibles                                             |
-| :-------- | :------- | :----------------------------------------- | :----------------------------------------------------------- |
-| `limit`   | `number` | Numero de los registros por pagina.        |                                                              |
-| `page`    | `number` | Numero de pagina que se quiere visualizar. |                                                              |
-| `sort`    | `number` | Tipo de ordenamiento deseado por precio.   | 1: Ordenamiento ascendente.<br>-1: Ordenamiento descendente. |
-| `query`   | `JSON`   | Filtros a aplicar a la busqueda.           | stock: Filta productos con o sin stock (1 o 0)<br>maxStock: Filtra por productos con menor stock.<br>minStock: Filtra por productos con mayor stock.<br>category: Filtra productos por la categoria enviada. |
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success/error),
-    payload: <Product>[] Array con el resultado de productos,
-    totalPages: <Number> Cantidad de paginas,
-    prevPage: <Number> Pagina anterior,
-    nextPage: <Number> Pagina siguiente,
-    page: <Number> Pagina actual,
-    hasPrevPage: <Boolean> Tiene pagina anterior?,
-    hasNextPage: <Boolean> Tiene pagina siguiente?,
-    prevLink: <String || null> URL para obtener la anterior pagina,
-    nextLink: <String || null> URL para obtener la siguiente pagina
-}
-```
-
-___
-#### Get product
-
-```http
-  GET /api/products/${pid}
-```
-
-| Parameter | Type     | Description                              |
-| :-------- | :------- | :--------------------------------------- |
-| `pid`     | `string` | **Requerido**. Id del producto a obtener |
-
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success/error),
-    payload: <Product> Objeto con los datosdel productos,
-    message: <String> Mensaje informativo (Solo para estado de error)
-}
-```
-
-___
-#### Add product
-
-```http
-  POST /api/products
-```
-
-- **JSON Body**
-
-```
-{
-    title: <String> Titulo del producto,
-    description: <String> Descripcion del producto,
-    code: <String> Codigo del producto,
-    price: <Number> Precio del producto,
-    status: <Boolean> Estado del producto,
-    stock: <Number> Cantidad en stock,
-    category: <String> Categoria del producto
-}
-```
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success/error),
-    message: <String> Mensaje informativo
-}
-```
-
-___
-#### Update product
-
-```http
-  PUT /api/products/${pid}
-```
-
-| Parameter | Type     | Description                                |
-| :-------- | :------- | :----------------------------------------- |
-| `pid`     | `string` | **Requerido**. Id del producto a modificar |
-
-
-- **JSON Body**
-
-```
-{
-    title: <String> Titulo modificado del producto,
-    description: <String> Descripcion modificada del producto,
-    code: <String> Codigo modificado del producto,
-    price: <Number> Precio modificado del producto,
-    status: <Boolean> Estado modificado del producto,
-    stock: <Number> Cantidad modificada en stock,
-    category: <String> Categoria modificada del producto
-}
-```
-No es necesario mandar todos los datos del producto, pueden enviarse solo los datos que se desean modificar.
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success/error),
-    message: <String> Mensaje informativo
-}
-```
-
-___
-#### Eliminar product
-
-```http
-  DELETE /api/products/${pid}
-```
-
-| Parameter | Type     | Description                               |
-| :-------- | :------- | :---------------------------------------- |
-| `pid`     | `string` | **Requerido**. Id del producto a eliminar |
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success/error),
-    message: <String> Mensaje informativo
-}
-```
-
-### Cart
-#### Get cart
-
-```http
-  GET /api/carts/${cid}
-```
-
-| Parameter | Type     | Description                             |
-| :-------- | :------- | :-------------------------------------- |
-| `cid`     | `string` | **Requerido**. Id del carrito a obtener |
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success/error),
-    payload: <CartProduct>[] Array con los productos del carrito,
-    message: <String> Mensaje informativo
-}
-```
-
-___
-#### Add cart
-
-```http
-  POST /api/carts
-```
-
-- **JSON Body**
-
-```
-{
-    "products": <CartProduct>[] Array con datos de los productos (solo Id del producto y cantidad en carrito),
-}
-```
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success/error),
-    message: <String> Mensaje informativo
-}
-```
-
-___
-#### Add product to cart
-
-```http
-  POST /api/carts/:cid/product/:pid
-```
-| Parameter | Type     | Description                                         |
-| :-------- | :------- | :-------------------------------------------------- |
-| `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
-| `pid`     | `string` | **Requerido**. Id del producto a agregar            |
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success),
-    message: <String> Mensaje informativo
-}
-```
-
-___
-#### Update cart
-
-```http
-  PUT /api/carts/:cid
-```
-- **URL Params**
-
-| Parameter | Type     | Description                                         |
-| :-------- | :------- | :-------------------------------------------------- |
-| `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
-
-- **Body**
-
-```
-{
-    products: [
-        {
-            product: <String> ID del producto,
-            quantity: <Number> Cantidad del producto
-        }
-    ]
-}
-```
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success),
-    message: <String> Mensaje informativo
-}
-```
-
-___
-#### Update product in cart
-
-```http
-  PUT /api/carts/:cid/product/:pid
-```
-- **URL Params**
-
-| Parameter | Type     | Description                                         |
-| :-------- | :------- | :-------------------------------------------------- |
-| `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
-| `pid`     | `string` | **Requerido**. Id del producto a agregar            |
-
-- **Body**
-
-```
-{
-    quantity: <Number> Cantidad del producto
-}
-```
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success),
-    message: <String> Mensaje informativo
-}
-```
-
-___
-#### Delete product in cart
-
-```http
-  DELETE /api/carts/:cid/product/:pid
-```
-
-- **URL Params**
-
-| Parameter | Type     | Description                                         |
-| :-------- | :------- | :-------------------------------------------------- |
-| `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
-| `pid`     | `string` | **Requerido**. Id del producto a agregar            |
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success),
-    message: <String> Mensaje informativo
-}
-```
-
-___
-#### Delete all products in cart
-
-```http
-  DELETE /api/carts/:cid
-```
-- **URL Params**
-
-| Parameter | Type     | Description                                         |
-| :-------- | :------- | :-------------------------------------------------- |
-| `cid`     | `string` | **Requerido**. Id del carrito a agregar el producto |
-
-- **Response**
-
-```
-{
-    status: <String> Estado del response (success),
-    message: <String> Mensaje informativo
-}
-```
-
-### Sessions
-#### Registro de usuario
-
-```http
-  POST /api/sessions/register
-```
-- **Body**
-
-```
-{
-    first_name: <String> Nombre del usuario,
-    last_name: <String> Apellido del usuario,
-    email: <String> E-Mail,
-    age: <Number> Edad,
-    password: <String> Contraseña
-}
-```
-
-- **Response**
-
-Redireccióna al formulario de login.
-___
-#### Login de usuario
-
-```http
-  POST /api/sessions/login
-```
-- **Body**
-
-```
-{
-    email: <String> E-Mail de usuario,
-    password: <String> Contraseña de usuario
-}
-```
-
-- **Response**
-
-**Encontro usuario:** Redireccióna al listado de productos.
-**No se encontro usuario:** Redireccióna al formulario de login.
-___
-#### Logout de usuario
-
-```http
-  GET /api/sessions/logout
-```
-
-- **Response**
-
-Redireccióna al formulario de login.
-___
-
-### Views
-#### Lista de productos
-
-```http
-  GET /products
-```
-- **Query params**
-
-| Parameter | Type     | Description                                | Posibles valores                                             |
-| :-------- | :------- | :----------------------------------------- | :----------------------------------------------------------- |
-| `limit`   | `number` | Numero de los registros por pagina.        |                                                              |
-| `page`    | `number` | Numero de pagina que se quiere visualizar. |                                                              |
-| `sort`    | `number` | Tipo de ordenamiento deseado por precio.   | 1: Ordenamiento ascendente.<br>-1: Ordenamiento descendente. |
-| `query`   | `JSON`   | Filtros a aplicar a la busqueda.           | stock: Filta productos con o sin stock (1 o 0)<br>maxStock: Filtra por productos con menor stock.<br>minStock: Filtra por productos con mayor stock.<br>category: Filtra productos por la categoria enviada. |
- 
-- **Response**
-
-Devuelve una listado de los productos implementando la paginación de los mismos.
-
-___
-#### Detalle de producto
-
-```http
-  GET /products/:pid
-```
-- **URL params**
-
-| Parameter | Type     | Description               |
-| :-------- | :------- | :------------------------ |
-| `pid`     | `string` | ID del producto a mostrar |
- 
-- **Response**
-
-Devuelve el detalle de un producto en especifico.
-
-___
-#### Listado de productos en tiempo real
-
-```http
-  GET /realtimeproducts
-```
- 
-- **Response**
-
-Devuelve un listado de los productos implementando WebSocket para poder mostrar cambios en tiempo real.
-
-___
-#### Detalle de Carrito
-
-```http
-  GET /carts/:cid
-```
-- **URL params**
-
-| Parameter | Type     | Description              |
-| :-------- | :------- | :----------------------- |
-| `cid`     | `string` | ID del carrito a mostrar |
- 
-- **Response**
-
-Devuelve un listado de los productos dentro de un carrito, así como otros datos propios del carrito.
-
-___
-#### Formulario de registro
-
-```http
-  GET /register
-```
-
-- **Response**
-
-Devuelve un formulario de registro de usuarios.
-
-___
-#### Formulario de login
-
-```http
-  GET /login
-```
-
-- **Response**
-
-Devuelve un formulario de login de usuarios.
-
-___
-#### Perfil de usuario
-
-```http
-  GET /profile
-```
-
-- **Response**
-
-Devuelve una vista con información del usuario que esta logueado.
-
-___
-#### Chat
-
-```http
-  GET /chat
-```
- 
-- **Response**
-
-Devuelve un chat interno para poder mantener comunicación con otros usuarios del proyecto.
+Para la documentacion completa de la API y sus endpoint siga los pasos para la instalacion del proyecto, corralo y acceda a la direccion `${HOST}:${PUERTO}/apidocs`.
 
 ## Authors
 
@@ -581,6 +113,11 @@ ___
 <a href="https://www.npmjs.com/package/express-session" target="_blank"><img src="https://i.ytimg.com/vi/OH6Z0dJ_Huk/maxresdefault.jpg" height="200px" /></a>
 ___
 *Express-session* es una libreria encargada de gestionar las sesiones de usuarios implementando el uso de cookies.
+___
+___
+<a href="https://www.npmjs.com/package/express-compression" target="_blank"><img src="https://opengraph.githubassets.com/6350c3ed714c0adf5cf05924ee2d2538a4312250da5f6045ad3d9e344d8e2507/expressjs/compression" height="200px" /></a>
+___
+*Express-compression* agrega al proyecto la posibilidad de comprimir las respuestas de cada endpoint para optimizar los tiempos de envio de datos.
 ___
 ___
 <a href="https://nodejs.org/api/fs.html#file-system" target="_blank"><img src="https://miro.medium.com/max/707/1*PPvVl5iTR0Nhn1QFL7X_CA.png" height="200px" /></a>
@@ -656,9 +193,54 @@ ___
 <a href="https://www.npmjs.com/package/twilio" target="_blank"><img src="https://www.chetu.com/img/twilio/partner/twilio-logo.png" height="200px" /></a>
 ___
 *twilio* es la libreria encargada de gestionar el envio de mensajeria por SMS.
+___
+___
+<a href="https://www.npmjs.com/package/winston" target="_blank"><img src="https://avatars.githubusercontent.com/u/9682013?s=280&v=4" height="200px" /></a>
+___
+*Winston* es la libreria utilizada para realizar logs de registros. Con la implementacion de esta herramienta se pudo agregar al proyecto un sistema de logs por diferentes transportes (Consola, archivo de texto, etc.).
+___
+___
+<a href="https://www.npmjs.com/package/swagger-ui-express" target="_blank"><img src="https://i.morioh.com/210419/43c049dd.webp" height="200px" /></a>
+___
+*Swagger-ui-express* permite generar documentación de una forma rápida y dinámica a través de un archivo de configuración. Con esta herramienta se pudo desplegar una documentación visual de los diferentes endpoints del proyecto de una forma veloz y fácil de entender.
+___
+___
+<a href="https://www.npmjs.com/package/swagger-jsdoc" target="_blank"><img src="https://spin.atomicobject.com/wp-content/uploads/swagger-logo-1.jpg" height="200px" /></a>
+___
+*Swagger-jsdoc* agrega al proyecto la posibilidad de implementar anotations dentro del código para que se auto-genere documentación del mismo, de igual manera permite la creación de archivos externos de configuración para que la librería `swagger-ui-express` pueda interpretar y generar la documentación.
 
 ### Dependencias Dev
 <a href="https://www.npmjs.com/package/nodemon" target="_blank"><img src="https://user-images.githubusercontent.com/13700/35731649-652807e8-080e-11e8-88fd-1b2f6d553b2d.png" height="200px" /></a>
 ___
 *Nodemon* es una herramienta de desarrollador utilizada en aplicaciones Node.JS capaz de re-ejecutar una aplicacion Node al detectar cambios en los archivos.
 Decidi utilizar esta herramienta para el proyecto por la utilidad y el dinamismo que ofrece al momento de desarrollar aplicaciones web.
+___
+___
+<a href="https://www.npmjs.com/package/artillery" target="_blank"><img src="https://avatars.githubusercontent.com/u/12608521?s=280&v=4" height="200px" /></a>
+___
+*Artillery* es una libreria para testeo de carga, la cual permite realizar testeo de consultas masivas a la API para obtener estadisticas de diferentes parametros clave de performance del proyecto.
+___
+___
+<a href="https://www.npmjs.com/package/artillery-plugin-metrics-by-endpoint" target="_blank"><img src="https://opengraph.githubassets.com/a547287c83eba12ab3eafde0f0b8cf3c6a3d9e2c521f0d4532e029bad48413a2/artilleryio/artillery-plugin-metrics-by-endpoint" height="200px" /></a>
+___
+*Artillery-plugin-metrics-by-endpoint* es un plugin de Artillery el cual permite obtener estadisticas mas completas de los test realizados con dicha libreria y agrega la posibilidad de exportar los resultados a un archivo externo.
+___
+___
+<a href="https://www.npmjs.com/package/@faker-js/faker" target="_blank"><img src="https://fakerjs.dev/social-image.png" height="200px" /></a>
+___
+*Faker* es una libreria para generar datos de testing de cualquier tipo, esta herramienta se implementa en el proyecto para ofrecer endpoints de testeo los cuales generan datos mock para su uso en los test unitarios del proyecto.
+___
+___
+<a href="https://www.npmjs.com/package/mocha" target="_blank"><img src="https://www.vectorlogo.zone/logos/mochajs/mochajs-ar21.png" height="200px" /></a>
+___
+*Mocha* permite generar archivos de testing para codigo JavaScript de forma dinamica, generando un entorno para cada testing y dando la posibilidad de chequear los resultados para definir si son satisfactorios o no.
+___
+___
+<a href="https://www.npmjs.com/package/chai" target="_blank"><img src="https://www.vectorlogo.zone/logos/chaijs/chaijs-ar21.png" height="200px" /></a>
+___
+*Chai* es una libreria de assertions para utilizar en testing, ofreciendo una forma mas amigable y dinamica de chequear resultados de testing para confirmar si los mismos cumples con los requisitos del test.
+___
+___
+<a href=" https://www.npmjs.com/package/supertest" target="_blank"><img src="https://camo.githubusercontent.com/fcca6a233a54a037861c99ab17d255d215807e6c0fcdce7d16a1a67814ede820/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6d656469612d702e736c69642e65732f75706c6f6164732f3333383935382f696d616765732f313439363334352f7375706572746573742e706e67" height="200px" /></a>
+___
+*Supertest* lleva la gestion de testing a un nivel superior, permitiendo generar testing mas riguroso de forma mas simple. En este proyecto se utiliza a la par con Mocha y Chai para el testeo de endpoints especificos.
