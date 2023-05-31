@@ -54,6 +54,7 @@ El proyecto acepta ciertas variables por linea de comando al iniciar el proyecto
 
 Para poder correr este proyecto se deben completar las siguientes variables de entorno en los archivos ".env.development" y ".env.production" respectivamente para cada modo.
 
+#### Variables de Servidor
 
 `HOST:` Direccion host donde se alojara el proyecto (localhost por default).
 
@@ -63,7 +64,15 @@ Para poder correr este proyecto se deben completar las siguientes variables de e
 
 `PERSISTANCE_ENGINE:` Motor de persistencia a utilizar (Puede ser `MONGO` o `FS`).
 
+#### Session
+
+`SESSION_SECRET:` Palabra secreta para la gestion de sesiones.
+
+#### Base de Datos
+
 `MONGO_URL:` URL para coneccion con mongo.
+
+#### GitHub
 
 `GITHUB_APP_ID:` ID de aplicacion de Github, para estrategia de logueo con Github.
 
@@ -73,9 +82,15 @@ Para poder correr este proyecto se deben completar las siguientes variables de e
 
 `GITHUB_CALLBACK_URL:` URL de callback llamada cuando se loguea con Github.
 
+#### JWT
+
 `JWT_PRIVATE_KEY:` Key privada para el hasheo de JWT.
 
+#### Mailer
+
 `GOOGLE_APP_PASSWORD:` Contraseña de aplicacion de google para el envio de mails desde Gmail.
+
+#### Twilio
 
 `TWILIO_ACCOUNT_SID:` ID de cuenta de Twilio, para envio de SMS.
 
