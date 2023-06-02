@@ -111,7 +111,7 @@ usersRouter.delete('/', async(req, res, next)=>{
     try {
         await userController.deleteExpiredUsers();
         
-        res.send({status:'success', message:'Usuarios eliminados exitosamente'});
+        res.send({status:'success', message:'Usuarios eliminados exitosamente.'});
     } catch (error) {
         next(error);
     }
@@ -124,7 +124,7 @@ usersRouter.delete('/:uid', async(req, res, next)=>{
 
         let deleteUser = await userController.deleteUser(uid);
 
-        res.send({status:'success', message:`Usuario eliminado con exito. ID ${uid}`});
+        res.send({status:'success', message:`Usuario eliminado con exito. ID ${uid}.`});
     } catch (error) {
         next(error);
     }
