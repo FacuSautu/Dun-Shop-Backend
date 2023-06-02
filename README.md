@@ -67,6 +67,7 @@ Para poder correr este proyecto se deben completar las siguientes variables de e
 #### Users
 
 `USERS_EXPIRATION_OFFSET: ` Offset para el calculo de cuentas expiradas.
+
 `USERS_EXPIRATION_UNIT: ` Unidades del offset para las cuentas expiradas (Puede ser: `days`, `hours`, `minutes`, `seconds`, `miliseconds`).
 
 #### Session
