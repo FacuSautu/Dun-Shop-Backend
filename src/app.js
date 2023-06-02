@@ -11,7 +11,7 @@ import nodemailer from 'nodemailer';
 import twilio from 'twilio';
 import compression from 'express-compression';
 
-import { __dirname, addLogger } from './utils.js';
+import { __dirname, addLogger, handlePolicies } from './utils.js';
 import config from './config/config.js';
 import initializePassport from './config/passport.config.js';
 import MessageDbDAO from './daos/message.db.dao.js';
@@ -162,7 +162,7 @@ if(cluster.isPrimary){
     app.use('/api/products/', productsRouter);
     app.use('/api/tests/', mocksRouter);
 
-    app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+    app.use('/apidocs', handlePolicies(['ADMIN']), swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
     app.use(errorHandler);
 }
