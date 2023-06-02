@@ -64,6 +64,11 @@ Para poder correr este proyecto se deben completar las siguientes variables de e
 
 `PERSISTANCE_ENGINE:` Motor de persistencia a utilizar (Puede ser `MONGO` o `FS`).
 
+#### Users
+
+`USERS_EXPIRATION_OFFSET: ` Offset para el calculo de cuentas expiradas.
+`USERS_EXPIRATION_UNIT: ` Unidades del offset para las cuentas expiradas (Puede ser: `days`, `hours`, `minutes`, `seconds`, `miliseconds`).
+
 #### Session
 
 `SESSION_SECRET:` Palabra secreta para la gestion de sesiones.
