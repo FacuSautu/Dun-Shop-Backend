@@ -5,6 +5,18 @@ class UserDbDAO{
 
     constructor(){}
 
+    getUsers(){
+        return userModel.find();
+    }
+
+    getUserByEmail(email){
+        return userModel.findOne({email});
+    }
+    
+    getUserById(id){
+        return userModel.findById(id);
+    }
+
     async addUser(userToAdd){
         let cart = await cartModel.create({});
 
@@ -12,15 +24,7 @@ class UserDbDAO{
 
         return userModel.create(userToAdd);
     }
-
-    getUserByEmail(email){
-        return userModel.findOne({email});
-    }
-
-    getUserById(id){
-        return userModel.findById(id);
-    }
-
+    
     updateUserPassword(id, new_password){
         return userModel.updateOne({_id:id}, {password: new_password});
     }
@@ -35,8 +39,21 @@ class UserDbDAO{
         return userModel.updateOne({_id:id}, {last_connection});
     }
 
-    addDocument(id, document){
-        return userModel.updateOne({_id:id}, {$push:{documents:document}});
+    addDocument(id, documents){
+        return userModel.updateOne({_id:id},{ $push: {documents: {$each: documents}}});
+    }
+
+    deleteExpiredUsers(expirationDate){
+        return userModel.deleteMany(
+            {$or:[
+                {last_connection:{
+                    $lte:expirationDate
+                }},
+                {last_connection:{
+                    $eq:null
+                }}
+            ]}
+        );
     }
 }
 

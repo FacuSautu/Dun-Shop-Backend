@@ -13,9 +13,12 @@ export default {
     port: options.p || process.env.PORT,
     login_strategy: process.env.LOGIN_STRATEGY,
     persistance_engine: (options.persistance) ? options.persistance : process.env.PERSISTANCE_ENGINE,
-
+    
+    users_expiration_offset: process.env.USERS_EXPIRATION_OFFSET || 2,
+    users_expiration_unit: process.env.USERS_EXPIRATION_UNIT || 'days',
+    
     session_secret: process.env.SESSION_SECRET,
-
+    
     mongo_url: process.env.MONGO_URL,
 
     gitHub_AppId: process.env.GITHUB_APP_ID,

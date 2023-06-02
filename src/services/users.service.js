@@ -1,7 +1,9 @@
 import fs from 'fs';
 
 import { UsersFty } from '../daos/factory.js';
+import UserDTO from '../dtos/response/user.res.dto.js';
 import { __dirname, createHash } from '../utils.js';
+import config from '../config/config.js';
 
 import CustomError from './errors/CustomError.js';
 import EErrors from './errors/enums.js';
@@ -12,8 +14,10 @@ class UserService{
         this.persistanceEngine = new UsersFty();
     }
 
-    addUser(userToAdd){
-        return this.persistanceEngine.addUser(userToAdd);
+    async getUsers(){
+        let users = await this.persistanceEngine.getUsers();
+
+        return users.map(user=>new UserDTO(user))
     }
 
     getUserByEmail(email){
@@ -22,6 +26,10 @@ class UserService{
 
     getUserById(id){
         return this.persistanceEngine.getUserById(id);
+    }
+
+    addUser(userToAdd){
+        return this.persistanceEngine.addUser(userToAdd);
     }
 
     updateUserPassword(id, new_password){
@@ -64,8 +72,36 @@ class UserService{
         return this.persistanceEngine.setLastConnection(id, new Date());
     }
 
-    addDocument(id, document){
-        return this.persistanceEngine.addDocument(id, document);
+    addDocument(id, documents){
+        return this.persistanceEngine.addDocument(id, documents);
+    }
+
+    async deleteExpiredUsers(){
+        const expirationOffset = config.users_expiration_offset;
+        let expirationUnit;
+        const expirationDate = new Date();
+
+        switch(config.users_expiration_unit){
+            case 'days':
+                expirationUnit = 24*60*60*1000;
+                break;
+            case 'hours':
+                expirationUnit = 60*60*1000;
+                break;
+            case 'minutes':
+                expirationUnit = 60*1000;
+                break;
+            case 'seconds':
+                expirationUnit = 1000;
+                break;
+            case 'miliseconds':
+                expirationUnit = 1;
+                break;
+        }
+
+        expirationDate.setTime(expirationDate.getTime()-(expirationUnit*expirationOffset));
+
+        return await this.persistanceEngine.deleteExpiredUsers(expirationDate);
     }
 }
 

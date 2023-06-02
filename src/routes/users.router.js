@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import UserService from "../services/users.service.js";
+import UserController from "../controllers/users.controller.js";
 import { __dirname, handlePolicies, uploader } from "../utils.js";
 
 import CustomError from "../services/errors/CustomError.js";
@@ -9,14 +9,25 @@ import { fileNotFound } from "../services/errors/info/users.error.info.js";
 
 const usersRouter = Router();
 
-const userService = new UserService();
+const userController = new UserController();
+
+// Lista todos los usuarios (Datos no sensibles).
+usersRouter.get('/', handlePolicies(['PREMIUM', 'ADMIN']), async(req, res, next)=>{
+    try {
+        const users = await userController.getUsers();
+
+        res.send({status:'success', message:'Usuarios encontrados.', payload:users});
+    } catch (error) {
+        next(error);
+    }
+})
 
 // Cambio rol de usuario.
 usersRouter.get('/premium/:uid', handlePolicies(['PREMIUM', 'USER']), async (req, res, next)=>{
     try {
         const uid = req.params.uid;
 
-        let changeRol = await userService.changeRol(uid);
+        let changeRol = await userController.changeRol(uid);
 
         if(req.session.user._id === uid) req.session.user.rol = changeRol;
 
@@ -38,8 +49,9 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
 
     try {
         const uid = req.params.uid;
+        const filesToAdd = [];
 
-        // Se chequea que se enviaran archivos
+        // Se chequea que se enviaran archivos.
         if(!!!req.files){
             CustomError.createError({
                 name: "No se envio ningun archivo",
@@ -49,7 +61,7 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
             });
         }
 
-        // Se analizan los documentos para cargarlos a cada usuario.
+        // Se carga en un array todos los documentos que se esten agregando.
         if(!!req.files.document){
             req.files.document.forEach(async file=>{    
                 let newDocument = {
@@ -57,7 +69,7 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
                     reference: `img/documents/${uid}/${file.filename}`
                 }
         
-                await userService.addDocument(uid, newDocument);
+                filesToAdd.push(newDocument);
             })
         }
 
@@ -67,7 +79,7 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
                 reference: `img/documents/${uid}/${req.files.identificacion[0].filename}`
             }
 
-            await userService.addDocument(uid, newDocument);
+            filesToAdd.push(newDocument);
         }
         if(!!req.files.domicilio){
             let newDocument = {
@@ -75,7 +87,7 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
                 reference: `img/documents/${uid}/${req.files.domicilio[0].filename}`
             }
 
-            await userService.addDocument(uid, newDocument);
+            filesToAdd.push(newDocument);
         }
         if(!!req.files.estado_cuenta){
             let newDocument = {
@@ -83,10 +95,23 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
                 reference: `img/documents/${uid}/${req.files.estado_cuenta[0].filename}`
             }
 
-            await userService.addDocument(uid, newDocument);
+            filesToAdd.push(newDocument);
         }
 
+        let loadDocuments = await userController.loadDocuments(uid, filesToAdd);
+
         res.send({status:'success', message:'Documento/s cargado/s con exito.'});
+    } catch (error) {
+        next(error);
+    }
+})
+
+// Eliminar usuarios vencidos.
+usersRouter.delete('/', async(req, res, next)=>{
+    try {
+        await userController.deleteExpiredUsers();
+
+        res.send({status:'success', message:'Usuarios eliminados exitosamente'});
     } catch (error) {
         next(error);
     }

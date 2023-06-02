@@ -23,18 +23,8 @@ class UserFsDAO{
         this.loadUsers();
     }
 
-    async addUser(userToAdd){
-        let users = await this.readUsers();
-        let newCart = this.cartDAO.addCart({products: []});
-
-        userToAdd.cart = newCart;
-
-        users.push(userToAdd);
-
-        this.users = users;
-        await this.writeUsers();
-
-        return userToAdd;
+    getUsers(){
+        return this.readUsers();
     }
 
     async getUserByEmail(email){
@@ -67,6 +57,20 @@ class UserFsDAO{
             });
 
         return user;
+    }
+
+    async addUser(userToAdd){
+        let users = await this.readUsers();
+        let newCart = this.cartDAO.addCart({products: []});
+
+        userToAdd.cart = newCart;
+
+        users.push(userToAdd);
+
+        this.users = users;
+        await this.writeUsers();
+
+        return userToAdd;
     }
 
     async updateUserPassword(id, new_password){
@@ -113,17 +117,25 @@ class UserFsDAO{
         this.writeUsers();
     }
 
-    async addDocument(id, document){
+    async addDocument(id, documents){
         let users = await this.readUsers();
 
         users.forEach(user=>{
             if(user.id === id){
-                user.documents.push(document);
+                user.documents.push(...documents);
             }
         })
 
         this.users = users;
         
+        this.writeUsers();
+    }
+
+    async deleteExpiredUsers(expirationDate){
+        let users = await this.readUsers();
+
+        this.users = users.filter(user=>(user.last_connection > expirationDate || (user.last_connection === null || user.last_connection === undefined)));
+
         this.writeUsers();
     }
 
