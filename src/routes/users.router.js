@@ -23,7 +23,7 @@ usersRouter.get('/', handlePolicies(['PREMIUM', 'ADMIN']), async(req, res, next)
 })
 
 // Cambio rol de usuario.
-usersRouter.get('/premium/:uid', handlePolicies(['PREMIUM', 'USER']), async (req, res, next)=>{
+usersRouter.get('/premium/:uid', handlePolicies(['USER', 'PREMIUM', 'ADMIN']), async (req, res, next)=>{
     try {
         const uid = req.params.uid;
 
@@ -110,11 +110,31 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
 usersRouter.delete('/', async(req, res, next)=>{
     try {
         await userController.deleteExpiredUsers();
-
+        
         res.send({status:'success', message:'Usuarios eliminados exitosamente'});
     } catch (error) {
         next(error);
     }
 })
+
+// Eliminar un usuario
+usersRouter.delete('/:uid', async(req, res, next)=>{
+    try {
+        const uid = req.params.uid;
+
+        let deleteUser = await userController.deleteUser(uid);
+
+        res.send({status:'success', message:`Usuario eliminado con exito. ID ${uid}`});
+    } catch (error) {
+        next(error);
+    }
+})
+
+
+// Funciones
+
+function deletionNoticeEmail(email){
+
+}
 
 export default usersRouter;

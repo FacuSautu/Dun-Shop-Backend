@@ -76,6 +76,10 @@ class UserService{
         return this.persistanceEngine.addDocument(id, documents);
     }
 
+    deleteUser(id){
+        return this.persistanceEngine.deleteUser(id);
+    }
+
     async deleteExpiredUsers(){
         const expirationOffset = config.users_expiration_offset;
         let expirationUnit;

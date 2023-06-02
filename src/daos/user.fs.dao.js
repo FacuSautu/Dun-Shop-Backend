@@ -131,6 +131,14 @@ class UserFsDAO{
         this.writeUsers();
     }
 
+    async deleteUser(id){
+        let users = await this.readUsers();
+
+        this.users = users.filter(user=>user._id !== id);
+
+        this.writeUsers();
+    }
+
     async deleteExpiredUsers(expirationDate){
         let users = await this.readUsers();
 

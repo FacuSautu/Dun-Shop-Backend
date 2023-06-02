@@ -135,7 +135,10 @@ if(cluster.isPrimary){
     // Custom middlewares
     app.use((req, res, next)=>{     // Middleware para agregar a las variables locales del objeto Response los datos de sesión.
         if(!!req.session.passport?.user){
-            req.session.passport.user.abmPanel = (["ADMIN", "PREMIUM"].includes(req.session.passport.user.rol.toUpperCase())) ? true : false;
+            req.session.passport.user.abmPanel={
+                users:["ADMIN"].includes(req.session.passport.user.rol.toUpperCase()),
+                products: ["ADMIN", "PREMIUM"].includes(req.session.passport.user.rol.toUpperCase())
+            }
         }
 
         res.locals.session = req.session;

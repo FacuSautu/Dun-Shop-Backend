@@ -43,6 +43,10 @@ class UserDbDAO{
         return userModel.updateOne({_id:id},{ $push: {documents: {$each: documents}}});
     }
 
+    deleteUser(id){
+        return userModel.deleteOne({_id:id});
+    }
+
     deleteExpiredUsers(expirationDate){
         return userModel.deleteMany(
             {$or:[

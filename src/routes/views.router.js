@@ -3,6 +3,7 @@ import fs from 'fs';
 
 import ProductController from '../controllers/products.controller.js';
 import CartController from '../controllers/carts.controller.js';
+import UserController from '../controllers/users.controller.js';
 import MessageDbDAO from '../daos/message.db.dao.js';
 import { __dirname, handlePolicies } from '../utils.js';
 
@@ -12,6 +13,7 @@ const viewsRouter = Router();
 // Instancias de clases.
 const productController = new ProductController();
 const cartController = new CartController();
+const userController = new UserController();
 const messageDB = new MessageDbDAO();
 
 // Vista principal.
@@ -210,8 +212,10 @@ viewsRouter.get('/login', publicView, (req, res)=>{
             break;
         case 2:
             message = 'La contraseña ingresada es incorrecta. Por favor vuelva a intentar.';
+            break;
         case 3:
             message = 'Contraseña restablecida exitosamente. Por favor inicie sesión.'
+            break;
     }
 
     if(!!isRegister) message = 'Registro exitoso, por favor inicie sesión para comenzar.';    
@@ -243,6 +247,17 @@ viewsRouter.get('/users/documents', privateView, (req, res)=>{
     }
 
     res.render('users/userDocuments', {documents});
+})
+
+// Tabla ABM Usuarios.
+viewsRouter.get('/users/abm', async(req, res, next)=>{
+    try {
+        let users = await userController.getUsers();
+
+        res.render('users/usersTable', {users});
+    } catch (error) {
+        next(error);
+    }
 })
 
 // Chat.

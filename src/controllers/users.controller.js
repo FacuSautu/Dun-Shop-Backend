@@ -17,6 +17,10 @@ class UserController {
         return this.userService.addDocument(id, files);
     }
 
+    deleteUser(id){
+        return this.userService.deleteUser(id);
+    }
+
     deleteExpiredUsers(){
         return this.userService.deleteExpiredUsers();
     }
