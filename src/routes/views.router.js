@@ -87,7 +87,7 @@ viewsRouter.get('/products', async (req, res, next)=>{
         // Se muestra la paginacion?
         if(products.totalPages <= 1) products.pagination.active = false;
 
-        res.render('products', {products});
+        res.render('products/products', {products});
     } catch (error) {
         next(error);
     }
@@ -137,7 +137,7 @@ viewsRouter.get('/products/:pid', privateView, async (req, res, next)=>{
 
         let isOwner = (String(product.owner) === String(req.user._id)) || (req.user.rol.toUpperCase() === 'ADMIN');
 
-        res.render('productDetail', {product, isOwner});
+        res.render('products/productDetail', {product, isOwner});
     } catch (error) {
         next(error);
     }
@@ -153,7 +153,7 @@ viewsRouter.get('/realtimeproducts', async (req, res, next)=>{
     
         const products = await productController.getProducts({limit, page, query, sort});
 
-        res.render('realTimeProducts', {products:products.products});
+        res.render('products/realTimeProducts', {products:products.products});
     } catch (error) {
         next(error);
     }
@@ -173,7 +173,7 @@ viewsRouter.get('/carts/:cid', privateView, async (req, res, next)=>{
             return prod;
         })
 
-        res.render('cart', {cart, cartId});
+        res.render('carts/cart', {cart, cartId});
     } catch (error) {
         next(error);
     }
@@ -191,7 +191,7 @@ viewsRouter.get('/register', publicView, (req, res)=>{
             message = "Ya existe un usuario asociado a ese e-mail, por favor inicie sesion.";
     }
 
-    res.render('register', {message});
+    res.render('sessions/register', {message});
 })
 
 // Formulario de login.
@@ -217,7 +217,7 @@ viewsRouter.get('/login', publicView, (req, res)=>{
     if(!!isRegister) message = 'Registro exitoso, por favor inicie sesión para comenzar.';    
     if(!!isLogout) message = 'Por favor inicie sesión nuevamente para poder utilizar la totalidad de funciones.';
     
-    res.render('login', {message});
+    res.render('sessions/login', {message});
 })
 
 // Formulario de recuperacion de contraseña.
@@ -226,12 +226,12 @@ viewsRouter.get('/recover', publicView, (req, res)=>{
     const user = req.query.user;
     const timestamp = req.query.timestamp;
 
-    res.render('recover', {email, user, timestamp});
+    res.render('sessions/recover', {email, user, timestamp});
 })
 
 // Vista de perfil de usuario.
 viewsRouter.get('/profile', privateView, (req, res)=>{
-    res.render('profile');
+    res.render('users/profile');
 })
 
 // Vista de carga de documentos de usuario.
@@ -242,7 +242,7 @@ viewsRouter.get('/users/documents', privateView, (req, res)=>{
         estado_cuenta: fs.existsSync(`${__dirname}/public/documents/${req.session.user._id}/Comprobante de Estado de Cuenta.pdf`)
     }
 
-    res.render('userDocuments', {documents});
+    res.render('users/userDocuments', {documents});
 })
 
 // Chat.
