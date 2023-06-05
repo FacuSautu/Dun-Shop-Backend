@@ -9,6 +9,19 @@ class UserDbDAO{
         return userModel.find();
     }
 
+    getExpiredUsers(expirationDate){
+        return userModel.find({
+            $or:[
+                {last_connection:{
+                    $lte:expirationDate
+                }},
+                {last_connection:{
+                    $eq:null
+                }}
+            ]
+        });
+    }
+
     getUserByEmail(email){
         return userModel.findOne({email});
     }
@@ -44,20 +57,20 @@ class UserDbDAO{
     }
 
     deleteUser(id){
-        return userModel.deleteOne({_id:id});
+        return userModel.findOneAndDelete({_id:id});
     }
 
     deleteExpiredUsers(expirationDate){
-        return userModel.deleteMany(
-            {$or:[
+        return userModel.deleteMany({
+            $or:[
                 {last_connection:{
                     $lte:expirationDate
                 }},
                 {last_connection:{
                     $eq:null
                 }}
-            ]}
-        );
+            ]
+        });
     }
 }
 

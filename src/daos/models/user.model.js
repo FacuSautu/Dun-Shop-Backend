@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import cartModel from "./cart.model.js";
 
 const userCollection = 'users';
 
@@ -30,6 +31,23 @@ const userSchema = new mongoose.Schema({
         }]
     },
     last_connection: Date
+})
+
+userSchema.post('findOneAndDelete', async function(doc, next){
+    await cartModel.findOneAndDelete({_id:doc.cart});
+
+    next();
+})
+
+userSchema.pre('deleteMany', async function(){
+    const users = await this.model.find(this.getFilter());
+    const cartsToDelete = [];
+
+    users.forEach(user=>{
+        cartsToDelete.push(user.cart);
+    })
+
+    await cartModel.deleteMany({_id: {$in: cartsToDelete}});
 })
 
 const userModel = mongoose.model(userCollection, userSchema);

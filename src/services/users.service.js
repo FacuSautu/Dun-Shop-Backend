@@ -76,8 +76,12 @@ class UserService{
         return this.persistanceEngine.addDocument(id, documents);
     }
 
-    deleteUser(id){
-        return this.persistanceEngine.deleteUser(id);
+    async deleteUser(id){
+        let deleted = await this.persistanceEngine.getUserById(id);
+
+        await this.persistanceEngine.deleteUser(id);
+
+        return deleted;
     }
 
     async deleteExpiredUsers(){
@@ -105,7 +109,12 @@ class UserService{
 
         expirationDate.setTime(expirationDate.getTime()-(expirationUnit*expirationOffset));
 
-        return await this.persistanceEngine.deleteExpiredUsers(expirationDate);
+
+        let expiredUsers = await this.persistanceEngine.getExpiredUsers(expirationDate);
+
+        await this.persistanceEngine.deleteExpiredUsers(expirationDate);
+
+        return expiredUsers;
     }
 }
 

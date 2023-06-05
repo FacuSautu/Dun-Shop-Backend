@@ -27,6 +27,12 @@ class UserFsDAO{
         return this.readUsers();
     }
 
+    async getExpiredUsers(expirationDate){
+        let users = await this.readUsers();
+
+        return users.filter(user=>(user.last_connection > expirationDate || (user.last_connection === null || user.last_connection === undefined)));
+    }
+
     async getUserByEmail(email){
         let users = await this.readUsers();
 
