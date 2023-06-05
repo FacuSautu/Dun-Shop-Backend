@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import config from "../config/config.js";
 import UserController from "../controllers/users.controller.js";
 import { __dirname, handlePolicies, uploader } from "../utils.js";
 
@@ -109,8 +110,25 @@ usersRouter.post('/:uid/documents', handlePolicies(['USER', 'PREMIUM', 'ADMIN'])
 // Eliminar usuarios vencidos.
 usersRouter.delete('/', async(req, res, next)=>{
     try {
-        await userController.deleteExpiredUsers();
+        const deletedUsers = await userController.deleteExpiredUsers();
         
+        deletedUsers.forEach(user=>{
+            const emailBody = `<h1>Usuario de Dun-Shop eliminado</h1>
+            <p>Estimado ${user.first_name} ${user.last_name}, le enviamos este mail para informarle que su usuario fue borrado de nuestra plataforma por inactividad,
+             ya que supero el tiempo maximo (${config.users_expiration_offset} ${config.users_expiration_unit}) desde su ultima conexion a nuestra plataforma.
+             Si desea reactivar su cuenta por favor pongase en contacto con nosotros a travez de nuestra pagina web.</p>
+             <p>Esperamos sepa entender. Cordiales saludos.</p>
+             <h4>Dun-shop</h4>`;
+    
+            req.mailer.sendMail({
+                from: 'Dun-shop E-Commerce <noreplay@mail.com.ar',
+                to: user.email,
+                subject: 'Usuario eliminado',
+                html: emailBody,
+                attachments:[]
+            })
+        })
+
         res.send({status:'success', message:'Usuarios eliminados exitosamente.'});
     } catch (error) {
         next(error);
@@ -122,19 +140,26 @@ usersRouter.delete('/:uid', async(req, res, next)=>{
     try {
         const uid = req.params.uid;
 
-        let deleteUser = await userController.deleteUser(uid);
+        let deletedUser = await userController.deleteUser(uid);
+
+        const emailBody = `<h1>Usuario de Dun-Shop eliminado</h1>
+        <p>Estimado ${deletedUser.first_name} ${deletedUser.last_name}, le enviamos este mail para informarle que su usuario fue borrado de nuestra plataforma.
+         Si desea reactivar su cuenta por favor pongase en contacto con nosotros a travez de nuestra pagina web.</p>
+         <p>Esperamos sepa entender. Cordiales saludos.</p>
+         <h4>Dun-shop</h4>`;
+
+        req.mailer.sendMail({
+            from: 'Dun-shop E-Commerce <noreplay@mail.com.ar',
+            to: deletedUser.email,
+            subject: 'Usuario eliminado',
+            html: emailBody,
+            attachments:[]
+        })
 
         res.send({status:'success', message:`Usuario eliminado con exito. ID ${uid}.`});
     } catch (error) {
         next(error);
     }
 })
-
-
-// Funciones
-
-function deletionNoticeEmail(email){
-
-}
 
 export default usersRouter;
