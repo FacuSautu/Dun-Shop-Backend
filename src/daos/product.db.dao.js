@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-import config from '../config/config.js';
 import productModel from './models/product.model.js';
 import ProductsDTO from '../dtos/response/products.res.dto.js';
 import ProductDTO from '../dtos/response/product.res.dto.js';
@@ -25,8 +24,8 @@ class ProductDbDAO{
             page: productsDb.page,
             hasPrevPage: productsDb.hasPrevPage,
             hasNextPage: productsDb.hasNextPage,
-            prevLink: (productsDb.hasPrevPage) ? `http://${config.host}:${config.port}/products?limit=${limit}&page=${productsDb.prevPage}&sort=${sort}&query=${JSON.stringify(query)}` : null,
-            nextLink: (productsDb.hasNextPage) ? `http://${config.host}:${config.port}/products?limit=${limit}&page=${productsDb.nextPage}&sort=${sort}&query=${JSON.stringify(query)}` : null
+            prevLink: (productsDb.hasPrevPage) ? `/products?limit=${limit}&page=${productsDb.prevPage}&sort=${sort}&query=${JSON.stringify(query)}` : null,
+            nextLink: (productsDb.hasNextPage) ? `/products?limit=${limit}&page=${productsDb.nextPage}&sort=${sort}&query=${JSON.stringify(query)}` : null
         })
 
         return products;
