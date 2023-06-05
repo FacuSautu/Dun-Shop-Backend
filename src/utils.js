@@ -17,6 +17,7 @@ const storage = multer.diskStorage({
                 path = `${__dirname}/public/img/profiles/${req.params.uid}`;
                 break;
 
+            case 'thumbnails':
             case 'product':
                 path = `${__dirname}/public/img/products`;
                 break;

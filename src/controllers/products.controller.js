@@ -1,4 +1,6 @@
 import ProductService from "../services/products.service.js";
+import UserService from "../services/users.service.js";
+
 import CustomError from "../services/errors/CustomError.js";
 import EErrors from "../services/errors/enums.js";
 import { notOwner } from "../services/errors/info/products.error.info.js";
@@ -6,6 +8,7 @@ import { notOwner } from "../services/errors/info/products.error.info.js";
 class ProductController{
     constructor(){
         this.productService = new ProductService();
+        this.userService = new UserService();
     }
 
     getProducts({limit=10, page=1, query='{}', sort=1}){
@@ -45,7 +48,13 @@ class ProductController{
                 code: EErrors.PRODUCTS.NOT_OWNER
             });
 
-        return this.productService.deleteProduct(id);
+        if(!!product.owner){
+            product.owner = await this.userService.getUserById(product.owner);
+        }
+
+        await this.productService.deleteProduct(id);
+
+        return product;
     }
 }
 

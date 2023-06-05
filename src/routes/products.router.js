@@ -91,9 +91,25 @@ productsRouter.put('/:pid', handlePolicies(['ADMIN', 'PREMIUM']), uploader.array
 // Elimina un producto.
 productsRouter.delete('/:pid', handlePolicies(['ADMIN', 'PREMIUM']), async (req, res, next)=>{
     try {
-        let productId = req.params.pid;
-        
-        await productController.deleteProduct(productId, req.user);
+        const productId = req.params.pid;
+
+        const deletedProduct = await productController.deleteProduct(productId, req.user);
+
+        if(!!deletedProduct.owner){
+            const emailBody = `<h1>Uno de sus Productos fue eliminado</h1>
+            <p>Estimado ${deletedProduct.owner.first_name} ${deletedProduct.owner.last_name}, le enviamos este mail para informarle que su producto "${deletedProduct.title}" [${deletedProduct.code}] fue eliminado de la plataforma.
+            Si cree que esto es un error por favor pongase en contacto con nosotros a travez de nuestra plataforma.</p>
+            <p>Esperamos sepa entender. Cordiales saludos.</p>
+            <h4>Dun-shop</h4>`;
+
+            req.mailer.sendMail({
+                from: 'Dun-shop E-Commerce <noreplay@mail.com.ar',
+                to: deletedProduct.owner.email,
+                subject: 'Producto eliminado',
+                html: emailBody,
+                attachments:[]
+            })
+        }
 
         await broadcastProducts(req.io.sockets);
 
