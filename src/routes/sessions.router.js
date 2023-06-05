@@ -87,7 +87,7 @@ sessionsRouter.get('/recover', async (req, res, next)=>{
         // Armado del mail.
         let mail_body = `<div>
             <h1>Mail de recuperacion de contraseña</h1>
-            <p>Para poder recuperar su contraseña haga click <a href="http://localhost:8080/recover?email=${email}&user=${user._id}&timestamp=${Date.now()}">aqui</a>, sera redireccionado a otra pagina donde podra indicar una nueva contraseña.</p>
+            <p>Para poder recuperar su contraseña haga click <a href="http://${config.host}:${config.port}/recover?email=${email}&user=${user._id}&timestamp=${Date.now()}">aqui</a>, sera redireccionado a otra pagina donde podra indicar una nueva contraseña.</p>
             <p>Si usted no solicito la recuperacion de su contraseña por favor desestime este e-mail.</p>
         </div>`;
 

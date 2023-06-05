@@ -32,7 +32,7 @@ if(cluster.isPrimary){
     const numOfCpus = cpus().length;
 
     for (let i = 0; i < numOfCpus; i++) {
-        cluster.fork();
+        cluster.fork(); 
     }
 }else{
     console.log(`Creado worker process, ID: ${process.pid}`);

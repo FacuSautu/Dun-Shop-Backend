@@ -6,6 +6,7 @@ import CartController from '../controllers/carts.controller.js';
 import UserController from '../controllers/users.controller.js';
 import MessageDbDAO from '../daos/message.db.dao.js';
 import { __dirname, handlePolicies } from '../utils.js';
+import config from '../config/config.js';
 
 
 const viewsRouter = Router();
@@ -79,7 +80,7 @@ viewsRouter.get('/products', async (req, res, next)=>{
             // Armado del objeto pageLink.
             let pageLink = {
                 page:actualPage,
-                link:`http://localhost:8080/products?limit=${limit}&page=${actualPage}&sort=${sort}&query=${query}`,
+                link:`http://${config.host}:${config.port}/products?limit=${limit}&page=${actualPage}&sort=${sort}&query=${query}`,
                 active: products.page === actualPage
             }
 
