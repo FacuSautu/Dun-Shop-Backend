@@ -11,7 +11,7 @@ login_form.addEventListener('submit', evt=>{
     }
 
     console.log(data);
-    fetch('http://localhost:8080/api/sessions/login', {
+    fetch('/api/sessions/login', {
         method: 'POST',
         body: data
     })
@@ -45,7 +45,7 @@ recuperar_password.addEventListener('click', evt=>{
                 didOpen: () => {
                   Swal.showLoading()
 
-                  fetch(`http://localhost:8080/api/sessions/recover?email=${result.value}`)
+                  fetch(`/api/sessions/recover?email=${result.value}`)
                     .then(res=>res.json())
                     .then(data=>{
                         console.log("RESPONSE: ", data);

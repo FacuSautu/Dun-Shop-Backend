@@ -28,7 +28,7 @@ recover_form.addEventListener('submit', (evt)=>{
                 didOpen: () => {
                   Swal.showLoading()
         
-                  fetch(`http://localhost:8080/api/sessions/recover?email=${email}`)
+                  fetch(`/api/sessions/recover?email=${email}`)
                     .then(res=>res.json())
                     .then(data=>{
                         console.log("RESPONSE: ", data);
@@ -50,7 +50,7 @@ recover_form.addEventListener('submit', (evt)=>{
 
     const user = document.getElementById('user').value;
 
-    fetch(`http://localhost:8080/api/sessions/recover`, {
+    fetch(`/api/sessions/recover`, {
         method: 'POST',
         body: new URLSearchParams({user, new_password: pass})
     })

@@ -45,7 +45,7 @@ prod_form.addEventListener('submit', evt=>{
     // console.log("Method: ", method);
     console.log("Body: ", data);
 
-    fetch(`http://localhost:8080${endpoint}`, {
+    fetch(`${endpoint}`, {
         method: method,
         body: new FormData(evt.target)
     })

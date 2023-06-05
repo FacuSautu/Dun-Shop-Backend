@@ -16,7 +16,7 @@ form_user_documents.addEventListener('submit', evt=>{
         didOpen: () => {
             Swal.showLoading()
 
-            fetch(`http://localhost:8080/api/users/${user_id}/documents`, {
+            fetch(`/api/users/${user_id}/documents`, {
                 method: 'POST',
                 body: new FormData(evt.target)
             })

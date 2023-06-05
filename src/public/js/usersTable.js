@@ -11,7 +11,7 @@ btn_change_rol.forEach(btn=>{
             didOpen: () => {
                 Swal.showLoading()
     
-                fetch(`http://localhost:8080/api/users/premium/${user_id}`)
+                fetch(`/api/users/premium/${user_id}`)
                     .then(res=>res.json())
                     .then(data=>{
                         console.log(data);
@@ -47,7 +47,7 @@ btn_delete.forEach(btn=>{
             didOpen: () => {
                 Swal.showLoading()
     
-                fetch(`http://localhost:8080/api/users/${user_id}`, {
+                fetch(`/api/users/${user_id}`, {
                     method: 'DELETE'
                 })
                     .then(res=>res.json())

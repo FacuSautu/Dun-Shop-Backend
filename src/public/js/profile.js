@@ -8,7 +8,7 @@ change_rol.addEventListener('click', evt=>{
         didOpen: () => {
             Swal.showLoading()
 
-            fetch(`http://localhost:8080/api/users/premium/${user_id}`)
+            fetch(`/api/users/premium/${user_id}`)
                 .then(res=>res.json())
                 .then(data=>{
                     console.log(data);

@@ -8,7 +8,7 @@ register_form.addEventListener('submit', evt=>{
         data.append(pair[0], pair[1]);
     }
 
-    fetch('http://localhost:8080/api/sessions/register', {
+    fetch('/api/sessions/register', {
         method: 'POST',
         body: data
     })
