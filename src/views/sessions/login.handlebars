@@ -9,7 +9,12 @@
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password">
+                <div class="input-group">
+                    <input type="password" class="form-control" name="password" id="password">
+                    <span class="input-group-text" id="btn_view_password">
+                        <i class="fa-solid fa-lg fa-eye" id="password_icon"></i>
+                    </span>
+                </div>
             </div>
             <div id="emailHelp" class="form-text text-white">¿Aun no estas registrado? <a href="/register">Registrate!</a></div>
             <div id="emailHelp" class="form-text text-white mb-3">¿Has olvidado tu contraseña? <a href="#" id="recuperar_password">Recuperala!</a></div>

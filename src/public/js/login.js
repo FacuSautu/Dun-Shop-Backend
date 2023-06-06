@@ -1,5 +1,8 @@
 const login_form = document.getElementById('login_form');
 const recuperar_password = document.getElementById('recuperar_password');
+const password = document.getElementById('password');
+const btn_view_password = document.getElementById('btn_view_password');
+const password_icon = document.getElementById('password_icon');
 
 // Evento para el submit del login.
 login_form.addEventListener('submit', evt=>{
@@ -71,4 +74,21 @@ recuperar_password.addEventListener('click', evt=>{
             })
         }
     })
+})
+
+// Evento para mostrar/ocultar contraseña.
+btn_view_password.addEventListener('click', evt=>{
+    let newType;
+    let icon;
+
+    if(password.getAttribute('type') === 'password'){
+        newType = 'text';
+        icon = 'fa-sharp fa-solid fa-lg fa-eye-slash';
+    }else{
+        newType = 'password';
+        icon = 'fa-solid fa-lg fa-eye';
+    }
+
+    password.setAttribute('type', newType);
+    password_icon.classList = icon;
 })

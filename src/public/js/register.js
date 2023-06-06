@@ -1,5 +1,9 @@
 const register_form = document.getElementById('register_form');
+const password = document.getElementById('password');
+const btn_view_password = document.getElementById('btn_view_password');
+const password_icon = document.getElementById('password_icon');
 
+// Evento de formulario de registro.
 register_form.addEventListener('submit', evt=>{
     evt.preventDefault();
 
@@ -29,4 +33,21 @@ register_form.addEventListener('submit', evt=>{
               })
         }
     })
+})
+
+// Evento para mostrar/ocultar contraseña.
+btn_view_password.addEventListener('click', evt=>{
+    let newType;
+    let icon;
+
+    if(password.getAttribute('type') === 'password'){
+        newType = 'text';
+        icon = 'fa-sharp fa-solid fa-lg fa-eye-slash';
+    }else{
+        newType = 'password';
+        icon = 'fa-solid fa-lg fa-eye';
+    }
+
+    password.setAttribute('type', newType);
+    password_icon.classList = icon;
 })
