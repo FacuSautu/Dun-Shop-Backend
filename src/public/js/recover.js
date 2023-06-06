@@ -48,18 +48,26 @@ recover_form.addEventListener('submit', (evt)=>{
         })
     }
 
-    const user = document.getElementById('user').value;
+    Swal.fire({
+        title: 'Restableciendo contraseña',
+        html: 'Aguarde unos momentos...',
+        didOpen: () => {
+          Swal.showLoading()
 
-    fetch(`/api/sessions/recover`, {
-        method: 'POST',
-        body: new URLSearchParams({user, new_password: pass})
+          const user = document.getElementById('user').value;
+      
+          fetch(`/api/sessions/recover`, {
+              method: 'POST',
+              body: new URLSearchParams({user, new_password: pass})
+          })
+              .then(res => res.json())
+              .then(data=>{
+                  if(data.status === 'success'){
+                      window.location = '/login?validation=3';
+                  }else{
+                      message.innerText = data.message;
+                  }
+              })
+        }
     })
-        .then(res => res.json())
-        .then(data=>{
-            if(data.status === 'success'){
-                window.location = '/login?validation=3';
-            }else{
-                message.innerText = data.message;
-            }
-        })
 })
