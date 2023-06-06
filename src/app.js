@@ -10,6 +10,8 @@ import passport from 'passport';
 import nodemailer from 'nodemailer';
 import twilio from 'twilio';
 import compression from 'express-compression';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 import { __dirname, addLogger, handlePolicies } from './utils.js';
 import config from './config/config.js';
@@ -22,9 +24,9 @@ import sessionsRouter from './routes/sessions.router.js';
 import usersRouter from './routes/users.router.js';
 import cartsRouter from './routes/carts.router.js';
 import productsRouter from './routes/products.router.js';
+import paymentsRouter from './routes/payments.router.js';
 import mocksRouter from './routes/mocks.router.js';
-import swaggerJsdoc from 'swagger-jsdoc';
-import swaggerUiExpress from 'swagger-ui-express';
+
 
 if(cluster.isPrimary){
     console.log("Levantando proceso primario, se procede a crear worker process:");
@@ -160,6 +162,7 @@ if(cluster.isPrimary){
     app.use('/api/users/', usersRouter);
     app.use('/api/carts/', cartsRouter);
     app.use('/api/products/', productsRouter);
+    app.use('/api/payments/', paymentsRouter);
     app.use('/api/tests/', mocksRouter);
 
     app.use('/apidocs', handlePolicies(['ADMIN']), swaggerUiExpress.serve, swaggerUiExpress.setup(specs));

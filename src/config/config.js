@@ -32,5 +32,8 @@ export default {
 
     twilio_account_sid: process.env.TWILIO_ACCOUNT_SID,
     twilio_auth_token: process.env.TWILIO_AUTH_TOKEN,
-    twilio_sms_number: process.env.TWILIO_SMS_NUMBER
+    twilio_sms_number: process.env.TWILIO_SMS_NUMBER,
+
+    stripe_public_key: process.env.STRIPE_PUBLIC_KEY,
+    stripe_private_key: process.env.STRIPE_PRIVATE_KEY
 }
