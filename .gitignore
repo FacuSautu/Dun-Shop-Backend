@@ -10,3 +10,7 @@
 .env
 .env.development
 .env.production
+
+# Archivos excluidos del ignore
+!/src/public/img/default_product_img.png
+!/src/public/img/profiles/default_profile_picture.jpg

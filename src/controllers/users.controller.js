@@ -9,6 +9,10 @@ class UserController {
         return this.userService.getUsers();
     }
 
+    getUserById(id){
+        return this.userService.getUserById(id);
+    }
+
     changeRol(id){
         return this.userService.changeRol(id);
     }

@@ -234,9 +234,21 @@ viewsRouter.get('/recover', publicView, (req, res)=>{
     res.render('sessions/recover', {email, user, timestamp});
 })
 
-// Vista de perfil de usuario.
+// Vista de perfil de usuario logueado.
 viewsRouter.get('/profile', privateView, (req, res)=>{
-    res.render('users/profile');
+    res.render('users/ownProfile');
+})
+
+// Vista de perfil de otro usuario.
+viewsRouter.get('/profile/:uid', async (req, res, next)=>{
+    try {
+        const uid = req.params.uid;
+        const user = await userController.getUserById(uid).lean();
+
+        res.render('users/userProfile', {user});
+    } catch (error) {
+        next(error);
+    }
 })
 
 // Vista de carga de documentos de usuario.
