@@ -20,7 +20,7 @@ register_form.addEventListener('submit', evt=>{
       
           fetch('/api/sessions/register', {
               method: 'POST',
-              body: data
+              body: new FormData(evt.target)
           })
               .then(res=>res.json())
               .then(data=>{

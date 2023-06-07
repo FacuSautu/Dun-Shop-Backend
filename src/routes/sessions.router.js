@@ -2,7 +2,7 @@ import { Router } from 'express';
 import passport from 'passport';
 
 import config from '../config/config.js';
-import { authToken, generateToken, isValidPassword } from '../utils.js';
+import { authToken, generateToken, isValidPassword, uploader } from '../utils.js';
 import UserService from '../services/users.service.js';
 
 import CustomError from '../services/errors/CustomError.js';
@@ -14,7 +14,7 @@ const sessionsRouter = Router();
 const userService = new UserService();
 
 // Registro de usuarios.
-sessionsRouter.post('/register', (req, res, next)=>{
+sessionsRouter.post('/register', uploader.single('profile_picture'), (req, res, next)=>{
     passport.authenticate('register', (err, user, info)=>{
         if(err) return next(err);
         if(!user) return res.status(409).send({status:'error', message: info.message ? info : {message:"Error de registro", valCode:0}});

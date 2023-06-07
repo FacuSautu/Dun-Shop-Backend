@@ -30,7 +30,11 @@ const userSchema = new mongoose.Schema({
             reference: String
         }]
     },
-    last_connection: Date
+    last_connection: Date,
+    profile_picture: {
+        type: String,
+        default: 'img/profiles/default_profile_picture.jpg'
+    }
 })
 
 userSchema.post('findOneAndDelete', async function(doc, next){

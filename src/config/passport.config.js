@@ -4,8 +4,9 @@ import jwt, { ExtractJwt } from 'passport-jwt';
 import GitHubStrategy from 'passport-github2';
 
 import config from './config.js';
-import { createHash, isValidPassword } from '../utils.js';
+import { isValidPassword } from '../utils.js';
 import UserDbDAO from '../daos/user.db.dao.js';
+import UserDTOReq from '../dtos/request/user.req.dto.js';
 import UserDTO from '../dtos/response/user.res.dto.js';
 
 // Manager de usuarios
@@ -40,23 +41,18 @@ const initializePassport = ()=>{
     passport.use('register', new LocalStrategy(
         {passReqToCallback:true, usernameField:'email'},
         async (req, username, password, done)=>{
-            const {first_name, last_name, email, age} = req.body;
-
+            // const {first_name, last_name, email, age} = req.body;
             try {
-                let user = await userDB.getUserByEmail(email);
+                let user = await userDB.getUserByEmail(req.email);
 
                 if(!!user){
                     req.logger.error(`Petición ${req.method} en ${req.url} [${new Date().toLocaleDateString()}-${new Date().toLocaleTimeString()}]: Ya existe este usuario`);
                     return done(null, false, {message: "Ya existe este usuario.", valCode:1});
                 }
 
-                const newUser = {
-                    first_name,
-                    last_name,
-                    email,
-                    age,
-                    password: createHash(password)
-                }
+                req.body.profile_picture = `img/profiles/${req.file.filename}`;
+
+                const newUser = new UserDTOReq(req.body);
 
                 let result = await userDB.addUser(newUser);
 

@@ -13,8 +13,9 @@ const storage = multer.diskStorage({
         let path;
 
         switch (file.fieldname) {
+            case 'profile_picture':
             case 'profile':
-                path = `${__dirname}/public/img/profiles/${req.params.uid}`;
+                path = `${__dirname}/public/img/profiles`;
                 break;
 
             case 'thumbnails':
@@ -43,6 +44,7 @@ const storage = multer.diskStorage({
     filename:function(req, file, cb){
         let newFileName;
 
+        console.log(file);
         switch (file.fieldname) {
             case 'identificacion':
                 newFileName = "Identificacion.pdf";
@@ -54,6 +56,14 @@ const storage = multer.diskStorage({
 
             case 'estado_cuenta':
                 newFileName = "Comprobante de Estado de Cuenta.pdf";
+                break;
+
+            case 'profile_picture':
+            case 'profile':
+                const mimetypeArr = file.mimetype.split('/');
+                const imgExtension = mimetypeArr[mimetypeArr.length-1];
+                
+                newFileName = `${req.body.first_name}-${req.body.last_name}.${imgExtension}`;
                 break;
 
             default:

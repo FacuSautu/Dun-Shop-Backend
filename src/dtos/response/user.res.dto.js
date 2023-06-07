@@ -9,6 +9,7 @@ class UserDTO{
     this.cart = user.cart;
     this.documents = user.documents || [];
     this.last_connection = user.last_connection;
+    this.profile_picture = user.profile_picture;
   }
 }
 
