@@ -1,7 +1,7 @@
 <div class="container-fluid bg-danger d-flex justify-content-center align-items-center" style="min-height: 100vh">
     <div class="col-10 bg-dark opacity-75 text-white p-5">
         <div class="d-flex justify-content-evenly align-items-center">
-            <img src="/img/profiles/default_profile_picture.jpg" alt="Imagen perfil {{user.first_name}} {{user.last_name}}" style="height:40vh">
+            <img src="/{{user.profile_picture}}" alt="Imagen perfil {{user.first_name}} {{user.last_name}}" style="height:40vh">
 
             <h1 class="text-center mb-3">{{user.first_name}} {{user.last_name}}</h1>
             <input type="hidden" id="user_id" value="{{user._id}}">
