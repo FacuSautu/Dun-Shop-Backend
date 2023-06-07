@@ -1,6 +1,7 @@
-const change_rol = document.getElementById('change_rol');
+const btn_change_rol = document.getElementById('btn_change_rol');
 const user_id = document.getElementById('user_id').value;
 
+// Evento de cambio de rol de usuario.
 change_rol.addEventListener('click', evt=>{
     Swal.fire({
         title: 'Cambiando rol de usuario',

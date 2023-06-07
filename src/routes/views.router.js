@@ -265,7 +265,39 @@ viewsRouter.get('/users/documents', privateView, (req, res)=>{
 // Tabla ABM Usuarios.
 viewsRouter.get('/users/abm', async(req, res, next)=>{
     try {
+        const expirationOffset = config.users_expiration_offset;
+        let expirationUnit;
+        const expirationDate = new Date();
+
+        switch(config.users_expiration_unit){
+            case 'days':
+                expirationUnit = 24*60*60*1000;
+                break;
+            case 'hours':
+                expirationUnit = 60*60*1000;
+                break;
+            case 'minutes':
+                expirationUnit = 60*1000;
+                break;
+            case 'seconds':
+                expirationUnit = 1000;
+                break;
+            case 'miliseconds':
+                expirationUnit = 1;
+                break;
+        }
+
+        expirationDate.setTime(expirationDate.getTime()-(expirationUnit*expirationOffset));
+
         let users = await userController.getUsers();
+
+        users = users.map(user => {
+            user.isExpired = user.last_connection <= expirationDate;
+            user.hasConnected = user.last_connection === undefined;
+            user.showExpiredIcon = user.isExpired || user.hasConnected;
+
+            return user;
+        });
 
         res.render('users/usersTable', {users});
     } catch (error) {

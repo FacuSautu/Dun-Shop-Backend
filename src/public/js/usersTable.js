@@ -1,6 +1,8 @@
+const btn_delete_expired_users = document.getElementById('btn_delete_expired_users');
 const btn_change_rol = document.querySelectorAll('#btn_change_rol');
 const btn_delete = document.querySelectorAll('#btn_delete');
 
+// Evento de boton de cambio de rol de usuario.
 btn_change_rol.forEach(btn=>{
     btn.addEventListener('click', evt=>{
         let user_id = btn.getAttribute('user_id');
@@ -37,6 +39,7 @@ btn_change_rol.forEach(btn=>{
     })
 })
 
+// Evento de boton de eliminar usuario.
 btn_delete.forEach(btn=>{
     btn.addEventListener('click', evt=>{
         let user_id = btn.getAttribute('user_id');
@@ -72,5 +75,40 @@ btn_delete.forEach(btn=>{
                     })
             }
         })
+    })
+})
+
+// Evento de purga de usuarios expirados.
+btn_delete_expired_users.addEventListener('click', evt=>{
+    Swal.fire({
+        title: 'Purgando usuarios expirados',
+        html: 'Aguarde unos momentos...',
+        didOpen: () => {
+            Swal.showLoading()
+
+            fetch(`/api/users/`, {
+                method: 'DELETE'
+            })
+                .then(res=>res.json())
+                .then(data=>{
+                    console.log(data);
+        
+                    if(data.status === 'success'){
+                        Swal.fire({
+                            title:data.message,
+                            icon: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(()=>{
+                            location.reload();
+                        })
+                    }else if(data.status === 'error') {
+                        Swal.fire({
+                            text: data.message,
+                            icon: 'error'
+                        });
+                    }
+                })
+        }
     })
 })
