@@ -292,6 +292,9 @@ viewsRouter.get('/users/abm', async(req, res, next)=>{
         let users = await userController.getUsers();
 
         users = users.map(user => {
+            user.rol = user.rol.toLowerCase();
+            user.rol = user.rol.charAt(0).toUpperCase() + user.rol.slice(1);
+
             user.isExpired = user.last_connection <= expirationDate;
             user.hasConnected = user.last_connection === undefined;
             user.showExpiredIcon = user.isExpired || user.hasConnected;
