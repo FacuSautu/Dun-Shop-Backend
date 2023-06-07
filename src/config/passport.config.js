@@ -50,7 +50,7 @@ const initializePassport = ()=>{
                     return done(null, false, {message: "Ya existe este usuario.", valCode:1});
                 }
 
-                req.body.profile_picture = `img/profiles/${req.file.filename}`;
+                if(!!req.file) req.body.profile_picture = `img/profiles/${req.file.filename}`;
 
                 const newUser = new UserDTOReq(req.body);
 
