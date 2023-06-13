@@ -66,7 +66,7 @@ class CartDbDAO{
     return cartModel.updateOne({_id:cartId}, {products});
   }
 
-  async addProductToCart(cartId, productToAdd){
+  async addProductToCart(cartId, productToAdd, qty){
     await this.exists(cartId);
 
     let cart = await this.getCartById(cartId);
@@ -78,9 +78,9 @@ class CartDbDAO{
     if(!!productExist){
       let productIndex = cart.products.indexOf(productExist);
 
-      cart.products[productIndex].quantity++;
+      cart.products[productIndex].quantity += qty;
     }else{
-      cart.products.push({product: productToAdd, quantity:1})
+      cart.products.push({product: productToAdd, quantity: qty})
     }
 
     return cartModel.updateOne({_id:cartId}, {products:cart.products});

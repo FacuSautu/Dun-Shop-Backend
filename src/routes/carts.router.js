@@ -48,8 +48,9 @@ cartsRouter.post('/:cid/product/:pid', handlePolicies(["USER", "PREMIUM", "ADMIN
     try {
         let productId = req.params.pid;
         let cartId = req.params.cid;
+        let { qty } = req.body;
     
-        await cartController.addProductToCart(cartId, productId, req.user);
+        await cartController.addProductToCart(cartId, productId, qty, req.user);
     
         res.send({status: 'success', message: `Producto ${productId} cargado con exito al carrito. ID: ${cartId}.`});
     } catch (error) {

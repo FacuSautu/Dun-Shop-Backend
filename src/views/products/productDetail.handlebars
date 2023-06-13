@@ -16,9 +16,20 @@
                 <div>
                     <p style="word-break: break-all; white-space: normal;">{{product.description}}</p>
                     <p>Precio: ${{product.price}}</p>
-                    <p>Stock: {{product.stock}}</p>
+                    <p>Stock: <span id="product_stock">{{product.stock}}</span></p>
                 </div>
                 {{#if session.user}}
+                    <div class="col-2">
+                        <div class="input-group" role="group" aria-label="Basic example">
+                            <button type="button" operation="minus" id="qty_btn" class="btn btn-danger">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <input type="text" class="form-control text-center" name="product_qty" id="product_qty" value="1">
+                            <button type="button" operation="plus" id="qty_btn" class="btn btn-danger">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-center align-items-center">
                         <a href="#" id="addToCart" class="btn btn-danger">Add to cart</a>
                         <input type="hidden" id="cart_id" value="{{session.user.cart}}">

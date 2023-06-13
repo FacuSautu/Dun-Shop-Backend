@@ -14,8 +14,8 @@ class CartService{
         return this.persistanceEngine.addCart(cart);
     }
 
-    addProductToCart(cartId, productId){
-        return this.persistanceEngine.addProductToCart(cartId, productId);
+    addProductToCart(cartId, productId, qty){
+        return this.persistanceEngine.addProductToCart(cartId, productId, qty);
     }
 
     updateCart(id, products){

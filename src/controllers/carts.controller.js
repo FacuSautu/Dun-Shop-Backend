@@ -19,7 +19,7 @@ class CartController{
         return this.cartService.addCart(cart);
     }
 
-    async addProductToCart(cartId, productId, user){
+    async addProductToCart(cartId, productId, qty, user){
         let product = await this.productService.getProduct(productId);
 
         if(user.rol.toUpperCase() === "PREMIUM" && String(user._id) === String(product.owner))
@@ -30,7 +30,7 @@ class CartController{
                 code: EErrors.CARTS.IS_PRODUCT_OWNER
             });
 
-        return this.cartService.addProductToCart(cartId, productId);
+        return this.cartService.addProductToCart(cartId, productId, qty);
     }
 
     updateCart(id, products){

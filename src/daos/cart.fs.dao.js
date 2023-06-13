@@ -101,7 +101,7 @@ class CartFsDAO{
     await this.writeCarts();
   }
 
-  async addProductToCart(cartId, productToAdd){
+  async addProductToCart(cartId, productToAdd, qty){
     let cart = await this.getCartById(cartId);
     let cartIndex = this.carts.indexOf(cart);
 
@@ -110,9 +110,9 @@ class CartFsDAO{
     if(!!productExist){
       let productIndex = cart.products.indexOf(productExist);
 
-      this.carts[cartIndex].products[productIndex].quantity++;
+      this.carts[cartIndex].products[productIndex].quantity += qty;
     }else{
-      this.carts[cartIndex].products.push({product: Number(productToAdd), quantity:1});
+      this.carts[cartIndex].products.push({product: Number(productToAdd), quantity: qty});
     }
 
     this.writeCarts();
