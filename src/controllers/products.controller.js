@@ -48,7 +48,7 @@ class ProductController{
                 code: EErrors.PRODUCTS.NOT_OWNER
             });
 
-        if(!!product.owner && product.owner.toUpperCase() !== 'ADMIN'){
+        if(!!product.owner){
             product.owner = await this.userService.getUserById(product.owner);
         }
 
