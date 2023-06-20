@@ -3,8 +3,8 @@
 
 # Archivos dentro de carpetas
 /src/public/documents/*
-/src/public/img/profiles/*
-/src/public/img/products/*
+#/src/public/img/profiles/*
+#/src/public/img/products/*
 
 # Archivos de entorno
 .env
